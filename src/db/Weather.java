@@ -54,99 +54,99 @@ public class Weather {
     @Column(name = "pm_ten")
     public int pmTen;
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public int getTemperature() {
-		return temperature;
-	}
+    public int getTemperature() {
+        return temperature;
+    }
 
-	public void setTemperature(int temperature) {
-		this.temperature = temperature;
-	}
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
 
-	public int getPressure() {
-		return pressure;
-	}
+    public int getPressure() {
+        return pressure;
+    }
 
-	public void setPressure(int pressure) {
-		this.pressure = pressure;
-	}
+    public void setPressure(int pressure) {
+        this.pressure = pressure;
+    }
 
-	public double getPrecipitation() {
-		return precipitation;
-	}
+    public double getPrecipitation() {
+        return precipitation;
+    }
 
-	public void setPrecipitation(double precipitation) {
-		this.precipitation = precipitation;
-	}
+    public void setPrecipitation(double precipitation) {
+        this.precipitation = precipitation;
+    }
 
-	public int getWindDirection() {
-		return windDirection;
-	}
+    public int getWindDirection() {
+        return windDirection;
+    }
 
-	public void setWindDirection(int windDirection) {
-		this.windDirection = windDirection;
-	}
+    public void setWindDirection(int windDirection) {
+        this.windDirection = windDirection;
+    }
 
-	public double getWindPower() {
-		return windPower;
-	}
+    public double getWindPower() {
+        return windPower;
+    }
 
-	public void setWindPower(double windPower) {
-		this.windPower = windPower;
-	}
+    public void setWindPower(double windPower) {
+        this.windPower = windPower;
+    }
 
-	public int getAir() {
-		return air;
-	}
+    public int getAir() {
+        return air;
+    }
 
-	public void setAir(int air) {
-		this.air = air;
-	}
+    public void setAir(int air) {
+        this.air = air;
+    }
 
-	public double getInsolation() {
-		return insolation;
-	}
+    public double getInsolation() {
+        return insolation;
+    }
 
-	public void setInsolation(double insolation) {
-		this.insolation = insolation;
-	}
+    public void setInsolation(double insolation) {
+        this.insolation = insolation;
+    }
 
-	public int getVisibility() {
-		return visibility;
-	}
+    public int getVisibility() {
+        return visibility;
+    }
 
-	public void setVisibility(int visibility) {
-		this.visibility = visibility;
-	}
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
+    }
 
-	public int getPmTwo() {
-		return pmTwo;
-	}
+    public int getPmTwo() {
+        return pmTwo;
+    }
 
-	public void setPmTwo(int pmTwo) {
-		this.pmTwo = pmTwo;
-	}
+    public void setPmTwo(int pmTwo) {
+        this.pmTwo = pmTwo;
+    }
 
-	public int getPmTen() {
-		return pmTen;
-	}
+    public int getPmTen() {
+        return pmTen;
+    }
 
-	public void setPmTen(int pmTen) {
-		this.pmTen = pmTen;
-	}
+    public void setPmTen(int pmTen) {
+        this.pmTen = pmTen;
+    }
 }
