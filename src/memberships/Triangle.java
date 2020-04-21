@@ -8,8 +8,19 @@ public class Triangle extends Membership {
     }
 
     public double get_membership(double x) {
-        // TODO
-        throw new UnsupportedOperationException();
+    	if (x <= this.getA()) {
+            return 0;
+        }
+    	
+    	if (x <= this.getB()) {
+    		return this.getValueBetweenAAndB(x);
+    	}
+    	
+    	if (x <= this.getC()) {
+    		return this.getValueBetweenBAndC(x);
+    	}
+    	
+    	return 0;
     }
 	
     public double getA() {
@@ -22,5 +33,13 @@ public class Triangle extends Membership {
     
     public double getC() {
         return this.getTerm().getScope().get(2);
+    }
+    
+    private double getValueBetweenAAndB(double x) {
+    	return (x - this.getA()) / (this.getB() - this.getA());
+    }
+    
+    private double getValueBetweenBAndC(double x) {
+    	return (this.getC() - x) / (this.getC() - this.getB());
     }
 }
