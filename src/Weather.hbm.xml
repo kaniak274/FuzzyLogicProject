@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name = "db.Weather" table = "weather">
+      <meta attribute = "class-description">
+         This class contains the weather detail. 
+      </meta>
+      
+      <id name = "id" type = "int" column = "id">
+         <generator class="native"/>
+      </id>
+      
+      <property name = "date" column = "date" type = "date"/>
+      <property name = "temperature" column = "temperature" type = "int"/>
+      <property name = "pressure" column = "pressure" type = "int"/>
+      <property name = "precipitation" column = "precipitation" type = "double"/>
+      <property name = "windDirection" column = "wind_direction" type = "int"/>
+      <property name = "windPower" column = "wind_power" type = "double"/>
+      <property name = "air" column = "air_humidity" type = "int"/>
+      <property name = "insolation" column = "insolation" type = "double"/>
+      <property name = "visibility" column = "visibility" type = "int"/>
+      <property name = "pmTwo" column = "pm_two" type = "int"/>
+      <property name = "pmTen" column = "pm_ten" type = "int"/>
+   </class>
+</hibernate-mapping>
