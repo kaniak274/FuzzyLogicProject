@@ -12,6 +12,13 @@ public class FuzzyElement {
         return value.getValue();
     }
     
+    public FuzzyElement saveMembership(double key, Membership membershipObject) {
+    	double membership = membershipObject.get_membership(key);
+        this.value = new AbstractMap.SimpleEntry<Double, Double>(key, membership);
+        
+        return this;
+    }
+    
     public Entry<Double, Double> calculateMembership(double key, Membership membershipObject) {
         double membership = membershipObject.get_membership(key);
         this.value = new AbstractMap.SimpleEntry<Double, Double>(key, membership);

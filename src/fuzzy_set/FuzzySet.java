@@ -7,6 +7,10 @@ import java.util.stream.DoubleStream;
 public class FuzzySet {
     private ArrayList<FuzzyElement> fuzzySet = new ArrayList<>();
     
+    public FuzzySet(ArrayList<FuzzyElement> fuzzySet) {
+    	this.fuzzySet = fuzzySet;
+    }
+    
     public ArrayList<FuzzyElement> getFuzzySet() {
         return fuzzySet;
     }
