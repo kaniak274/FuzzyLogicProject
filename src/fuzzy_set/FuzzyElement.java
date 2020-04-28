@@ -60,4 +60,8 @@ public class FuzzyElement {
             return other;
         }
     }
+    
+    public String toString() {
+        return this.value.toString();
+    }
 }

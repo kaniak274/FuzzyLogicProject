@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
+import memberships.Membership;
+
 
 public class FuzzySet {
     private ArrayList<FuzzyElement> fuzzySet = new ArrayList<>();
@@ -42,11 +44,6 @@ public class FuzzySet {
         return stream.sum();
     }
     
-    public double getCLM(DoubleStream stream) {
-        // TODO
-        return 1.00;
-    }
-    
     public double getDeegreOfFuzziness() {
         // TODO
         return 1.00;
@@ -75,13 +72,32 @@ public class FuzzySet {
         return this.getSupportSize(stream) == 0;
     }
     
-    public boolean isConvex() {
-        // TODO
+    public boolean isConvex(double min, double max, Membership membershipObject) {
+        boolean changedDirection = false;
+        double previous = membershipObject.get_membership(min);
+
+        for (double i = min + 0.1; i <= max; i+= 0.1) {
+            double newMembership = membershipObject.get_membership(i);
+            
+            if (!changedDirection && newMembership - previous < 0) {
+                return false;
+            }
+        	
+            if (changedDirection && previous - newMembership > 0) {
+                return false;
+            }
+        	
+            if (newMembership == 1) {
+                changedDirection = true;
+            }
+        	
+            previous = newMembership;
+        }
+
         return true;
     }
-    
-    public double getCentroid() {
-        // TODO
-        return 1.00;
+
+    public String toString() {
+        return this.fuzzySet.toString();
     }
 }
