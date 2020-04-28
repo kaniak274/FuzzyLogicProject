@@ -7,9 +7,18 @@ import memberships.Membership;
 
 public class FuzzyElement {
     private Entry<Double, Double> value;
-    
+     
     public double getMembership() {
         return value.getValue();
+    }
+    
+    public double getKey() {
+        return value.getKey();
+    }
+    
+    public FuzzyElement saveElement(double key, double membership) {
+        this.value = new AbstractMap.SimpleEntry<Double, Double>(key, membership);
+        return this;
     }
     
     public FuzzyElement saveMembership(double key, Membership membershipObject) {
