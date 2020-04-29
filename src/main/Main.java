@@ -6,16 +6,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import db.Repository;
 import db.Weather;
-import fuzzy_set.FuzzyElement;
 import fuzzy_set.FuzzySet;
-import memberships.Gauss;
-import memberships.Trapezoid;
-import memberships.Triangle;
 import terms.Term;
 
 public class Main {
