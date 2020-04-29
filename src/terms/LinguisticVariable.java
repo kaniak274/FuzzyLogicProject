@@ -1,23 +1,29 @@
 package terms;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import fuzzy_set.FuzzyElement;
+import fuzzy_set.FuzzySet;
+import memberships.Membership;
+
 public class LinguisticVariable {
     private String label;
-    private ArrayList<Term> terms;
+    private ArrayList<Entry<Term, Membership>> terms;
     
     // Universe array. First element should contain start of universe and the second should be end of universe.
     private ArrayList<Double> universe;
    
-    public LinguisticVariable(String label, ArrayList<Term> terms) {
+    public LinguisticVariable(String label, ArrayList<Entry<Term, Membership>> terms) {
         this.label = label;
         this.terms = terms;
     }
     
-    public LinguisticVariable(String label, ArrayList<Term> terms, ArrayList<Double> universe) {
+    public LinguisticVariable(String label, ArrayList<Entry<Term, Membership>> terms, ArrayList<Double> universe) {
         this.label = label;
         this.terms = terms;
         this.universe = universe;
@@ -27,7 +33,7 @@ public class LinguisticVariable {
         return label;
     }
     
-    public ArrayList<Term> getTerms() {
+    public ArrayList<Entry<Term, Membership>> getTerms() {
         return terms;
     }
     
@@ -35,7 +41,7 @@ public class LinguisticVariable {
         this.label = label;
     }
     
-    public void setTerms(ArrayList<Term> terms) {
+    public void setTerms(ArrayList<Entry<Term, Membership>> terms) {
         this.terms = terms;
     }
     
@@ -71,5 +77,12 @@ public class LinguisticVariable {
         }
         
         return scope;
+    }
+    
+    public FuzzySet getSetForTerm(ArrayList<Entry<Date, Double>> data, Membership membership) {
+        return new FuzzySet(data
+            .stream()
+            .map(element -> new FuzzyElement().saveMembership(element.getValue(), membership))
+            .collect(Collectors.toList()));
     }
 }

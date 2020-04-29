@@ -1,8 +1,16 @@
 package main;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import db.Repository;
+import db.Weather;
 import fuzzy_set.FuzzyElement;
 import fuzzy_set.FuzzySet;
 import memberships.Gauss;
@@ -11,27 +19,47 @@ import memberships.Triangle;
 import terms.Term;
 
 public class Main {
-    public static void main(String[] args) {
-        //Repository repo = new Repository();	
-        //System.out.println(repo.getAllObjects().get(0).getTemperature());
-    	
-        ArrayList<Double> scope = new ArrayList<>();
-        scope.add(20.00);
-        scope.add(70.00);
-        scope.add(70.00);
-        scope.add(70.00);
-    	
-        Term term = new Term("ciep³o", scope);
-        Trapezoid membership = new Trapezoid(term);
-    	
-        ArrayList<FuzzyElement> elems = new ArrayList<>();
-    	
-        for (int i = 0; i <= 36; i++) {
-            elems.add(new FuzzyElement().saveMembership(i, membership));
+    public static String getSubject(double data, boolean isTrue) {
+        if (isTrue) {
+            return "Dzieñ by³ ";
         }
-    	
-        FuzzySet set = new FuzzySet(elems);
-    	
-        System.out.println(set.isConvex(0, 4, membership));
+
+        return "Dzieñ nie by³ ";
+    }
+	
+    public static String getSubject(ArrayList<Double> data, boolean isTrue) {
+        if (isTrue) {
+            return "Dni by³y ";
+        }
+
+        return "Dni nie by³y ";
+    }
+    
+    public static List<Entry<Date, Double>> createSet(List<Weather> data, String name) {
+        return data
+            .stream()
+            .map(element -> {
+                try {
+                    return new AbstractMap.SimpleEntry<>(element.date, Double.parseDouble(element.getClass().getMethod(name).invoke(element).toString()));
+                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                    | NoSuchMethodException | SecurityException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            })
+            .collect(Collectors.toList());
+    }
+	
+    public static void main(String[] args) {
+        Repository repo = new Repository();
+
+        List<Entry<Date, Double>> data = createSet(repo.getAllObjects(), "getTemperature");
+        Temperature tempFuzzy = new Temperature(data);
+        Entry<Term, FuzzySet> hotTerm = tempFuzzy.hotSetWithTerm();
+        
+        double membership = hotTerm.getValue().getFuzzySet().get(140).getMembership();
+        
+        System.out.println(getSubject(membership, tempFuzzy.wasHot(membership)) + hotTerm.getKey().getLabel());
     }
 }

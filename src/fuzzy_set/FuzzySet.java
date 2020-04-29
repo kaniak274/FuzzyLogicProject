@@ -1,6 +1,7 @@
 package fuzzy_set;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
@@ -11,7 +12,11 @@ public class FuzzySet {
     private ArrayList<FuzzyElement> fuzzySet = new ArrayList<>();
     
     public FuzzySet(ArrayList<FuzzyElement> fuzzySet) {
-    	this.fuzzySet = fuzzySet;
+        this.fuzzySet = fuzzySet;
+    }
+    
+    public FuzzySet(List<FuzzyElement> fuzzySet) {
+        this.fuzzySet = new ArrayList<>(fuzzySet);
     }
     
     public Stream<FuzzyElement> getStreamOfSet() {
