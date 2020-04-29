@@ -149,4 +149,8 @@ public class Weather {
     public void setPmTen(int pmTen) {
         this.pmTen = pmTen;
     }
+    
+    public String toString() {
+    	return date.toString();
+    }
 }
