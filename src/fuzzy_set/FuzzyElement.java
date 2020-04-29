@@ -1,13 +1,24 @@
 package fuzzy_set;
 
 import java.util.AbstractMap;
+import java.util.Date;
 import java.util.Map.Entry;
 
 import memberships.Membership;
 
 public class FuzzyElement {
     private Entry<Double, Double> value;
-     
+    private Date date;
+
+    public Date getDate() {
+    	return date;
+    }
+    
+    public FuzzyElement setDate(Date date) {
+        this.date = date;
+        return this;
+    }
+    
     public double getMembership() {
         return value.getValue();
     }

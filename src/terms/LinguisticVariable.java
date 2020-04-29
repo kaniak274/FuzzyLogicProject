@@ -82,7 +82,7 @@ public class LinguisticVariable {
     public FuzzySet getSetForTerm(ArrayList<Entry<Date, Double>> data, Membership membership) {
         return new FuzzySet(data
             .stream()
-            .map(element -> new FuzzyElement().saveMembership(element.getValue(), membership))
+            .map(element -> new FuzzyElement().saveMembership(element.getValue(), membership).setDate(element.getKey()))
             .collect(Collectors.toList()));
     }
 }
