@@ -33,9 +33,9 @@ public class Temperature {
     }
     
     public Entry<Term, Membership> moderate() {
-    	ArrayList<Double> scope = new ArrayList<>();
+        ArrayList<Double> scope = new ArrayList<>();
 
-    	scope.add(5.00);
+        scope.add(5.00);
         scope.add(15.00);
         scope.add(25.00);
 
@@ -113,14 +113,14 @@ public class Temperature {
     }
     
     public boolean wasHot(double membership) {
-    	return membership >= 0.4;
+        return membership >= 0.4;
     }
     
     public boolean wasCold(double membership) {
-    	return membership >= 0.4;
+        return membership >= 0.4;
     }
     
     public boolean wasModerate(double membership) {
-    	return membership >= 0.7;
+        return membership >= 0.7;
     }
 }
