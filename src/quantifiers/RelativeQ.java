@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 import fuzzy_set.FuzzySet;
 
 public class RelativeQ {
-	// This methods assumes that both sets are equal in size.
+	// These methods assume that both sets are equal in size.
     public static String quantifyAnd(FuzzySet set, FuzzySet set2, Matcher matcher) {
         double average = IntStream.range(0, set.getFuzzySet().size())
             .filter(i -> matcher.matcher(set
@@ -27,6 +27,17 @@ public class RelativeQ {
                 .getMembership()))
             .count() / set.getFuzzySet().size();
             
+        return averageToLabel(average);
+    }
+    
+    public static String quantifyNot(FuzzySet set, Matcher matcher) {
+        double average = IntStream.range(0, set.getFuzzySet().size())
+            .filter(i -> matcher.matcher(set
+                .getFuzzySet()
+                .get(i)
+                .compliment()))
+            .count() / set.getFuzzySet().size();
+                
         return averageToLabel(average);
     }
     
