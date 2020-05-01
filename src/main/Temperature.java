@@ -28,7 +28,7 @@ public class Temperature {
         scope.add(50.00);
         scope.add(50.00);
 
-        Term term = new Term("ciep³y", scope);
+        Term term = new Term("ciep³y", scope, "ciep³ych");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -39,7 +39,7 @@ public class Temperature {
         scope.add(15.00);
         scope.add(25.00);
 
-        Term term = new Term("umiarkowany", scope);
+        Term term = new Term("umiarkowany", scope, "umiarkowanych");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -51,7 +51,7 @@ public class Temperature {
         scope.add(0.00);
         scope.add(10.00);
         
-        Term term = new Term("zimny", scope);
+        Term term = new Term("zimny", scope, "zimnych");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
