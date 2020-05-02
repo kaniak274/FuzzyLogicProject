@@ -43,7 +43,7 @@ public class RelativeQ {
     
     private static String averageToLabel(double average) {
         if (average <= 0.2) {
-            return "Niska iloœæ";
+            return "Niska liczba";
         }
         
         if (average <= 0.3) {
