@@ -13,8 +13,8 @@ import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class Visibility {
-    public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
+public class Visibility extends Attribute {
+    public Visibility () {}
     
     public Visibility(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);

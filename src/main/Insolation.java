@@ -13,8 +13,8 @@ import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class Insolation {
-    public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
+public class Insolation extends Attribute {
+    public Insolation () {}
     
     public Insolation(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);

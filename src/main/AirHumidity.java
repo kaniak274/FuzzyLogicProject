@@ -13,8 +13,8 @@ import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class AirHumidity {
-    public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
+public class AirHumidity extends Attribute {    
+    public AirHumidity () {}
     
     public AirHumidity(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);

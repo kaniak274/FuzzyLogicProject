@@ -8,13 +8,12 @@ import java.util.Map.Entry;
 
 import fuzzy_set.FuzzySet;
 import memberships.Membership;
-import memberships.Trapezoid;
 import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class WindDirection {
-    public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
+public class WindDirection extends Attribute {
+    public WindDirection () {}
     
     public WindDirection(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);

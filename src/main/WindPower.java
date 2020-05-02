@@ -13,8 +13,8 @@ import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class WindPower {
-    public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
+public class WindPower extends Attribute {
+    public WindPower () {}
     
     public WindPower (List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);
@@ -63,7 +63,7 @@ public class WindPower {
         Entry<Term, Membership> moderate = moderate();
 
         terms.add(slow.getKey());
-        terms.add(slow.getKey());
+        terms.add(fast.getKey());
         terms.add(moderate.getKey());
     	
         return terms;

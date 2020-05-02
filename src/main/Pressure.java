@@ -13,8 +13,8 @@ import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class Pressure {
-    public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
+public class Pressure extends Attribute {
+    public Pressure () {}
     
     public Pressure(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);

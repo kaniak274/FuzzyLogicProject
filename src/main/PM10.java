@@ -13,8 +13,8 @@ import memberships.Trapezoid;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class PM10 {
-public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
+public class PM10 extends Attribute {
+    public PM10 () {}
     
     public PM10(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);

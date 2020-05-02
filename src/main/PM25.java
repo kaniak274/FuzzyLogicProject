@@ -10,12 +10,11 @@ import fuzzy_set.FuzzySet;
 import memberships.Gauss;
 import memberships.Membership;
 import memberships.Trapezoid;
-import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class PM25 {
-    public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
+public class PM25 extends Attribute {
+    public PM25 () {}
     
     public PM25(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);

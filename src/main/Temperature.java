@@ -13,9 +13,9 @@ import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
 
-public class Temperature {
-    public ArrayList<Entry<Date, Double>> data = new ArrayList<>();
-    
+public class Temperature extends Attribute {
+    public Temperature () {}
+	
     public Temperature (List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);
     }
