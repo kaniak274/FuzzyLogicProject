@@ -41,6 +41,15 @@ public class RelativeQ {
         return averageToLabel(average);
     }
     
+    public static String quantifySingle(FuzzySet set, Matcher matcher) {
+        double average =  set
+            .getStreamOfSet()
+            .filter(element -> matcher.matcher(element.getMembership()))
+            .count() / set.getFuzzySet().size();
+        
+        return averageToLabel(average);
+    }
+    
     private static String averageToLabel(double average) {
         if (average <= 0.2) {
             return "Niska liczba";

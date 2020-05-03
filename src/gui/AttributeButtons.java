@@ -61,6 +61,8 @@ public class AttributeButtons {
         buttons.add(pm2);
         buttons.add(pm10);
         
+        temp.setSelected(true);
+        
         return buttons;
     }
 }
