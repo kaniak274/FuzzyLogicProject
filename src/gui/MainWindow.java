@@ -18,6 +18,7 @@ public class MainWindow implements ItemListener {
     private Repository repo;
     
     final static String ONESUBJECTSUMMARY = "Podsumowanie lingwistyczne jednopodmiotowe w pierwszej formie";
+    final static String ONESUBJECTMANYSUMMARY = "Podsumowanie lingwistyczne jednopodmiotowe w drugiej formie";
     final static String MANYSUBJECTSSUMMARY = "Podsumowanie wielopodmiotowe";
     
     public MainWindow(Repository repo) {
@@ -37,7 +38,7 @@ public class MainWindow implements ItemListener {
     
     public void addComponentToPane(Container pane) {
         JPanel comboBoxPane = new JPanel();
-        String comboBoxItems[] = { ONESUBJECTSUMMARY, MANYSUBJECTSSUMMARY };
+        String comboBoxItems[] = { ONESUBJECTSUMMARY, ONESUBJECTMANYSUMMARY, MANYSUBJECTSSUMMARY };
 
 	    JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
@@ -47,10 +48,14 @@ public class MainWindow implements ItemListener {
          
         JPanel card2 = new JPanel();
         card2.add(new JTextField("TextField", 20));
+        
+        JPanel card3 = new JPanel();
+        card3.add(new JTextField("TextField", 20));
          
         cards = new JPanel(new CardLayout());
         cards.add(new OneSubjectFirstForm(repo).getPanel(), ONESUBJECTSUMMARY);
-        cards.add(card2, MANYSUBJECTSSUMMARY);
+        cards.add(card2, ONESUBJECTMANYSUMMARY);
+        cards.add(card3, MANYSUBJECTSSUMMARY);
          
         pane.add(comboBoxPane, BorderLayout.PAGE_START);
         pane.add(cards, BorderLayout.CENTER);

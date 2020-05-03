@@ -21,4 +21,20 @@ public class PowerHedge {
         return set.getStreamOfSet()
             .map(element -> new FuzzyElement().saveElement(element.getKey(), Math.pow(element.getMembership(), exponent)));
     }
+    
+    public static String toString(double hedge) {
+        if (hedge == 0) {
+            return "";
+        }
+    	
+        if (hedge == 2) {
+            return "bardzo ";
+        }
+    	
+        if (hedge == 0.5) {
+            return "niewiele ";
+        }
+    	
+        return null;
+    }
 }

@@ -4,9 +4,11 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 
 import fuzzy_set.FuzzySet;
+import hedges.PowerHedge;
 import memberships.Membership;
 import memberships.Trapezoid;
 import memberships.Triangle;
@@ -110,6 +112,14 @@ public class Temperature extends Attribute {
     
     public Entry<Term, FuzzySet> moderateSetWithTerm() {
         return new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet());
+    }
+    
+    public Entry<Term, FuzzySet> coldHedgeSetWithTerm() {
+        return new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), PowerHedge.powerSet(2, coldSet()));
+    }
+    
+    public Entry<Term, FuzzySet> hotHedgeSetWithTerm() {
+        return new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), PowerHedge.powerSet(2, hotSet()));
     }
     
     public boolean wasHot(double membership) {

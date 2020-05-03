@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import db.Repository;
 import db.Weather;
 import fuzzy_set.FuzzySet;
+import hedges.PowerHedge;
 import main.Temperature;
 import quantifiers.AbsoluteQ;
 import quantifiers.Matcher;
@@ -34,10 +35,12 @@ public class OneSubjectFirstForm extends JPanel {
     private String attrChoice;
     private String termChoice;
     private String quantifierChoice;
+    private double hedge;
    
     public OneSubjectFirstForm(Repository repo) {
         this.repo = repo;
         attrChoice = null;
+        hedge = 0;
     	
         panel = new JPanel();
         panel.setLayout(new GridLayout(0, 1));
@@ -73,7 +76,6 @@ public class OneSubjectFirstForm extends JPanel {
     class Generate implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent arg0) {
-        	// TODO ADD POWER HEDGE
         	// TODO ADD CALENDAR TO CHOOSE THE DATE
             List<Weather> records = repo.getDaysBetweenDates(repo.formatDate("1992-01-01"), repo.formatDate("1992-01-31"));
         	
@@ -104,7 +106,7 @@ public class OneSubjectFirstForm extends JPanel {
                 });
             }
             
-            String text = quantifier + Utils.getPluralSubject(true) + term.getKey().getPluralLabe();
+            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getKey().getPluralLabe();
             textArea.setText(text);
         }
     }
@@ -125,6 +127,7 @@ public class OneSubjectFirstForm extends JPanel {
         public void actionPerformed(ActionEvent e) {
             TermRadio source = (TermRadio)e.getSource();
             termChoice = source.getMethodName();
+            hedge = source.getHedge();
         }
     }
     
