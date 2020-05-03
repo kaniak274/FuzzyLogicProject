@@ -7,50 +7,54 @@ import fuzzy_set.FuzzySet;
 public class RelativeQ {
 	// These methods assume that both sets are equal in size.
     public static String quantifyAnd(FuzzySet set, FuzzySet set2, Matcher matcher) {
-        double average = IntStream.range(0, set.getFuzzySet().size())
+        long count = IntStream.range(0, set.getFuzzySet().size())
             .filter(i -> matcher.matcher(set
                 .getFuzzySet()
                 .get(i)
                 .union(set2.getFuzzySet().get(i))
                 .getMembership()))
-            .count() / set.getFuzzySet().size();
+            .count();
         
+        double average = (double)count / (double)set.getFuzzySet().size();
         return averageToLabel(average);
     }
 	
     public static String quantifyOr(FuzzySet set, FuzzySet set2, Matcher matcher) {
-        double average = IntStream.range(0, set.getFuzzySet().size())
+        long count = IntStream.range(0, set.getFuzzySet().size())
             .filter(i -> matcher.matcher(set
                 .getFuzzySet()
                 .get(i)
                 .intersect(set2.getFuzzySet().get(i))
                 .getMembership()))
-            .count() / set.getFuzzySet().size();
-            
+            .count();
+        
+        double average = (double)count / (double)set.getFuzzySet().size();
         return averageToLabel(average);
     }
     
     public static String quantifyNot(FuzzySet set, Matcher matcher) {
-        double average = IntStream.range(0, set.getFuzzySet().size())
+        long count = IntStream.range(0, set.getFuzzySet().size())
             .filter(i -> matcher.matcher(set
                 .getFuzzySet()
                 .get(i)
                 .compliment()))
-            .count() / set.getFuzzySet().size();
-                
+            .count();
+        
+        double average = (double)count / (double)set.getFuzzySet().size();
         return averageToLabel(average);
     }
     
     public static String quantifySingle(FuzzySet set, Matcher matcher) {
-        double average =  set
+        long count = set
             .getStreamOfSet()
             .filter(element -> matcher.matcher(element.getMembership()))
-            .count() / set.getFuzzySet().size();
+            .count();
         
+        double average = (double)count / (double)set.getFuzzySet().size();
         return averageToLabel(average);
     }
     
-    private static String averageToLabel(double average) {
+    private static String averageToLabel(double average) {    	
         if (average <= 0.2) {
             return "Niska liczba";
         }
