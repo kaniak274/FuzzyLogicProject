@@ -5,7 +5,7 @@ import java.util.stream.IntStream;
 import fuzzy_set.FuzzySet;
 
 public class RelativeQ {
-	// These methods assume that both sets are equal in size.
+    // These methods assume that both sets are equal in size.
     public static String quantifyAnd(FuzzySet set, FuzzySet set2, Matcher matcher) {
         long count = IntStream.range(0, set.getFuzzySet().size())
             .filter(i -> matcher.matcher(set
