@@ -59,7 +59,7 @@ public class AttributesTerms {
                 panel, bg, listener,
                 new TermRadio("S³aba", "slowSetWithTerm"),
                 new TermRadio("Umiarkowana", "moderateSetWithTerm"),
-                new TermRadio("Silna", "hotSetWithTerm"));
+                new TermRadio("Silna", "fastSetWithTerm"));
             
             layout = new GridLayout(0, 3);
         }

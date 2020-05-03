@@ -17,7 +17,6 @@ import db.Repository;
 import db.Weather;
 import fuzzy_set.FuzzySet;
 import hedges.PowerHedge;
-import main.Temperature;
 import quantifiers.AbsoluteQ;
 import quantifiers.Matcher;
 import quantifiers.RelativeQ;
@@ -76,7 +75,7 @@ public class OneSubjectFirstForm extends JPanel {
     class Generate implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent arg0) {
-        	// TODO ADD CALENDAR TO CHOOSE THE DATE
+            // TODO ADD CALENDAR TO CHOOSE THE DATE
             List<Weather> records = repo.getDaysBetweenDates(repo.formatDate("1992-01-01"), repo.formatDate("1992-01-31"));
         	
             textArea.setText("");
@@ -94,14 +93,14 @@ public class OneSubjectFirstForm extends JPanel {
                 quantifier = AbsoluteQ.exactMatching(term.getValue(), new Matcher() {
                     @Override
                     public boolean matcher(double membership) {
-                        return new Temperature().wasHot(membership);  // TODO FIND A WAY HOW TO PASS THIS FUNCTION HERE.
+                        return Belongs.belongsToTerm(attrChoice, termChoice, membership);
                     }
                 });
             } else {
                 quantifier = RelativeQ.quantifySingle(term.getValue(), new Matcher() {
                     @Override
                     public boolean matcher(double membership) {
-                        return new Temperature().wasHot(membership); // TODO FIND A WAY HOW TO PASS THIS FUNCTION HERE.
+                        return Belongs.belongsToTerm(attrChoice, termChoice, membership);
                     }
                 });
             }

@@ -104,7 +104,7 @@ public class WindPower extends Attribute {
         return new AbstractMap.SimpleEntry<Term, FuzzySet>(slow().getKey(), slowSet());
     }
     
-    public Entry<Term, FuzzySet> hotSetWithTerm() {
+    public Entry<Term, FuzzySet> fastSetWithTerm() {
         return new AbstractMap.SimpleEntry<Term, FuzzySet>(fast().getKey(), fastSet());
     }
     
