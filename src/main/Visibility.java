@@ -82,8 +82,8 @@ public class Visibility extends Attribute {
     public LinguisticVariable createVariable() {
         ArrayList<Double> universe = new ArrayList<>();
     	
-        universe.add(-20.00);
-        universe.add(50.00);
+        universe.add(0.00);
+        universe.add(5000.00);
     	
         return new LinguisticVariable("ciœnienie", new ArrayList<>(listTermsFull()), universe);
     }
@@ -100,16 +100,16 @@ public class Visibility extends Attribute {
         return createVariable().getSetForTerm(data, medium().getValue());
     }
     
-    public Entry<Term, FuzzySet> lowSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(low().getKey(), lowSet());
+    public TermData lowSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(low().getKey(), lowSet()), this.low().getValue());
     }
     
-    public Entry<Term, FuzzySet> highSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(high().getKey(), highSet());
+    public TermData highSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(high().getKey(), highSet()), this.high().getValue());
     }
     
-    public Entry<Term, FuzzySet> mediumSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(medium().getKey(), mediumSet());
+    public TermData mediumSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(medium().getKey(), mediumSet()), this.medium().getValue());
     }
     
     public boolean wasHigh(double membership) {

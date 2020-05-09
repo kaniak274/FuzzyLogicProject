@@ -129,24 +129,24 @@ public class WindDirection extends Attribute {
         return createVariable().getSetForTerm(data, West().getValue());
     }
     
-    public Entry<Term, FuzzySet> NorthSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(North().getKey(), NorthSet());
+    public TermData NorthSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North().getKey(), NorthSet()), this.North().getValue());
     }
     
-    public Entry<Term, FuzzySet> North2SetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(North2().getKey(), North2Set());
+    public TermData North2SetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North2().getKey(), North2Set()), this.North2().getValue());
     }
     
-    public Entry<Term, FuzzySet> EastSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(East().getKey(), EastSet());
+    public TermData EastSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(East().getKey(), EastSet()), this.East().getValue());
     }
     
-    public Entry<Term, FuzzySet> SouthSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(South().getKey(), SouthSet());
+    public TermData SouthSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(South().getKey(), SouthSet()), this.South().getValue());
     }
     
-    public Entry<Term, FuzzySet> WestSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(West().getKey(), WestSet());
+    public TermData WestSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(West().getKey(), WestSet()), this.West().getValue());
     }
  
     public boolean wasNorth(double membership) {

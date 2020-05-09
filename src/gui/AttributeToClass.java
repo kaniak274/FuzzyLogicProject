@@ -1,12 +1,12 @@
 package gui;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
 import db.Weather;
-import fuzzy_set.FuzzySet;
 import main.AirHumidity;
 import main.Attribute;
 import main.Insolation;
@@ -15,13 +15,13 @@ import main.PM25;
 import main.Precipitation;
 import main.Pressure;
 import main.Temperature;
+import main.TermData;
 import main.Visibility;
 import main.WindDirection;
 import main.WindPower;
-import terms.Term;
 
 public class AttributeToClass {
-    public Entry<Term, FuzzySet> getTerm(List<Weather> data, String key, String methodName) {
+    public TermData getTerm(List<Weather> data, String key, String methodName) {
         if (key.equals("Temperatura")) {
             List<Entry<Date, Double>> entries = Utils.createSet(data, "getTemperature");
             Temperature temp = new Temperature(entries);
@@ -85,15 +85,58 @@ public class AttributeToClass {
         throw new RuntimeException("Atrybut nie znaleziony.");
     }
     
-    @SuppressWarnings("unchecked")
-	public Entry<Term, FuzzySet> callMethod(Attribute attr, String methodName) {
+	public TermData callMethod(Attribute attr, String methodName) {
         try {
-            return (Entry<Term, FuzzySet>) attr.getClass().getMethod(methodName).invoke(attr);
+            return (TermData) attr.getClass().getMethod(methodName).invoke(attr);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
             | SecurityException e) {
             e.printStackTrace();
         }
     	
         return null;
+    }
+    
+    public ArrayList<Double> getUniverse(String key) {
+        if (key.equals("Temperatura")) {
+            return new Temperature().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Ciœnienie atmosferyczne")) {
+            return new Pressure().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Widocznoœæ")) {
+            return new Visibility().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Iloœæ opadów")) {
+            return new Precipitation().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Si³a wiatru")) {
+            return new WindPower().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Kierunek wiatru")) {
+            return new WindDirection().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Nas³onecznienie")) {
+            return new Insolation().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Wilgotnoœæ powietrza")) {
+            return new AirHumidity().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Stê¿enie PM2.5")) {
+            return new PM25().createVariable().getUniverse();
+        }
+        
+        if (key.equals("Stê¿enie PM10")) {
+            return new PM10().createVariable().getUniverse();
+        }
+        
+        throw new RuntimeException("Atrybut nie znaleziony.");
     }
 }

@@ -83,7 +83,7 @@ public class WindPower extends Attribute {
         ArrayList<Double> universe = new ArrayList<>();
     	
         universe.add(0.00);
-        universe.add(40.00);
+        universe.add(150.00);
     	
         return new LinguisticVariable("si³a wiatru", new ArrayList<>(listTermsFull()), universe);
     }
@@ -100,16 +100,16 @@ public class WindPower extends Attribute {
         return createVariable().getSetForTerm(data, moderate().getValue());
     }
     
-    public Entry<Term, FuzzySet> slowSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(slow().getKey(), slowSet());
+    public TermData slowSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(slow().getKey(), slowSet()), this.slow().getValue());
     }
     
-    public Entry<Term, FuzzySet> fastSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(fast().getKey(), fastSet());
+    public TermData fastSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(fast().getKey(), fastSet()), this.fast().getValue());
     }
     
-    public Entry<Term, FuzzySet> moderateSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet());
+    public TermData moderateSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet()), this.moderate().getValue());
     }
     
     public boolean wasFast(double membership) {

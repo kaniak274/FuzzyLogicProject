@@ -1,5 +1,8 @@
 package fuzzy_set;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.DoubleStream;
@@ -21,6 +24,10 @@ public class FuzzySet {
     
     public Stream<FuzzyElement> getStreamOfSet() {
         return fuzzySet.stream();
+    }
+    
+    public DoubleStream getDoubleStreamOfSet() {
+        return fuzzySet.stream().mapToDouble(element -> element.getMembership());
     }
     
     public ArrayList<FuzzyElement> getFuzzySet() {
@@ -64,9 +71,19 @@ public class FuzzySet {
         return this.getHeight(stream) == 1;
     }
     
-    public DoubleStream normalize(DoubleStream stream) {
-        double height = this.getHeight(stream);
-        return stream.map(element -> element / height);
+    public boolean isNormal() {
+        if (this.getSupport().count() == 0) {
+            return false;
+        }
+
+        return this.getHeight(this.getSupport()) == 1;
+    }
+    
+    public Stream<FuzzyElement> normalize(Stream<FuzzyElement> stream) {
+        Stream<FuzzyElement> allElements = this.getStreamOfSet();
+
+        double height = this.getHeight(allElements.mapToDouble(element -> element.getMembership()));
+        return stream.map(element -> element.saveElement(element.getKey(), element.getMembership() / height));
     }
     
     public long getSupportSize(DoubleStream stream) {
@@ -81,14 +98,16 @@ public class FuzzySet {
         boolean changedDirection = false;
         double previous = membershipObject.get_membership(min);
 
-        for (double i = min + 0.1; i <= max; i+= 0.1) {
+        for (double i = min + 0.1; i <= max; i += 0.1) {
+            i = new BigDecimal(i).setScale(1, RoundingMode.HALF_UP).doubleValue();
+            
             double newMembership = membershipObject.get_membership(i);
             
             if (!changedDirection && newMembership - previous < 0) {
                 return false;
             }
         	
-            if (changedDirection && previous - newMembership > 0) {
+            if (changedDirection && newMembership - previous > 0) {
                 return false;
             }
         	

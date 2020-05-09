@@ -101,24 +101,24 @@ public class Temperature extends Attribute {
         return createVariable().getSetForTerm(data, moderate().getValue());
     }
     
-    public Entry<Term, FuzzySet> coldSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), coldSet());
+    public TermData coldSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), coldSet()), this.cold().getValue());
     }
     
-    public Entry<Term, FuzzySet> hotSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), hotSet());
+    public TermData hotSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), hotSet()), this.hot().getValue());
     }
     
-    public Entry<Term, FuzzySet> moderateSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet());
+    public TermData moderateSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet()), this.moderate().getValue());
     }
     
-    public Entry<Term, FuzzySet> coldHedgeSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), PowerHedge.powerSet(2, coldSet()));
+    public TermData coldHedgeSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), PowerHedge.powerSet(2, coldSet())), this.cold().getValue());
     }
     
-    public Entry<Term, FuzzySet> hotHedgeSetWithTerm() {
-        return new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), PowerHedge.powerSet(2, hotSet()));
+    public TermData hotHedgeSetWithTerm() {
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), PowerHedge.powerSet(2, hotSet())), this.hot().getValue());
     }
     
     public boolean wasHot(double membership) {

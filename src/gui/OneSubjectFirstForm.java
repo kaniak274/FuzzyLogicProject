@@ -3,8 +3,9 @@ package gui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -17,11 +18,11 @@ import db.Repository;
 import db.Weather;
 import fuzzy_set.FuzzySet;
 import hedges.PowerHedge;
+import main.TermData;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import quantifiers.AbsoluteQ;
 import quantifiers.Matcher;
 import quantifiers.RelativeQ;
-import terms.Term;
 
 @SuppressWarnings("serial")
 public class OneSubjectFirstForm extends JPanel {
@@ -93,19 +94,35 @@ public class OneSubjectFirstForm extends JPanel {
                 return;
             }
 
-            Entry<Term, FuzzySet> term = new AttributeToClass().getTerm(records, attrChoice, termChoice);
+            AttributeToClass attr = new AttributeToClass();
+            TermData term = attr.getTerm(records, attrChoice, termChoice); 
             
             String quantifier = "";
+            double degreeOfTruth = 0.0;
             
             if (quantifierChoice.equals("Absolutne")) {
-                quantifier = AbsoluteQ.exactMatching(term.getValue(), new Matcher() {
+                degreeOfTruth = 1;
+            	
+                quantifier = AbsoluteQ.exactMatching(term.getSet(), new Matcher() {
                     @Override
                     public boolean matcher(double membership) {
                         return Belongs.belongsToTerm(attrChoice, termChoice, membership);
                     }
                 });
             } else {
-                quantifier = RelativeQ.quantifySingle(term.getValue(), new Matcher() {
+                ArrayList<Double> universe = attr.getUniverse(attrChoice);
+
+                if (!term.getSet().isConvex(universe.get(0), universe.get(1), term.getMembership())) {
+                    textArea.setText("Zbiór rozmyty nie jest wypuk³y");
+                    return;
+                }
+
+                if (!term.getSet().isNormal()) {
+                   term.setSet(this.normalizeSet(term.getSet()));
+                }
+
+                // TODO check degree of truth.
+                quantifier = RelativeQ.quantifySingle(term.getSet(), new Matcher() {
                     @Override
                     public boolean matcher(double membership) {
                         return Belongs.belongsToTerm(attrChoice, termChoice, membership);
@@ -113,8 +130,12 @@ public class OneSubjectFirstForm extends JPanel {
                 });
             }
             
-            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getKey().getPluralLabe();
+            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getTerm().getPluralLabe() + "\n\n Prawdziwoœæ: " + degreeOfTruth;
             textArea.setText(text);
+        }
+        
+        private FuzzySet normalizeSet(FuzzySet set) {        	
+            return new FuzzySet(set.normalize(set.getStreamOfSet()).collect(Collectors.toList()));
         }
     }
     
