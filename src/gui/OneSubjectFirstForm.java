@@ -23,6 +23,7 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import quantifiers.AbsoluteQ;
 import quantifiers.Matcher;
 import quantifiers.RelativeQ;
+import quantifiers.Truth;
 
 @SuppressWarnings("serial")
 public class OneSubjectFirstForm extends JPanel {
@@ -100,15 +101,16 @@ public class OneSubjectFirstForm extends JPanel {
             String quantifier = "";
             double degreeOfTruth = 0.0;
             
-            if (quantifierChoice.equals("Absolutne")) {
-                degreeOfTruth = 1;
-            	
-                quantifier = AbsoluteQ.exactMatching(term.getSet(), new Matcher() {
-                    @Override
-                    public boolean matcher(double membership) {
-                        return Belongs.belongsToTerm(attrChoice, termChoice, membership);
-                    }
-                });
+            Matcher matcher = new Matcher() {
+            	@Override
+                public boolean matcher(double membership) {
+                    return Belongs.belongsToTerm(attrChoice, termChoice, membership);
+                }
+            };
+            
+            if (quantifierChoice.equals("Absolutne")) {            	
+                quantifier = AbsoluteQ.exactMatching(term.getSet(), matcher);
+                degreeOfTruth = Truth.degreeOfTruthAbsolute(term.getSet(), matcher);
             } else {
                 ArrayList<Double> universe = attr.getUniverse(attrChoice);
 
@@ -121,13 +123,8 @@ public class OneSubjectFirstForm extends JPanel {
                    term.setSet(this.normalizeSet(term.getSet()));
                 }
 
-                // TODO check degree of truth.
-                quantifier = RelativeQ.quantifySingle(term.getSet(), new Matcher() {
-                    @Override
-                    public boolean matcher(double membership) {
-                        return Belongs.belongsToTerm(attrChoice, termChoice, membership);
-                    }
-                });
+                quantifier = RelativeQ.quantifySingle(term.getSet(), matcher);
+                degreeOfTruth = Truth.degreeOfTruthRelative(term.getSet(), matcher);
             }
             
             String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getTerm().getPluralLabe() + "\n\n Prawdziwoœæ: " + degreeOfTruth;

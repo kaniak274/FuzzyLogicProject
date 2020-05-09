@@ -18,6 +18,8 @@ public class FuzzySet {
         this.fuzzySet = fuzzySet;
     }
     
+    public FuzzySet() {}
+    
     public FuzzySet(List<FuzzyElement> fuzzySet) {
         this.fuzzySet = new ArrayList<>(fuzzySet);
     }
