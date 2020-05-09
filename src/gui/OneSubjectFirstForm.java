@@ -89,7 +89,7 @@ public class OneSubjectFirstForm extends JPanel {
         	
             textArea.setText("");
 
-            if (attrChoice == null) {
+            if (attrChoice == null || termChoice == null || quantifierChoice == null) {
                 textArea.setText("Musisz wybraæ jeden z atrybutów powy¿ej");
                 return;
             }
