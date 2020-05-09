@@ -17,6 +17,7 @@ import db.Repository;
 import db.Weather;
 import fuzzy_set.FuzzySet;
 import hedges.PowerHedge;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import quantifiers.AbsoluteQ;
 import quantifiers.Matcher;
 import quantifiers.RelativeQ;
@@ -35,6 +36,9 @@ public class OneSubjectFirstForm extends JPanel {
     private String termChoice;
     private String quantifierChoice;
     private double hedge;
+    
+    private JDatePickerImpl dp1;
+    private JDatePickerImpl dp2;
    
     public OneSubjectFirstForm(Repository repo) {
         this.repo = repo;
@@ -51,11 +55,16 @@ public class OneSubjectFirstForm extends JPanel {
         
         JPanel buttons = AttributeButtons.generateButtons(bg, new ButtonGroupListener());
         
+        dp1 = DatePicker.createDatePicker();
+        dp2 = DatePicker.createDatePicker();
+        
         panel.add(new JLabel("Atrybuty:"));
         panel.add(buttons);
         panel.add(terms);
         panel.add(new JLabel("Kwantyfikatory:"));
         panel.add(QuantifierButtons.generateQButtons(true, new QuantifierListener()));
+        panel.add(dp1);
+        panel.add(dp2);
         panel.add(generate);
         
         textArea = new JTextArea(5, 20);
@@ -75,8 +84,7 @@ public class OneSubjectFirstForm extends JPanel {
     class Generate implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            // TODO ADD CALENDAR TO CHOOSE THE DATE
-            List<Weather> records = repo.getDaysBetweenDates(repo.formatDate("1992-01-01"), repo.formatDate("1992-01-31"));
+            List<Weather> records = repo.getDaysBetweenDates(DatePicker.getDate(dp1), DatePicker.getDate(dp2));
         	
             textArea.setText("");
 
