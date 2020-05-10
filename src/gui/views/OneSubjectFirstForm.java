@@ -1,4 +1,4 @@
-package gui;
+package gui.views;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,6 +17,14 @@ import javax.swing.JTextArea;
 import db.Repository;
 import db.Weather;
 import fuzzy_set.FuzzySet;
+import gui.AttributeButtons;
+import gui.AttributeToClass;
+import gui.AttributesTerms;
+import gui.Belongs;
+import gui.DatePicker;
+import gui.QuantifierButtons;
+import gui.TermRadio;
+import gui.Utils;
 import hedges.PowerHedge;
 import main.TermData;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -102,10 +110,12 @@ public class OneSubjectFirstForm extends JPanel {
             double degreeOfTruth = 0.0;
             
             Matcher matcher = new Matcher() {
-            	@Override
+                @Override
                 public boolean matcher(double membership) {
                     return Belongs.belongsToTerm(attrChoice, termChoice, membership);
                 }
+                
+                public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
             };
             
             if (quantifierChoice.equals("Absolutne")) {            	
@@ -127,7 +137,7 @@ public class OneSubjectFirstForm extends JPanel {
                 degreeOfTruth = Truth.degreeOfTruthRelative(term.getSet(), matcher);
             }
             
-            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getTerm().getPluralLabe() + "\n\n Prawdziwoœæ: " + degreeOfTruth;
+            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getTerm().getPluralLabel() + "\n\n Prawdziwoœæ: " + degreeOfTruth;
             textArea.setText(text);
         }
         

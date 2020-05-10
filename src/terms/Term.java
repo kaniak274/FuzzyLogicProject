@@ -21,7 +21,7 @@ public class Term {
         return label;
     }
     
-    public String getPluralLabe() {
+    public String getPluralLabel() {
     	return pluralLabel;
     }
     

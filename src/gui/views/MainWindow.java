@@ -1,8 +1,9 @@
-package gui;
+package gui.views;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -30,7 +31,8 @@ public class MainWindow implements ItemListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          
         this.addComponentToPane(frame.getContentPane());
-         
+
+        frame.setPreferredSize(new Dimension(400, 900));
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -45,16 +47,13 @@ public class MainWindow implements ItemListener {
         cb.addItemListener(this);
 
         comboBoxPane.add(cb);
-         
-        JPanel card2 = new JPanel();
-        card2.add(new JTextField("TextField", 20));
         
         JPanel card3 = new JPanel();
         card3.add(new JTextField("TextField", 20));
          
         cards = new JPanel(new CardLayout());
         cards.add(new OneSubjectFirstForm(repo).getPanel(), ONESUBJECTSUMMARY);
-        cards.add(card2, ONESUBJECTMANYSUMMARY);
+        cards.add(new OneSubjectSecondForm(repo).getPanel(), ONESUBJECTMANYSUMMARY);
         cards.add(card3, MANYSUBJECTSSUMMARY);
          
         pane.add(comboBoxPane, BorderLayout.PAGE_START);

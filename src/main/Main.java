@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import db.Repository;
-import gui.MainWindow;
+import gui.views.MainWindow;
 
 public class Main {
     public static void main(String[] args) {

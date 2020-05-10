@@ -32,12 +32,9 @@ public class RelativeQ {
         return averageToLabel(average);
     }
     
-    public static String quantifyNot(FuzzySet set, Matcher matcher) {
+    public static String quantifyNot(FuzzySet set, FuzzySet set2, Matcher matcher) {
         long count = IntStream.range(0, set.getFuzzySet().size())
-            .filter(i -> matcher.matcher(set
-                .getFuzzySet()
-                .get(i)
-                .compliment()))
+            .filter(i -> matcher.matcher(set.getFuzzySet().get(i).getMembership(), set2.getFuzzySet().get(i).getMembership()))
             .count();
         
         double average = (double)count / (double)set.getFuzzySet().size();
