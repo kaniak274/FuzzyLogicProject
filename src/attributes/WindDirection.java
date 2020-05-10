@@ -1,4 +1,4 @@
-package main;
+package attributes;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import memberships.Membership;
 import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
+import terms.TermData;
 
 public class WindDirection extends Attribute {
     public WindDirection () {}

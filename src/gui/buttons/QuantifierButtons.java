@@ -1,4 +1,4 @@
-package gui;
+package gui.buttons;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;

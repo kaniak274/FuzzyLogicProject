@@ -1,4 +1,4 @@
-package gui;
+package gui.summary;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -6,19 +6,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
+import attributes.AirHumidity;
+import attributes.Attribute;
+import attributes.Insolation;
+import attributes.PM10;
+import attributes.PM25;
+import attributes.Precipitation;
+import attributes.Pressure;
+import attributes.Temperature;
+import attributes.Visibility;
+import attributes.WindDirection;
+import attributes.WindPower;
 import db.Weather;
-import main.AirHumidity;
-import main.Attribute;
-import main.Insolation;
-import main.PM10;
-import main.PM25;
-import main.Precipitation;
-import main.Pressure;
-import main.Temperature;
-import main.TermData;
-import main.Visibility;
-import main.WindDirection;
-import main.WindPower;
+import terms.TermData;
 
 public class AttributeToClass {
     public TermData getTerm(List<Weather> data, String key, String methodName) {

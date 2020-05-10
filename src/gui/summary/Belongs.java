@@ -1,15 +1,15 @@
-package gui;
+package gui.summary;
 
-import main.AirHumidity;
-import main.Insolation;
-import main.PM10;
-import main.PM25;
-import main.Precipitation;
-import main.Pressure;
-import main.Temperature;
-import main.Visibility;
-import main.WindDirection;
-import main.WindPower;
+import attributes.AirHumidity;
+import attributes.Insolation;
+import attributes.PM10;
+import attributes.PM25;
+import attributes.Precipitation;
+import attributes.Pressure;
+import attributes.Temperature;
+import attributes.Visibility;
+import attributes.WindDirection;
+import attributes.WindPower;
 
 public class Belongs {
     public static boolean belongsToTerm(String attribute, String key, double membership) {

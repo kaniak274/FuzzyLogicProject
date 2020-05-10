@@ -1,4 +1,4 @@
-package main;
+package attributes;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -12,11 +12,12 @@ import memberships.Membership;
 import memberships.Trapezoid;
 import terms.LinguisticVariable;
 import terms.Term;
+import terms.TermData;
 
-public class PM10 extends Attribute {
-    public PM10 () {}
+public class PM25 extends Attribute {
+    public PM25 () {}
     
-    public PM10(List<Entry<Date, Double>> data) {
+    public PM25(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);
     }
 	
@@ -24,11 +25,11 @@ public class PM10 extends Attribute {
         ArrayList<Double> scope = new ArrayList<>();
 
         scope.add(25.00);
-        scope.add(45.00);
-        scope.add(70.00);
-        scope.add(70.00);
+        scope.add(35.00);
+        scope.add(50.00);
+        scope.add(50.00);
 
-        Term term = new Term("z wysokim stê¿eniem PM10", scope, "z wysokim stê¿eniem PM10");
+        Term term = new Term("z wysokim stê¿eniem PM2.5", scope, "z wysokim stê¿eniem PM2.5");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -39,7 +40,7 @@ public class PM10 extends Attribute {
         scope.add(20.00);
         scope.add(30.00);
 
-        Term term = new Term("z œrednim stê¿eniem PM10", scope, "z œrednim stê¿eniem PM10");
+        Term term = new Term("z œrednim stê¿eniem PM2.5", scope, "z œrednim stê¿eniem PM2.5");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Gauss(term));
     }
     
@@ -51,7 +52,7 @@ public class PM10 extends Attribute {
         scope.add(0.00);
         scope.add(10.00);
         
-        Term term = new Term("z ma³ym stê¿eniem PM10", scope, "z ma³ym stê¿eniem PM10");
+        Term term = new Term("z ma³ym stê¿eniem PM2.5", scope, "z ma³ym stê¿eniem PM2.5");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -83,7 +84,7 @@ public class PM10 extends Attribute {
         ArrayList<Double> universe = new ArrayList<>();
     	
         universe.add(0.00);
-        universe.add(70.00);
+        universe.add(50.00);
     	
         return new LinguisticVariable("ciœnienie", new ArrayList<>(listTermsFull()), universe);
     }

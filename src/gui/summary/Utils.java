@@ -1,4 +1,4 @@
-package gui;
+package gui.summary;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractMap;

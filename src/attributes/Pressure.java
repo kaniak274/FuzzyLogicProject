@@ -1,4 +1,4 @@
-package main;
+package attributes;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -7,51 +7,52 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import fuzzy_set.FuzzySet;
-import memberships.Gauss;
 import memberships.Membership;
 import memberships.Trapezoid;
+import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
+import terms.TermData;
 
-public class PM25 extends Attribute {
-    public PM25 () {}
+public class Pressure extends Attribute {
+    public Pressure () {}
     
-    public PM25(List<Entry<Date, Double>> data) {
+    public Pressure(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);
     }
 	
     public Entry<Term, Membership> high() {
         ArrayList<Double> scope = new ArrayList<>();
 
-        scope.add(25.00);
-        scope.add(35.00);
-        scope.add(50.00);
-        scope.add(50.00);
+        scope.add(1013.00);
+        scope.add(1020.00);
+        scope.add(1086.00);
+        scope.add(1086.00);
 
-        Term term = new Term("z wysokim stê¿eniem PM2.5", scope, "z wysokim stê¿eniem PM2.5");
+        Term term = new Term("z wysokim ciœnieniem", scope, "z wysokim ciœnieniem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
     public Entry<Term, Membership> medium() {
         ArrayList<Double> scope = new ArrayList<>();
 
-        scope.add(5.00);
-        scope.add(20.00);
-        scope.add(30.00);
+        scope.add(1000.00);
+        scope.add(1013.00);
+        scope.add(1020.00);
 
-        Term term = new Term("z œrednim stê¿eniem PM2.5", scope, "z œrednim stê¿eniem PM2.5");
-        return new AbstractMap.SimpleEntry<Term, Membership>(term, new Gauss(term));
+        Term term = new Term("z œrednim ciœnieniem", scope, "z œrednim ciœnieniem");
+        return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
     public Entry<Term, Membership> low() {
         ArrayList<Double> scope = new ArrayList<>();
 
-    	scope.add(0.00);
-        scope.add(0.00);
-        scope.add(0.00);
-        scope.add(10.00);
+    	scope.add(870.00);
+        scope.add(870.00);
+        scope.add(1000.00);
+        scope.add(1013.00);
         
-        Term term = new Term("z ma³ym stê¿eniem PM2.5", scope, "z ma³ym stê¿eniem PM2.5");
+        Term term = new Term("z niskim ciœnieniem", scope, "z niskim ciœnieniem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -82,8 +83,8 @@ public class PM25 extends Attribute {
     public LinguisticVariable createVariable() {
         ArrayList<Double> universe = new ArrayList<>();
     	
-        universe.add(0.00);
-        universe.add(50.00);
+        universe.add(870.00);
+        universe.add(1086.00);
     	
         return new LinguisticVariable("ciœnienie", new ArrayList<>(listTermsFull()), universe);
     }

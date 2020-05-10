@@ -17,25 +17,24 @@ import javax.swing.JTextArea;
 import db.Repository;
 import db.Weather;
 import fuzzy_set.FuzzySet;
-import gui.AttributeButtons;
-import gui.AttributeToClass;
-import gui.AttributesTerms;
-import gui.Belongs;
-import gui.ConjunctionButtons;
-import gui.DatePicker;
-import gui.TermRadio;
-import gui.Utils;
+import gui.buttons.AttributeButtons;
+import gui.buttons.AttributesTerms;
+import gui.buttons.ConjunctionButtons;
+import gui.buttons.TermRadio;
+import gui.date_picker.DatePicker;
 import gui.exceptions.NotConvexException;
+import gui.summary.AttributeToClass;
+import gui.summary.Conjuctions;
+import gui.summary.Utils;
 import hedges.PowerHedge;
-import main.TermData;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import quantifiers.Matcher;
-import quantifiers.RelativeQ;
 import quantifiers.Truth;
+import terms.TermData;
 
 @SuppressWarnings("serial")
 public class OneSubjectSecondForm extends JPanel {
-	private Repository repo;
+    private Repository repo;
 
     private JPanel panel;
     private JPanel terms;
@@ -151,13 +150,13 @@ public class OneSubjectSecondForm extends JPanel {
                 term2.setSet(this.normalizeSet(term2.getSet()));
             }
             
-            Matcher matcher = getMatcher();
-            quantifier = quantify(term1, term2, matcher);
+            Matcher matcher = Conjuctions.getMatcher(conjuction, attrChoice, termChoice, attr2Choice, term2Choice);
+            quantifier = Conjuctions.quantify(conjuction, term1, term2, matcher);
             
             // TODO
             // degreeOfTruth = Truth.degreeOfTruthRelative(term.getSet(), matcher);
             
-            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term1.getTerm().getPluralLabel() + getConjuctionLabel()
+            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term1.getTerm().getPluralLabel() + Conjuctions.getConjuctionLabel(conjuction)
                 + PowerHedge.toString(hedge2) + term2.getTerm().getPluralLabel();
             textArea.setText(text);
         }
@@ -185,82 +184,6 @@ public class OneSubjectSecondForm extends JPanel {
         
         private FuzzySet normalizeSet(FuzzySet set) {        	
             return new FuzzySet(set.normalize(set.getStreamOfSet()).collect(Collectors.toList()));
-        }
-        
-        private Matcher getMatcher() {
-            if (conjuction.equals("I")) {
-                return new Matcher() {
-                    @Override
-                    public boolean matcher(double membership) {
-                        return Belongs.belongsToTerm(attrChoice, termChoice, membership)
-                            && Belongs.belongsToTerm(attr2Choice, term2Choice, membership);
-                    }
-                    
-                    public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
-                };
-            }
-            
-            if (conjuction.equals("Lub")) {
-                return new Matcher() {
-                    @Override
-                    public boolean matcher(double membership) {
-                        return Belongs.belongsToTerm(attrChoice, termChoice, membership)
-                            || Belongs.belongsToTerm(attr2Choice, term2Choice, membership);
-                    }
-                    
-                    public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
-                };
-            }
-            
-            if (conjuction.equals("I nie")) {
-                return new Matcher() {
-                    @Override
-                    public boolean matcher(double membership) { throw new RuntimeException(); }
-                    
-                    public boolean matcher(double membership, double membership2) {
-                    	return Belongs.belongsToTerm(attrChoice, termChoice, membership)
-                            && !Belongs.belongsToTerm(attr2Choice, term2Choice, membership2);
-                    }
-                };
-            }
-
-            return new Matcher() {
-                @Override
-                public boolean matcher(double membership) { throw new RuntimeException(); }
-                
-                public boolean matcher(double membership, double membership2) {
-                	return Belongs.belongsToTerm(attrChoice, termChoice, membership)
-                        || !Belongs.belongsToTerm(attr2Choice, term2Choice, membership2);
-                }
-            };
-        }
-        
-        private String quantify(TermData attr1, TermData attr2, Matcher matcher) {
-            if (conjuction.equals("I")) {
-                return RelativeQ.quantifyAnd(attr1.getSet(), attr2.getSet(), matcher);
-            }
-            
-            if (conjuction.equals("Lub")) {
-                return RelativeQ.quantifyOr(attr1.getSet(), attr2.getSet(), matcher);
-            }
-            
-            return RelativeQ.quantifyNot(attr1.getSet(), attr2.getSet(), matcher);
-        }
-        
-        private String getConjuctionLabel() {
-            if (conjuction.equals("I")) {
-                return " i ";
-            }
-            
-            if (conjuction.equals("Lub")) {
-                return " lub " ;
-            }
-            
-            if (conjuction.equals("I nie")) {
-                return " i nie ";
-            }
-
-            return " lub nie ";
         }
     }
     

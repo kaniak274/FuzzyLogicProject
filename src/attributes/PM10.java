@@ -1,4 +1,4 @@
-package main;
+package attributes;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -7,40 +7,41 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import fuzzy_set.FuzzySet;
+import memberships.Gauss;
 import memberships.Membership;
 import memberships.Trapezoid;
-import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
+import terms.TermData;
 
-public class Precipitation extends Attribute {
-    public Precipitation () {}
+public class PM10 extends Attribute {
+    public PM10 () {}
     
-    public Precipitation(List<Entry<Date, Double>> data) {
+    public PM10(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);
     }
 	
     public Entry<Term, Membership> high() {
         ArrayList<Double> scope = new ArrayList<>();
 
-        scope.add(20.00);
-        scope.add(40.00);
-        scope.add(100.00);
-        scope.add(100.00);
+        scope.add(25.00);
+        scope.add(45.00);
+        scope.add(70.00);
+        scope.add(70.00);
 
-        Term term = new Term("z du¿ymi opadami", scope, "z du¿ymi opadami");
+        Term term = new Term("z wysokim stê¿eniem PM10", scope, "z wysokim stê¿eniem PM10");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
     public Entry<Term, Membership> medium() {
         ArrayList<Double> scope = new ArrayList<>();
 
-        scope.add(10.00);
+        scope.add(5.00);
         scope.add(20.00);
-        scope.add(40.00);
+        scope.add(30.00);
 
-        Term term = new Term("z œrednimi opadami", scope, "z œrednimi opadami");
-        return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
+        Term term = new Term("z œrednim stê¿eniem PM10", scope, "z œrednim stê¿eniem PM10");
+        return new AbstractMap.SimpleEntry<Term, Membership>(term, new Gauss(term));
     }
     
     public Entry<Term, Membership> low() {
@@ -48,10 +49,10 @@ public class Precipitation extends Attribute {
 
     	scope.add(0.00);
         scope.add(0.00);
+        scope.add(0.00);
         scope.add(10.00);
-        scope.add(20.00);
         
-        Term term = new Term("z niskimi opadami", scope, "z niskimi opadami");
+        Term term = new Term("z ma³ym stê¿eniem PM10", scope, "z ma³ym stê¿eniem PM10");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -83,9 +84,9 @@ public class Precipitation extends Attribute {
         ArrayList<Double> universe = new ArrayList<>();
     	
         universe.add(0.00);
-        universe.add(100.00);
+        universe.add(70.00);
     	
-        return new LinguisticVariable("opady", new ArrayList<>(listTermsFull()), universe);
+        return new LinguisticVariable("ciœnienie", new ArrayList<>(listTermsFull()), universe);
     }
     
     public FuzzySet lowSet() {

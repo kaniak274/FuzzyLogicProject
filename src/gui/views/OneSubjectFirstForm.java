@@ -17,21 +17,21 @@ import javax.swing.JTextArea;
 import db.Repository;
 import db.Weather;
 import fuzzy_set.FuzzySet;
-import gui.AttributeButtons;
-import gui.AttributeToClass;
-import gui.AttributesTerms;
-import gui.Belongs;
-import gui.DatePicker;
-import gui.QuantifierButtons;
-import gui.TermRadio;
-import gui.Utils;
+import gui.buttons.AttributeButtons;
+import gui.buttons.AttributesTerms;
+import gui.buttons.QuantifierButtons;
+import gui.buttons.TermRadio;
+import gui.date_picker.DatePicker;
+import gui.summary.AttributeToClass;
+import gui.summary.Belongs;
+import gui.summary.Utils;
 import hedges.PowerHedge;
-import main.TermData;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import quantifiers.AbsoluteQ;
 import quantifiers.Matcher;
 import quantifiers.RelativeQ;
 import quantifiers.Truth;
+import terms.TermData;
 
 @SuppressWarnings("serial")
 public class OneSubjectFirstForm extends JPanel {

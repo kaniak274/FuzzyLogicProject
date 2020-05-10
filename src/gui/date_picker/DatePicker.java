@@ -1,4 +1,4 @@
-package gui;
+package gui.date_picker;
 
 import java.util.Date;
 

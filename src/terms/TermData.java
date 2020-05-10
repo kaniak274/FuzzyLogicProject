@@ -1,10 +1,9 @@
-package main;
+package terms;
 
 import java.util.Map.Entry;
 
 import fuzzy_set.FuzzySet;
 import memberships.Membership;
-import terms.Term;
 
 public class TermData {
     private Term term;

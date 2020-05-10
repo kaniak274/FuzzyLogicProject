@@ -1,4 +1,4 @@
-package main;
+package attributes;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -12,34 +12,35 @@ import memberships.Trapezoid;
 import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
+import terms.TermData;
 
-public class Insolation extends Attribute {
-    public Insolation () {}
+public class AirHumidity extends Attribute {    
+    public AirHumidity () {}
     
-    public Insolation(List<Entry<Date, Double>> data) {
+    public AirHumidity(List<Entry<Date, Double>> data) {
         this.data = new ArrayList<>(data);
     }
 	
     public Entry<Term, Membership> high() {
         ArrayList<Double> scope = new ArrayList<>();
 
-        scope.add(2.00);
-        scope.add(3.00);
-        scope.add(4.00);
-        scope.add(4.00);
+        scope.add(30.00);
+        scope.add(60.00);
+        scope.add(100.00);
+        scope.add(100.00);
 
-        Term term = new Term("s³oneczny", scope, "s³oneczne");
+        Term term = new Term("z wysok¹ wilgotnoœci¹", scope, "z wysok¹ wilgotnoœci¹");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
     public Entry<Term, Membership> medium() {
         ArrayList<Double> scope = new ArrayList<>();
 
-        scope.add(1.00);
-        scope.add(2.00);
-        scope.add(3.00);
+        scope.add(10.00);
+        scope.add(30.00);
+        scope.add(60.00);
 
-        Term term = new Term("pochmurny", scope, "pochmurne");
+        Term term = new Term("z œredni¹ wilgotnoœci¹", scope, "z œredni¹ wilgotnoœci¹");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -48,10 +49,10 @@ public class Insolation extends Attribute {
 
     	scope.add(0.00);
         scope.add(0.00);
-        scope.add(1.00);
-        scope.add(2.00);
+        scope.add(10.00);
+        scope.add(30.00);
         
-        Term term = new Term("deszczowy", scope, "deszczowe");
+        Term term = new Term("z nisk¹ wilgotnoœci¹", scope, "z nisk¹ wilgotnoœci¹");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -83,9 +84,9 @@ public class Insolation extends Attribute {
         ArrayList<Double> universe = new ArrayList<>();
     	
         universe.add(0.00);
-        universe.add(4.00);
+        universe.add(100.00);
     	
-        return new LinguisticVariable("nas³onecznienie", new ArrayList<>(listTermsFull()), universe);
+        return new LinguisticVariable("wilgotnoœæ powietrza", new ArrayList<>(listTermsFull()), universe);
     }
     
     public FuzzySet lowSet() {

@@ -1,4 +1,4 @@
-package main;
+package attributes;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import memberships.Trapezoid;
 import memberships.Triangle;
 import terms.LinguisticVariable;
 import terms.Term;
+import terms.TermData;
 
 public class Temperature extends Attribute {
     public Temperature () {}
