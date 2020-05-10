@@ -200,7 +200,7 @@ public class OneSubjectSecondForm extends JPanel {
                 };
             }
             
-            if (conjuction.equals("Oraz")) {
+            if (conjuction.equals("Lub")) {
                 return new Matcher() {
                     @Override
                     public boolean matcher(double membership) {
@@ -212,23 +212,35 @@ public class OneSubjectSecondForm extends JPanel {
                 };
             }
             
+            if (conjuction.equals("I nie")) {
+                return new Matcher() {
+                    @Override
+                    public boolean matcher(double membership) { throw new RuntimeException(); }
+                    
+                    public boolean matcher(double membership, double membership2) {
+                    	return Belongs.belongsToTerm(attrChoice, termChoice, membership)
+                            && !Belongs.belongsToTerm(attr2Choice, term2Choice, membership2);
+                    }
+                };
+            }
+
             return new Matcher() {
                 @Override
                 public boolean matcher(double membership) { throw new RuntimeException(); }
                 
                 public boolean matcher(double membership, double membership2) {
                 	return Belongs.belongsToTerm(attrChoice, termChoice, membership)
-                        && !Belongs.belongsToTerm(attr2Choice, term2Choice, membership2);
+                        || !Belongs.belongsToTerm(attr2Choice, term2Choice, membership2);
                 }
             };
         }
         
         private String quantify(TermData attr1, TermData attr2, Matcher matcher) {
             if (conjuction.equals("I")) {
-            	return RelativeQ.quantifyAnd(attr1.getSet(), attr2.getSet(), matcher);
+                return RelativeQ.quantifyAnd(attr1.getSet(), attr2.getSet(), matcher);
             }
             
-            if (conjuction.equals("Oraz")) {
+            if (conjuction.equals("Lub")) {
                 return RelativeQ.quantifyOr(attr1.getSet(), attr2.getSet(), matcher);
             }
             
@@ -240,11 +252,15 @@ public class OneSubjectSecondForm extends JPanel {
                 return " i ";
             }
             
-            if (conjuction.equals("Oraz")) {
-                return " oraz " ;
+            if (conjuction.equals("Lub")) {
+                return " lub " ;
             }
             
-            return " i nie ";
+            if (conjuction.equals("I nie")) {
+                return " i nie ";
+            }
+
+            return " lub nie ";
         }
     }
     

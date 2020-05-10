@@ -9,24 +9,28 @@ import javax.swing.JRadioButton;
 
 public class ConjunctionButtons {
     public static JPanel createButtons(ActionListener listener) {
-        JPanel panel = new JPanel(new GridLayout(0, 3));
+        JPanel panel = new JPanel(new GridLayout(0, 4));
         ButtonGroup bg = new ButtonGroup();
 
         JRadioButton and = new JRadioButton("I");
-        JRadioButton or = new JRadioButton("Oraz");
-        JRadioButton not = new JRadioButton("Nie");
+        JRadioButton or = new JRadioButton("Lub");
+        JRadioButton andnot = new JRadioButton("I nie");
+        JRadioButton ornot = new JRadioButton("Lub nie");
         
         and.addActionListener(listener);
         or.addActionListener(listener);
-        not.addActionListener(listener);
+        andnot.addActionListener(listener);
+        ornot.addActionListener(listener);
         
         bg.add(and);
         bg.add(or);
-        bg.add(not);
+        bg.add(andnot);
+        bg.add(ornot);
         
         panel.add(and);
         panel.add(or);
-        panel.add(not);
+        panel.add(andnot);
+        panel.add(ornot);
         
         return panel;
     }
