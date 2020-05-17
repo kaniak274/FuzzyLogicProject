@@ -3,9 +3,6 @@ package gui.views;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -15,22 +12,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 import db.Repository;
-import db.Weather;
-import fuzzy_set.FuzzySet;
+import generators.SecondForm;
 import gui.buttons.AttributeButtons;
 import gui.buttons.AttributesTerms;
 import gui.buttons.ConjunctionButtons;
 import gui.buttons.TermRadio;
 import gui.date_picker.DatePicker;
-import gui.exceptions.NotConvexException;
-import gui.summary.AttributeToClass;
-import gui.summary.Conjuctions;
-import gui.summary.Utils;
-import hedges.PowerHedge;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import quantifiers.Matcher;
-import quantifiers.Truth;
-import terms.TermData;
 
 @SuppressWarnings("serial")
 public class OneSubjectSecondForm extends JPanel {
@@ -114,76 +102,18 @@ public class OneSubjectSecondForm extends JPanel {
     class Generate implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            List<Weather> records = getDays();
-        	
-            textArea.setText("");
-
-            if (termChoice == null || term2Choice == null) {
-                textArea.setText("Musisz wybraæ oba atrybuty");
-                return;
-            }
-            
-            if (attrChoice.equals(attr2Choice)) {
-                textArea.setText("Nie mo¿esz wybraæ dwóch takich samych atrybutów");
-                return;
-            }
-            
-            TermData term1 = getTermForAttribute(records, attrChoice, termChoice);
-            TermData term2 = getTermForAttribute(records, attr2Choice, term2Choice);
-            
-            String quantifier = "";
-            double degreeOfTruth = 0.0;
-            
-            try {
-                isConvex(term1, attrChoice);
-                isConvex(term2, attr2Choice);
-            } catch (NotConvexException e) {
-                textArea.setText("Jeden z zbiorów rozmytych nie jest wypuk³y");
-                return;
-            }
-
-            if (!term1.getSet().isNormal()) {
-               term1.setSet(this.normalizeSet(term1.getSet()));
-            }
-            
-            if (!term2.getSet().isNormal()) {
-                term2.setSet(this.normalizeSet(term2.getSet()));
-            }
-            
-            Matcher matcher = Conjuctions.getMatcher(conjuction, attrChoice, termChoice, attr2Choice, term2Choice);
-            quantifier = Conjuctions.quantify(conjuction, term1, term2, matcher);
-            
-            // TODO
-            // degreeOfTruth = Truth.degreeOfTruthRelative(term.getSet(), matcher);
-            
-            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term1.getTerm().getPluralLabel() + Conjuctions.getConjuctionLabel(conjuction)
-                + PowerHedge.toString(hedge2) + term2.getTerm().getPluralLabel();
-            textArea.setText(text);
-        }
-        
-        private List<Weather> getDays() {
-            return repo.getDaysBetweenDates(DatePicker.getDate(dp1), DatePicker.getDate(dp2));
-        }
-        
-        private TermData getTermForAttribute(List<Weather> records, String attribute, String term) {
-            AttributeToClass attr = new AttributeToClass();
-            return attr.getTerm(records, attribute, term); 
-        }
-        
-        private void isConvex(TermData attr, String key) throws NotConvexException {
-            ArrayList<Double> universe = getAttributeUniverse(key);
-        	
-            if (!attr.getSet().isConvex(universe.get(0), universe.get(1), attr.getMembership())) {
-                throw new NotConvexException();
-            }
-        }
-        
-        private ArrayList<Double> getAttributeUniverse(String attribute) {
-        	return new AttributeToClass().getUniverse(attribute);
-        }
-        
-        private FuzzySet normalizeSet(FuzzySet set) {        	
-            return new FuzzySet(set.normalize(set.getStreamOfSet()).collect(Collectors.toList()));
+            textArea.setText(SecondForm.generate(
+                repo,
+                DatePicker.getDate(dp1),
+                DatePicker.getDate(dp2),
+                attrChoice,
+                termChoice,
+                hedge,
+                attr2Choice,
+                term2Choice,
+                hedge2,
+                conjuction
+            ));
         }
     }
     

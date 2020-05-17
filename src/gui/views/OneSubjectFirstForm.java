@@ -3,9 +3,6 @@ package gui.views;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -15,23 +12,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
 import db.Repository;
-import db.Weather;
-import fuzzy_set.FuzzySet;
+import generators.FirstForm;
 import gui.buttons.AttributeButtons;
 import gui.buttons.AttributesTerms;
 import gui.buttons.QuantifierButtons;
 import gui.buttons.TermRadio;
 import gui.date_picker.DatePicker;
-import gui.summary.AttributeToClass;
-import gui.summary.Belongs;
-import gui.summary.Utils;
-import hedges.PowerHedge;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
-import quantifiers.AbsoluteQ;
-import quantifiers.Matcher;
-import quantifiers.RelativeQ;
-import quantifiers.Truth;
-import terms.TermData;
 
 @SuppressWarnings("serial")
 public class OneSubjectFirstForm extends JPanel {
@@ -94,56 +81,15 @@ public class OneSubjectFirstForm extends JPanel {
     class Generate implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            List<Weather> records = repo.getDaysBetweenDates(DatePicker.getDate(dp1), DatePicker.getDate(dp2));
-        	
-            textArea.setText("");
-
-            if (attrChoice == null || termChoice == null || quantifierChoice == null) {
-                textArea.setText("Musisz wybraæ jeden z atrybutów powy¿ej");
-                return;
-            }
-
-            AttributeToClass attr = new AttributeToClass();
-            TermData term = attr.getTerm(records, attrChoice, termChoice); 
-            
-            String quantifier = "";
-            double degreeOfTruth = 0.0;
-            
-            Matcher matcher = new Matcher() {
-                @Override
-                public boolean matcher(double membership) {
-                    return Belongs.belongsToTerm(attrChoice, termChoice, membership);
-                }
-                
-                public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
-            };
-            
-            if (quantifierChoice.equals("Absolutne")) {            	
-                quantifier = AbsoluteQ.exactMatching(term.getSet(), matcher);
-                degreeOfTruth = Truth.degreeOfTruthAbsolute(term.getSet(), matcher);
-            } else {
-                ArrayList<Double> universe = attr.getUniverse(attrChoice);
-
-                if (!term.getSet().isConvex(universe.get(0), universe.get(1), term.getMembership())) {
-                    textArea.setText("Zbiór rozmyty nie jest wypuk³y");
-                    return;
-                }
-
-                if (!term.getSet().isNormal()) {
-                   term.setSet(this.normalizeSet(term.getSet()));
-                }
-
-                quantifier = RelativeQ.quantifySingle(term.getSet(), matcher);
-                degreeOfTruth = Truth.degreeOfTruthRelative(term.getSet(), matcher);
-                degreeOfTruth = RelativeQ.matchTruth(degreeOfTruth);
-            }
-            
-            String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getTerm().getPluralLabel() + "\n\n Prawdziwoœæ: " + degreeOfTruth;
-            textArea.setText(text);
-        }
-        
-        private FuzzySet normalizeSet(FuzzySet set) {        	
-            return new FuzzySet(set.normalize(set.getStreamOfSet()).collect(Collectors.toList()));
+            textArea.setText(FirstForm.generate(
+                repo,
+                DatePicker.getDate(dp1),
+                DatePicker.getDate(dp2),
+                attrChoice,
+                termChoice,
+                quantifierChoice,
+                hedge
+            ));
         }
     }
     

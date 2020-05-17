@@ -1,6 +1,5 @@
 package gui.views;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

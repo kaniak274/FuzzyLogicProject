@@ -1,6 +1,9 @@
 package gui.date_picker;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -25,5 +28,17 @@ public class DatePicker {
     
     public static Date getDate(JDatePickerImpl dp) {
         return (Date) dp.getModel().getValue();
+    }
+    
+    public static Date getDate(String dp) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+        try {
+            return formatter.parse(dp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
