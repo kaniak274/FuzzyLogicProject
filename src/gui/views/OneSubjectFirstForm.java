@@ -135,6 +135,7 @@ public class OneSubjectFirstForm extends JPanel {
 
                 quantifier = RelativeQ.quantifySingle(term.getSet(), matcher);
                 degreeOfTruth = Truth.degreeOfTruthRelative(term.getSet(), matcher);
+                degreeOfTruth = RelativeQ.matchTruth(degreeOfTruth);
             }
             
             String text = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getTerm().getPluralLabel() + "\n\n Prawdziwoœæ: " + degreeOfTruth;
