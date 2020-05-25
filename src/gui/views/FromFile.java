@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import db.Repository;
 import generators.FirstForm;
+import generators.SecondForm;
 import gui.date_picker.DatePicker;
 
 public class FromFile {
@@ -31,6 +32,7 @@ public class FromFile {
     File newFile;
 
     final static String FIRSTFORM = "F";
+    final static String SECONDFORM = "S";
 
     public FromFile(Repository repo) {
         this.repo = repo;
@@ -78,6 +80,8 @@ public class FromFile {
 
                 if (type.equals(FIRSTFORM)) {
                     summary = generateFirstForm(params);
+                } else if (type.equals(SECONDFORM)) {
+                	summary = generateSecondForm(params);
                 }
 
                 writeSummary(summary + "\n\n");
@@ -121,6 +125,44 @@ public class FromFile {
                 hedges,
                 conjunctions,
                 quantifierChoice
+            );
+        }
+        
+        public String generateSecondForm(List<String> params) {
+            Date dp1 = DatePicker.getDate(params.get(1));
+            Date dp2 = DatePicker.getDate(params.get(2));
+            
+            String qualifierAttr = params.get(3);
+            String qualifierTerm = params.get(4);
+            String qualifierHedge = params.get(5);
+            
+            List<String> terms = new ArrayList<>();
+            List<String> attrs = new ArrayList<>();
+            List<String> conjunctions = new ArrayList<>();
+            List<String> hedges = new ArrayList<>();
+            
+            attrs.add(params.get(6));
+            terms.add(params.get(7));
+            hedges.add(params.get(8));
+            
+            for (int i = 9; i < params.size(); i += 4) {
+            	attrs.add(params.get(i));
+            	terms.add(params.get(i + 1));
+            	hedges.add(params.get(i + 2));
+            	conjunctions.add(params.get(i + 3));
+            }
+
+            return SecondForm.generate(
+                repo,
+                dp1,
+                dp2,
+                qualifierAttr,
+                qualifierTerm,
+                qualifierHedge,
+                attrs,
+                terms,
+                hedges,
+                conjunctions
             );
         }
 
