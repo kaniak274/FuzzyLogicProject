@@ -2,6 +2,7 @@ package quantifiers;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.IntStream;
 
@@ -9,15 +10,17 @@ import fuzzy_set.FuzzySet;
 import memberships.Trapezoid;
 import memberships.Triangle;
 import terms.Term;
+import terms.TermData;
 
 public class RelativeQ {
-    // These methods assume that both sets are equal in size.
-    public static String quantifyAnd(FuzzySet set, FuzzySet set2, Matcher matcher) {
+    public static String quantifyAnd(List<TermData> terms, Matcher matcher) {
+        FuzzySet set = terms.get(0).getSet();
+    	
         long count = IntStream.range(0, set.getFuzzySet().size())
             .filter(i -> matcher.matcher(set
                 .getFuzzySet()
                 .get(i)
-                .union(set2.getFuzzySet().get(i))
+                .union(terms, i)
                 .getMembership()))
             .count();
         

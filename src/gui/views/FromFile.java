@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,6 @@ import javax.swing.JTextField;
 
 import db.Repository;
 import generators.FirstForm;
-import generators.SecondForm;
 import gui.date_picker.DatePicker;
 
 public class FromFile {
@@ -31,7 +31,6 @@ public class FromFile {
     File newFile;
 
     final static String FIRSTFORM = "F";
-    final static String SECONDFORM = "S";
 
     public FromFile(Repository repo) {
         this.repo = repo;
@@ -79,8 +78,6 @@ public class FromFile {
 
                 if (type.equals(FIRSTFORM)) {
                     summary = generateFirstForm(params);
-                } else if (type.equals(SECONDFORM)) {
-                    summary = generateSecondForm(params);
                 }
 
                 writeSummary(summary + "\n\n");
@@ -98,44 +95,32 @@ public class FromFile {
         private String generateFirstForm(List<String> params) {
             Date dp1 = DatePicker.getDate(params.get(1));
             Date dp2 = DatePicker.getDate(params.get(2));
-            String attribute = params.get(3);
-            String term = params.get(4);  // TODO
-            String quantifier = params.get(5);
-            Double hedge = Double.parseDouble(params.get(6));
+            List<String> terms = new ArrayList<>();
+            List<String> attrs = new ArrayList<>();
+            List<String> conjunctions = new ArrayList<>();
+            List<String> hedges = new ArrayList<>();
+            
+            attrs.add(params.get(3));
+            terms.add(params.get(4));
+            hedges.add(params.get(5));
+            String quantifierChoice = params.get(6);
+            
+            for (int i = 7; i < params.size(); i += 4) {
+            	attrs.add(params.get(i));
+            	terms.add(params.get(i + 1));
+            	hedges.add(params.get(i + 2));
+            	conjunctions.add(params.get(i + 3));
+            }
 
             return FirstForm.generate(
                 repo,
                 dp1,
                 dp2,
-                attribute,
-                term,
-                quantifier,
-                hedge
-            );
-        }
-
-        private String generateSecondForm(List<String> params) {
-            Date dp1 = DatePicker.getDate(params.get(1));
-            Date dp2 = DatePicker.getDate(params.get(2));
-            String attribute = params.get(3);
-            String term = params.get(4);  // TODO
-            Double hedge = Double.parseDouble(params.get(5));
-            String attribute2 = params.get(6);
-            String term2 = params.get(7);
-            Double hedge2 = Double.parseDouble(params.get(8));
-            String conjuction = params.get(9);
-
-            return SecondForm.generate(
-                repo,
-                dp1,
-                dp2,
-                attribute,
-                term,
-                hedge,
-                attribute2,
-                term2,
-                hedge2,
-                conjuction
+                attrs,
+                terms,
+                hedges,
+                conjunctions,
+                quantifierChoice
             );
         }
 

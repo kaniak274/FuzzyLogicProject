@@ -8,8 +8,9 @@ import java.util.stream.Collectors;
 import db.Repository;
 import db.Weather;
 import fuzzy_set.FuzzySet;
+import gui.exceptions.NotConvexException;
 import gui.summary.AttributeToClass;
-import gui.summary.Belongs;
+import gui.summary.Conjunctions;
 import gui.summary.Utils;
 import hedges.PowerHedge;
 import quantifiers.AbsoluteQ;
@@ -19,48 +20,78 @@ import quantifiers.Truth;
 import terms.TermData;
 
 public class FirstForm {
-    public static String generate(Repository repo, Date dp1, Date dp2, String attrChoice, String termChoice, String quantifierChoice, double hedge) {
-        List<Weather> records = repo.getDaysBetweenDates(dp1, dp2);
-
-        if (attrChoice == null || termChoice == null || quantifierChoice == null) {
-            return "Musisz wybraæ jeden z atrybutów powy¿ej";
-        }
-
-        AttributeToClass attr = new AttributeToClass();
-        TermData term = attr.getTerm(records, attrChoice, termChoice); 
+    public static String generate(Repository repo, Date dp1, Date dp2,
+        List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions, String quantifierChoice) {
+        List<Weather> records = getDays(repo, dp1, dp2);
+        List<TermData> data = new ArrayList<>();
         
         String quantifier = "";
         double degreeOfTruth = 0.0;
-        
-        Matcher matcher = new Matcher() {
-            @Override
-            public boolean matcher(double membership) {
-                return Belongs.belongsToTerm(attrChoice, termChoice, membership);
-            }
-            
-            public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
-        };
+
+        Matcher matcher = Conjunctions.getMatcher(conjunctions, terms, attrs);
         
         if (quantifierChoice.equals("Absolutne")) {
-            quantifier = AbsoluteQ.exactMatching(term.getSet(), matcher);
-            degreeOfTruth = Truth.degreeOfTruthAbsolute(term.getSet(), matcher);
+        	for (int i = 0; i < terms.size(); i++) {
+            	String attrChoice = attrs.get(i);
+            	TermData term = getTermForAttribute(records, attrChoice, terms.get(i));
+            	
+            	data.add(term);
+            }
+
+            quantifier = AbsoluteQ.exactMatching(data, matcher);
+            degreeOfTruth = Truth.degreeOfTruthAbsolute();
         } else {
-            ArrayList<Double> universe = attr.getUniverse(attrChoice);
-
-            if (!term.getSet().isConvex(universe.get(0), universe.get(1), term.getMembership())) {
-                return "Zbiór rozmyty nie jest wypuk³y";
+        	for (int i = 0; i < terms.size(); i++) {
+            	String attrChoice = attrs.get(i);
+            	TermData term = getTermForAttribute(records, attrChoice, terms.get(i));
+            	
+            	try {
+                    isConvex(term, attrChoice);
+            	} catch (NotConvexException e) {
+                    return "Jeden z zbiorów rozmytych nie jest wypuk³y";
+            	}
+            	
+            	if (!term.getSet().isNormal()) {
+                    term.setSet(normalizeSet(term.getSet()));
+                }
+            	
+            	data.add(term);
             }
-
-            if (!term.getSet().isNormal()) {
-               term.setSet(normalizeSet(term.getSet()));
-            }
-
-            quantifier = RelativeQ.quantifySingle(term.getSet(), matcher);
-            degreeOfTruth = Truth.degreeOfTruthRelative(term.getSet(), matcher);
+        	
+            quantifier = Conjunctions.quantify(conjunctions, data, matcher);
+            degreeOfTruth = Truth.degreeOfTruthRelative(data, matcher);
             degreeOfTruth = RelativeQ.matchTruth(degreeOfTruth);
         }
         
-        return quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(hedge) + term.getTerm().getPluralLabel() + "\nPrawdziwoœæ: " + degreeOfTruth;
+        String summary = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
+        
+        for (int i = 1; i < terms.size(); i++) {
+        	summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();
+        }
+        
+        return summary + "\nPrawdziwoœæ: " + degreeOfTruth;
+    }
+
+
+    private static List<Weather> getDays(Repository repo, Date dp1, Date dp2) {
+        return repo.getDaysBetweenDates(dp1, dp2);
+    }
+    
+    private static TermData getTermForAttribute(List<Weather> records, String attribute, String term) {
+        AttributeToClass attr = new AttributeToClass();
+        return attr.getTerm(records, attribute, term); 
+    }
+    
+    private static void isConvex(TermData attr, String key) throws NotConvexException {
+        ArrayList<Double> universe = getAttributeUniverse(key);
+    	
+        if (!attr.getSet().isConvex(universe.get(0), universe.get(1), attr.getMembership())) {
+            throw new NotConvexException();
+        }
+    }
+    
+    private static ArrayList<Double> getAttributeUniverse(String attribute) {
+    	return new AttributeToClass().getUniverse(attribute);
     }
     
     private static FuzzySet normalizeSet(FuzzySet set) {

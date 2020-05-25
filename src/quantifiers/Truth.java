@@ -1,36 +1,28 @@
 package quantifiers;
 
+import java.util.List;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 import fuzzy_set.FuzzySet;
+import terms.TermData;
 
 public class Truth {
-    public static double degreeOfTruthRelative(FuzzySet set, Matcher matcher) {
-        DoubleStream stream = getMatchingUnits(set, matcher);
-        return getSigmaCount(stream) / set.getStreamOfSet().count();
-    }
+    public static double degreeOfTruthRelative(List<TermData> sets, Matcher matcher) {
+    	FuzzySet set = sets.get(0).getSet();
+    	System.out.println(sets);
 
-    public static double degreeOfTruthRelative(FuzzySet set, FuzzySet set2, Matcher matcher) {
-        DoubleStream stream = getMatchingUnits(set, set2, matcher);
+        DoubleStream stream = getMatchingUnits(set, sets, matcher);
         return getSigmaCount(stream) / getSigmaCount(set.getStreamOfSet().mapToDouble(el -> el.getMembership()));
     }
-    
-    public static double degreeOfTruthAbsolute(FuzzySet set, Matcher matcher) {
-        DoubleStream stream = getMatchingUnits(set, matcher);
-        return getSigmaCount(stream) / 1;
+
+    public static double degreeOfTruthAbsolute() {
+        return 1.0;
     }
     
-    private static DoubleStream getMatchingUnits(FuzzySet set, Matcher matcher) {
-        return set
-            .getStreamOfSet()
-            .filter(element -> matcher.matcher(element.getMembership()))
-            .mapToDouble(element -> element.getMembership());
-    }
-    
-    private static DoubleStream getMatchingUnits(FuzzySet set, FuzzySet set2, Matcher matcher) {
-        return IntStream.range(0, set2.getFuzzySet().size())
-            .mapToDouble(i -> set2.getFuzzySet().get(i).intersect(set.getFuzzySet().get(i)).getMembership())
+    private static DoubleStream getMatchingUnits(FuzzySet set, List<TermData> sets, Matcher matcher) {
+        return IntStream.range(0, set.getFuzzySet().size())
+            .mapToDouble(i -> set.getFuzzySet().get(i).intersect(sets, i).getMembership())
             .filter(membership -> matcher.matcher(membership));
     }
 
