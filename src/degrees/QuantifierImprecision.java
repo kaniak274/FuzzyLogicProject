@@ -20,7 +20,7 @@ public class QuantifierImprecision {
             
             result = Math.abs(max - min);
         } else {
-            result = qualifier.getTerm().getScope().get(1);
+            result = qualifier.getTerm().getScope().get(1) - qualifier.getTerm().getScope().get(0);
         }
         
         double universe = 1;
