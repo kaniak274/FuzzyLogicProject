@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 import terms.TermData;
 
 public class SummarizerCardinality {
-    public static double calculate(List<TermData> sets, double records) {
+    public static double calculate(List<TermData> sets) {
         List<TermData> sumarizer = IntStream.range(0, sets.size())
             .filter(i -> i != 0)
             .mapToObj(i -> sets.get(i))
