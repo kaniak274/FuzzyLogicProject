@@ -3,6 +3,8 @@ package degrees;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import terms.TermData;
 
@@ -10,7 +12,12 @@ public class Imprecision {
     public static double calculate(List<TermData> sets) {
         List<Double> ins = new ArrayList<>();
         
-        for (TermData set : sets) {
+        List<TermData> sumarizer = IntStream.range(0, sets.size())
+            .filter(i -> i != 0)
+            .mapToObj(i -> sets.get(i))
+            .collect(Collectors.toList());
+        
+        for (TermData set : sumarizer) {
             ArrayList<Double> scope = set.getTerm().getScope();
             int minIndex = scope.indexOf(Collections.min(scope));
             int maxIndex = scope.indexOf(Collections.max(scope));
@@ -23,7 +30,7 @@ public class Imprecision {
             ins.add((max - min) / universe);
         }
         
-        double insProduct = ins.stream().reduce(1.00, (acc, value) -> acc * value);        
+        double insProduct = ins.stream().reduce(1.00, (acc, value) -> acc * value);
         return 1.00 - Math.sqrt(insProduct);
     }
 }
