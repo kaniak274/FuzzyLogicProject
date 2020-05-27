@@ -22,18 +22,14 @@ public class Imprecision {
             double result = 0;
             ArrayList<Double> scope = set.getTerm().getScope();
             
-            if (set.getMembership() instanceof Trapezoid) {
-                int minIndex = scope.indexOf(Collections.min(scope));
-                int maxIndex = scope.indexOf(Collections.max(scope));
+            int minIndex = scope.indexOf(Collections.min(scope));
+            int maxIndex = scope.indexOf(Collections.max(scope));
 
-                double min = scope.get(minIndex);
-                double max = scope.get(maxIndex);
-                
-                result = Math.abs(max - min);
-            } else {
-                result = set.getTerm().getScope().get(1);
-            }
-        	
+            double min = scope.get(minIndex);
+            double max = scope.get(maxIndex);
+            
+            result = Math.abs(max - min);
+
             double universe = Math.abs(set.getUniverse().get(1) - set.getUniverse().get(0));
         	
             ins.add(result / universe);
