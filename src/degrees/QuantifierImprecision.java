@@ -7,11 +7,11 @@ import memberships.Trapezoid;
 import terms.TermData;
 
 public class QuantifierImprecision {
-    public static double calculate(TermData qualifier, boolean isAbsolute) {
-    	ArrayList<Double> scope = qualifier.getTerm().getScope();
+    public static double calculate(TermData quantifier, boolean isAbsolute) {
+    	ArrayList<Double> scope = quantifier.getTerm().getScope();
         double result = 0;
 
-        if (qualifier.getMembership() instanceof Trapezoid) {
+        if (quantifier.getMembership() instanceof Trapezoid) {
             int minIndex = scope.indexOf(Collections.min(scope));
             int maxIndex = scope.indexOf(Collections.max(scope));
 
@@ -20,13 +20,13 @@ public class QuantifierImprecision {
             
             result = Math.abs(max - min);
         } else {
-            result = qualifier.getTerm().getScope().get(1) - qualifier.getTerm().getScope().get(0);
+            result = quantifier.getTerm().getScope().get(1) - quantifier.getTerm().getScope().get(0);
         }
         
         double universe = 1;
         
         if (isAbsolute) {
-            universe = qualifier.getSet().getFuzzySet().size();
+            universe = quantifier.getSet().getFuzzySet().size();
         }
 
         return 1.00 - (result / universe);
