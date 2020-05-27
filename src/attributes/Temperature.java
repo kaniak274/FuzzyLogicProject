@@ -84,10 +84,19 @@ public class Temperature extends Attribute {
     public LinguisticVariable createVariable() {
         ArrayList<Double> universe = new ArrayList<>();
     	
-        universe.add(-20.00);
+        universe.add(-50.00);
         universe.add(50.00);
     	
         return new LinguisticVariable("temperatura", new ArrayList<>(listTermsFull()), universe);
+    }
+    
+    public ArrayList<Double> getUniverse() {
+        ArrayList<Double> universe = new ArrayList<>();
+    	
+        universe.add(-50.00);
+        universe.add(50.00);
+        
+        return universe;
     }
     
     public FuzzySet coldSet() {
@@ -103,23 +112,23 @@ public class Temperature extends Attribute {
     }
     
     public TermData coldSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), coldSet()), this.cold().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), coldSet()), this.cold().getValue(), getUniverse());
     }
     
     public TermData hotSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), hotSet()), this.hot().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), hotSet()), this.hot().getValue(), getUniverse());
     }
     
     public TermData moderateSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet()), this.moderate().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet()), this.moderate().getValue(), getUniverse());
     }
     
     public TermData coldHedgeSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), PowerHedge.powerSet(2, coldSet())), this.cold().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(cold().getKey(), PowerHedge.powerSet(2, coldSet())), this.cold().getValue(), getUniverse());
     }
     
     public TermData hotHedgeSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), PowerHedge.powerSet(2, hotSet())), this.hot().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(hot().getKey(), PowerHedge.powerSet(2, hotSet())), this.hot().getValue(), getUniverse());
     }
     
     public boolean wasHot(double membership) {

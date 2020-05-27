@@ -89,6 +89,15 @@ public class PM25 extends Attribute {
         return new LinguisticVariable("ciœnienie", new ArrayList<>(listTermsFull()), universe);
     }
     
+    public ArrayList<Double> getUniverse() {
+        ArrayList<Double> universe = new ArrayList<>();
+    	
+        universe.add(0.00);
+        universe.add(50.00);
+        
+        return universe;
+    }
+    
     public FuzzySet lowSet() {
         return createVariable().getSetForTerm(data, low().getValue());
     }
@@ -102,15 +111,15 @@ public class PM25 extends Attribute {
     }
     
     public TermData lowSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(low().getKey(), lowSet()), this.low().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(low().getKey(), lowSet()), this.low().getValue(), getUniverse());
     }
     
     public TermData highSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(high().getKey(), highSet()), this.high().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(high().getKey(), highSet()), this.high().getValue(), getUniverse());
     }
     
     public TermData mediumSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(medium().getKey(), mediumSet()), this.medium().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(medium().getKey(), mediumSet()), this.medium().getValue(), getUniverse());
     }
     
     public boolean wasHigh(double membership) {

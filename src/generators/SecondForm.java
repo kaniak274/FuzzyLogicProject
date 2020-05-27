@@ -13,7 +13,6 @@ import gui.exceptions.NotConvexException;
 import gui.summary.AttributeToClass;
 import gui.summary.Belongs;
 import gui.summary.Conjunctions;
-import gui.summary.Utils;
 import hedges.PowerHedge;
 import quantifiers.Matcher;
 import quantifiers.QualifierMatcher;

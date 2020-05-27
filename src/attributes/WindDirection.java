@@ -112,6 +112,15 @@ public class WindDirection extends Attribute {
         return new LinguisticVariable("kierunek wiatru", new ArrayList<>(listTermsFull()), universe);
     }
     
+    public ArrayList<Double> getUniverse() {
+        ArrayList<Double> universe = new ArrayList<>();
+    	
+        universe.add(0.00);
+        universe.add(360.00);
+        
+        return universe;
+    }
+    
     public FuzzySet NorthSet() {
         return createVariable().getSetForTerm(data, North().getValue());
     }
@@ -131,23 +140,23 @@ public class WindDirection extends Attribute {
     }
     
     public TermData NorthSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North().getKey(), NorthSet()), this.North().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North().getKey(), NorthSet()), this.North().getValue(), getUniverse());
     }
     
     public TermData North2SetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North2().getKey(), North2Set()), this.North2().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North2().getKey(), North2Set()), this.North2().getValue(), getUniverse());
     }
     
     public TermData EastSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(East().getKey(), EastSet()), this.East().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(East().getKey(), EastSet()), this.East().getValue(), getUniverse());
     }
     
     public TermData SouthSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(South().getKey(), SouthSet()), this.South().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(South().getKey(), SouthSet()), this.South().getValue(), getUniverse());
     }
     
     public TermData WestSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(West().getKey(), WestSet()), this.West().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(West().getKey(), WestSet()), this.West().getValue(), getUniverse());
     }
  
     public boolean wasNorth(double membership) {
