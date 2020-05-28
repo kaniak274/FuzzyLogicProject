@@ -8,6 +8,7 @@ import fuzzy_set.FuzzySet;
 import quantifiers.Matcher;
 import terms.TermData;
 
+// T3
 public class Covering {
     public static double calculate(List<TermData> sets, Matcher qualifierMatcher, Matcher sumarizerMatcher) {
         FuzzySet qualifier = sets.get(0).getSet();

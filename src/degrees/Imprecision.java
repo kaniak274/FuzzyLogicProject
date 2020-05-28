@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import memberships.Trapezoid;
 import terms.TermData;
 
+// T2
 public class Imprecision {
     public static double calculate(List<TermData> sets) {
         List<Double> ins = new ArrayList<>();

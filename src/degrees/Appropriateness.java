@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import terms.TermData;
 
+// T4
 public class Appropriateness {
     public static double calculate(List<TermData> sets, double t3) {
         List<Integer> supports = new ArrayList<>();
