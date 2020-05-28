@@ -13,12 +13,14 @@ public class Imprecision {
     public static double calculate(List<TermData> sets) {
         List<Double> ins = new ArrayList<>();
         
-        List<TermData> sumarizer = IntStream.range(0, sets.size())
-            .filter(i -> i != 0)
-            .mapToObj(i -> sets.get(i))
-            .collect(Collectors.toList());
+        // TODO Remove this logic completely and move it to Degrees.calculate methods
+        
+        // List<TermData> sumarizer = IntStream.range(0, sets.size())
+        //    .filter(i -> i != 0)
+        //    .mapToObj(i -> sets.get(i))
+        //    .collect(Collectors.toList());
 
-        for (TermData set : sumarizer) {
+        for (TermData set : sets) {
             double result = 0;
             ArrayList<Double> scope = set.getTerm().getScope();
             

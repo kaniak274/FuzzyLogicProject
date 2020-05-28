@@ -12,12 +12,14 @@ public class Appropriateness {
     public static double calculate(List<TermData> sets, double t3) {
         List<Integer> supports = new ArrayList<>();
 
-        List<TermData> sumarizer = IntStream.range(0, sets.size())
-            .filter(i -> i != 0)
-            .mapToObj(i -> sets.get(i))
-            .collect(Collectors.toList());
+        // TODO
         
-        for (TermData set : sumarizer) {
+        // List<TermData> sumarizer = IntStream.range(0, sets.size())
+        //    .filter(i -> i != 0)
+        //    .mapToObj(i -> sets.get(i))
+        //    .collect(Collectors.toList());
+        
+        for (TermData set : sets) {
         	supports.add((int) set.getSet().getSupport().count());
         }
         
