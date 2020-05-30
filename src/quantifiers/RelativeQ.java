@@ -67,7 +67,7 @@ public class RelativeQ {
         scope.add(0.1);
         scope.add(0.2);
     	
-        Term term = new Term("Niska liczba", scope, "");
+        Term term = new Term("Niska liczba", scope, "", average);
         Trapezoid membership = new Trapezoid(term);
         
         return new AbstractMap.SimpleEntry<Double, Term>(membership.get_membership(average), term);
@@ -79,7 +79,7 @@ public class RelativeQ {
         scope.add(0.25);
         scope.add(0.3);
     	
-        Term term = new Term("Oko³o 1/4", scope, "");
+        Term term = new Term("Oko³o 1/4", scope, "", average);
         Triangle membership = new Triangle(term);
         
         return new AbstractMap.SimpleEntry<Double, Term>(membership.get_membership(average), term);
@@ -91,7 +91,7 @@ public class RelativeQ {
         scope.add(0.5);
         scope.add(0.8);
     	
-        Term term = new Term("Oko³o po³owa", scope, "");
+        Term term = new Term("Oko³o po³owa", scope, "", average);
         Triangle membership = new Triangle(term);
         
         return new AbstractMap.SimpleEntry<Double, Term>(membership.get_membership(average), term);
@@ -103,7 +103,7 @@ public class RelativeQ {
         scope.add(0.75);
         scope.add(0.85);
     	
-        Term term = new Term("Blisko 75%", scope, "");
+        Term term = new Term("Blisko 75%", scope, "", average);
         Triangle membership = new Triangle(term);
         
         return new AbstractMap.SimpleEntry<Double, Term>(membership.get_membership(average), term);
@@ -115,7 +115,7 @@ public class RelativeQ {
         scope.add(0.9);
         scope.add(1.0);
     	
-        Term term = new Term("Wiêkszoœæ", scope, "");
+        Term term = new Term("Wiêkszoœæ", scope, "", average);
         Triangle membership = new Triangle(term);
         
         return new AbstractMap.SimpleEntry<Double, Term>(membership.get_membership(average), term);
@@ -128,7 +128,7 @@ public class RelativeQ {
         scope.add(1.0);
         scope.add(1.0);
     	
-        Term term = new Term("Zdecydowana wiêkszoœæ", scope, "");
+        Term term = new Term("Zdecydowana wiêkszoœæ", scope, "", average);
         Triangle membership = new Triangle(term);
         
         return new AbstractMap.SimpleEntry<Double, Term>(membership.get_membership(average), term);
