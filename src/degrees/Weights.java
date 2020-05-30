@@ -7,40 +7,39 @@ import java.util.Random;
 
 public class Weights {
     public static List<Double> getWeights(int n) {
+        double start = 1;
         List<Double> weights = new ArrayList<>();
-        
-        for (int i = 0; i < n; i++) {
-        	weights.add(1.0 / (double) n);
-        }
-        /*double sum = 0;
 
         for (int i = 0; i < n; i++) {
             Random r = new Random();
-            double randomValue = 0.0 + (1.0 - 0.0) * r.nextDouble();
+            double randomValue = 0.1 + (0.2 - 0.1) * r.nextDouble();
 
-            sum += randomValue;
-            weights.add(randomValue);
-            
-            if (sum >= 1) {
+            start -= randomValue;
+
+            if (start < 0) {
+                weights.add(randomValue);
                 break;
+            } else {
+                weights.add(randomValue);
             }
         }
         
-        if (sum > 1) {
-            Collections.sort(weights);
-            
-            if (sum - 1.0 > weights.get(0)) {
-                
+        int size = weights.size();
+        int lastElemIndex = size - 1;
+        
+        if (start < 0) {
+            weights.set(lastElemIndex, weights.get(lastElemIndex) - Math.abs(start));
+        } else if (start > 0) {
+            weights.set(lastElemIndex, weights.get(lastElemIndex) + start);
+        }
+        
+        if (size != n) {
+            for (int i = size; i < n; i++) {
+                weights.add(0.0);
             }
-
-            weights.set(0, weights.get(0) - (sum - 1.0));
         }
         
-        for (int i = weights.size(); i < n; i++) {
-            weights.add(0.0);
-        }
-        
-        Collections.shuffle(weights);*/
+        Collections.shuffle(weights);
         return weights;
     }
 }
