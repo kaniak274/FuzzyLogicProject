@@ -25,7 +25,7 @@ public class SecondForm {
         List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions) {
         List<Weather> records = getDays(repo, dp1, dp2);
         List<TermData> data = new ArrayList<>();
-        
+
         Term quantifier = null;
         double degree = 0.0;
 
@@ -36,7 +36,7 @@ public class SecondForm {
                 return Belongs.belongsToTerm(qualifierAttr, qualifierTerm, membership);
             }
         };
-        
+
         List<Integer> recordsToFilter = IntStream.range(0, qualifierData.getSet().getFuzzySet().size())
             .filter(i -> qualifierMatcher.matcher(qualifierData.getSet()
                 .getFuzzySet()
@@ -44,9 +44,9 @@ public class SecondForm {
                 .getMembership()))
             .boxed()
             .collect(Collectors.toList());
-        
+
         List<Weather> filteredRecords = new ArrayList<>();
-        
+
         for (int i = 0; i < records.size(); i++) {
             if (recordsToFilter.contains(i)) {
                 filteredRecords.add(records.get(i));
@@ -58,25 +58,25 @@ public class SecondForm {
     	for (int i = 0; i < terms.size(); i++) {
             String attrChoice = attrs.get(i);
             TermData term = getTermForAttribute(filteredRecords, attrChoice, terms.get(i));
-        	
+
             try {
                 isConvex(term, attrChoice);
             } catch (NotConvexException e) {
                 return "Jeden z zbiorów rozmytych nie jest wypuk³y";
             }
-        	
+
             if (!term.getSet().isNormal()) {
                 term.setSet(normalizeSet(term.getSet()));
             }
-        	
+
             data.add(term);
         }
-    	
+
         quantifier = Conjunctions.quantify(conjunctions, data, matcher);
         degree = OptimalSummary.calculateSecondForm(data, matcher, quantifier, qualifierData);
-        
+
         String summary = quantifier.getLabel() + " dni które by³y " + PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().getPluralLabel() + " by³y równie¿ ";
-        
+
         for (int i = 0; i < terms.size(); i++) {
             if (i == 0) {
                 summary += PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();
@@ -84,7 +84,7 @@ public class SecondForm {
                 summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();	
             }
         }
-        
+
         return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
     }
 

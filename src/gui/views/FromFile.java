@@ -19,8 +19,14 @@ import javax.swing.JTextField;
 
 import db.Repository;
 import generators.FirstForm;
+import generators.ManyFirst;
 import generators.SecondForm;
 import gui.date_picker.DatePicker;
+import subjects.Autumn;
+import subjects.Spring;
+import subjects.Subject;
+import subjects.Summer;
+import subjects.Winter;
 
 public class FromFile {
     Repository repo;
@@ -33,6 +39,11 @@ public class FromFile {
 
     final static String FIRSTFORM = "F";
     final static String SECONDFORM = "S";
+    final static String MANYFIRST = "MF";
+    final static String WINTER = "W";
+    final static String SUMMER = "SU";
+    final static String SPRING = "SP";
+    final static String AUTUMN = "A";
 
     public FromFile(Repository repo) {
         this.repo = repo;
@@ -81,7 +92,9 @@ public class FromFile {
                 if (type.equals(FIRSTFORM)) {
                     summary = generateFirstForm(params);
                 } else if (type.equals(SECONDFORM)) {
-                	summary = generateSecondForm(params);
+                    summary = generateSecondForm(params);
+                } else if (type.equals(MANYFIRST)) {
+                    summary = generateManyFirst(params);
                 }
 
                 writeSummary(summary + "\n\n");
@@ -90,10 +103,10 @@ public class FromFile {
 
         private Scanner getScanner() {
             try {
-				return new Scanner(file, "UTF-8");
-			} catch (FileNotFoundException e) {
-				throw new RuntimeException(e);
-			}
+                return new Scanner(file, "UTF-8");
+            } catch (FileNotFoundException e) {
+		        throw new RuntimeException(e);
+            }
         }
 
         private String generateFirstForm(List<String> params) {
@@ -110,10 +123,10 @@ public class FromFile {
             String quantifierChoice = params.get(6);
             
             for (int i = 7; i < params.size(); i += 4) {
-            	attrs.add(params.get(i));
-            	terms.add(params.get(i + 1));
-            	hedges.add(params.get(i + 2));
-            	conjunctions.add(params.get(i + 3));
+                attrs.add(params.get(i));
+                terms.add(params.get(i + 1));
+                hedges.add(params.get(i + 2));
+                conjunctions.add(params.get(i + 3));
             }
 
             return FirstForm.generate(
@@ -146,10 +159,10 @@ public class FromFile {
             hedges.add(params.get(8));
             
             for (int i = 9; i < params.size(); i += 4) {
-            	attrs.add(params.get(i));
-            	terms.add(params.get(i + 1));
-            	hedges.add(params.get(i + 2));
-            	conjunctions.add(params.get(i + 3));
+                attrs.add(params.get(i));
+                terms.add(params.get(i + 1));
+                hedges.add(params.get(i + 2));
+                conjunctions.add(params.get(i + 3));
             }
 
             return SecondForm.generate(
@@ -159,6 +172,37 @@ public class FromFile {
                 qualifierAttr,
                 qualifierTerm,
                 qualifierHedge,
+                attrs,
+                terms,
+                hedges,
+                conjunctions
+            );
+        }
+        
+        public String generateManyFirst(List<String> params) {
+            String season = params.get(1);
+            String season2 = params.get(2);
+            
+            List<String> terms = new ArrayList<>();
+            List<String> attrs = new ArrayList<>();
+            List<String> conjunctions = new ArrayList<>();
+            List<String> hedges = new ArrayList<>();
+            
+            attrs.add(params.get(3));
+            terms.add(params.get(4));
+            hedges.add(params.get(5));
+            
+            for (int i = 6; i < params.size(); i += 4) {
+                attrs.add(params.get(i));
+                terms.add(params.get(i + 1));
+                hedges.add(params.get(i + 2));
+                conjunctions.add(params.get(i + 3));
+            }
+            
+            return ManyFirst.generate(
+                repo,
+                getSeason(season),
+                getSeason(season2),
                 attrs,
                 terms,
                 hedges,
@@ -175,6 +219,22 @@ public class FromFile {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        
+        private Subject getSeason(String season) {
+            if (season.equals(WINTER)) {
+                return new Winter();
+            }
+            
+            if (season.equals(SPRING)) {
+                return new Spring();
+            }
+            
+            if (season.equals(AUTUMN)) {
+            	return new Autumn();
+            }
+            
+            return new Summer();
         }
     }
 }
