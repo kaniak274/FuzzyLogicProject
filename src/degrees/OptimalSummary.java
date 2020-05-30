@@ -24,6 +24,7 @@ public class OptimalSummary {
         degrees.add(Length.calculate(summarizer)); // T5
         degrees.add(QuantifierImprecision.calculate(quantifier)); // T6
         degrees.add(QuantifierCardinality.calculate(quantifier.getRelativeQ())); // T7
+        degrees.add(SummarizerCardinality.calculate(summarizer)); // T8
         
         System.out.println(degrees);
         
@@ -41,6 +42,7 @@ public class OptimalSummary {
         degrees.add(Length.calculate(summarizer)); // T5
         degrees.add(QuantifierImprecision.calculate(matchingElements, summarizer.get(0).getSet().getFuzzySet().size())); // T6
         degrees.add(QuantifierCardinality.calculate(matchingElements, summarizer.get(0).getSet().getFuzzySet().size())); // T7
+        degrees.add(SummarizerCardinality.calculate(summarizer)); // T8
         
         System.out.println(degrees);
         
