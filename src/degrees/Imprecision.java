@@ -3,8 +3,6 @@ package degrees;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import terms.TermData;
 
@@ -12,13 +10,6 @@ import terms.TermData;
 public class Imprecision {
     public static double calculate(List<TermData> sets) {
         List<Double> ins = new ArrayList<>();
-        
-        // TODO Remove this logic completely and move it to Degrees.calculate methods
-        
-        // List<TermData> sumarizer = IntStream.range(0, sets.size())
-        //    .filter(i -> i != 0)
-        //    .mapToObj(i -> sets.get(i))
-        //    .collect(Collectors.toList());
 
         for (TermData set : sets) {
             double result = 0;

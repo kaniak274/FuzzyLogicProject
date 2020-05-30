@@ -1,7 +1,6 @@
 package degrees;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import fuzzy_set.FuzzySet;
@@ -10,18 +9,13 @@ import terms.TermData;
 
 // T3
 public class Covering {
-    public static double calculate(List<TermData> sets, Matcher qualifierMatcher, Matcher sumarizerMatcher) {
-        FuzzySet qualifier = sets.get(0).getSet();
-    	
-        List<TermData> sumarizer = IntStream.range(0, sets.size())
-            .filter(i -> i != 0)
-            .mapToObj(i -> sets.get(i))
-            .collect(Collectors.toList());
+    public static double calculate(List<TermData> sets, TermData qualifier, Matcher qualifierMatcher, Matcher sumarizerMatcher) {
+        FuzzySet qualifierSet = qualifier.getSet();
         
-        int sumarizerResult = IntStream.range(0, sumarizer.get(0).getSet().getFuzzySet().size())
+        int sumarizerResult = IntStream.range(0, sets.get(0).getSet().getFuzzySet().size())
             .reduce(0, (acc, value) -> acc + isOneOrZero(sets, sumarizerMatcher, value));
         
-        return (double) sumarizerResult / (double) qualifierValue(qualifier, qualifierMatcher);
+        return (double) sumarizerResult / (double) qualifierValue(qualifierSet, qualifierMatcher);
     }
     
     public static double calculate(List<TermData> sets, Matcher sumarizerMatcher) {

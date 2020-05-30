@@ -2,18 +2,12 @@ package degrees;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import terms.TermData;
 
+// T8
 public class SummarizerCardinality {
-    public static double calculate(List<TermData> sets) {
-        /* List<TermData> sumarizer = IntStream.range(0, sets.size())
-            .filter(i -> i != 0)
-            .mapToObj(i -> sets.get(i))
-            .collect(Collectors.toList()); */
-        
+    public static double calculate(List<TermData> sets) {        
         List<Double> sumarizersCardinality = new ArrayList<>();
         
         for (TermData set : sets) {

@@ -68,8 +68,6 @@ public class FirstForm {
             summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();
         }
         
-        System.out.println(degree);
-        
         return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
     }
 

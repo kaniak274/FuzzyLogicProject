@@ -23,7 +23,7 @@ public class QuantifierImprecision {
             result = scope.get(1) - scope.get(0);
         }
 
-        return 1.00 - result;
+        return Math.abs(1.00 - result);
     }
     
     public static double calculate(double matchingElements, double records) {

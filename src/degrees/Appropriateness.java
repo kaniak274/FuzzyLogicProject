@@ -10,13 +10,6 @@ public class Appropriateness {
     public static double calculate(List<TermData> sets, double t3) {
         List<Double> supports = new ArrayList<>();
         double count = sets.get(0).getSet().getFuzzySet().size();
-
-        // TODO
-        
-        // List<TermData> sumarizer = IntStream.range(0, sets.size())
-        //    .filter(i -> i != 0)
-        //    .mapToObj(i -> sets.get(i))
-        //    .collect(Collectors.toList());
         
         for (TermData set : sets) {
         	supports.add((double) set.getSet().getSupport().count());

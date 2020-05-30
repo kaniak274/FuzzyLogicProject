@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import db.Repository;
 import db.Weather;
+import degrees.OptimalSummary;
 import fuzzy_set.FuzzySet;
 import gui.exceptions.NotConvexException;
 import gui.summary.AttributeToClass;
@@ -16,8 +17,6 @@ import gui.summary.Conjunctions;
 import hedges.PowerHedge;
 import quantifiers.Matcher;
 import quantifiers.QualifierMatcher;
-import quantifiers.RelativeQ;
-import quantifiers.Truth;
 import terms.Term;
 import terms.TermData;
 
@@ -28,7 +27,7 @@ public class SecondForm {
         List<TermData> data = new ArrayList<>();
         
         Term quantifier = null;
-        double degreeOfTruth = 0.0;
+        double degree = 0.0;
 
         TermData qualifierData = getTermForAttribute(records, qualifierAttr, qualifierTerm);
         QualifierMatcher qualifierMatcher = new QualifierMatcher() {
@@ -57,25 +56,24 @@ public class SecondForm {
         Matcher matcher = Conjunctions.getMatcher(conjunctions, terms, attrs);
 
     	for (int i = 0; i < terms.size(); i++) {
-        	String attrChoice = attrs.get(i);
-        	TermData term = getTermForAttribute(filteredRecords, attrChoice, terms.get(i));
+            String attrChoice = attrs.get(i);
+            TermData term = getTermForAttribute(filteredRecords, attrChoice, terms.get(i));
         	
-        	try {
+            try {
                 isConvex(term, attrChoice);
-        	} catch (NotConvexException e) {
+            } catch (NotConvexException e) {
                 return "Jeden z zbiorów rozmytych nie jest wypuk³y";
-        	}
+            }
         	
-        	if (!term.getSet().isNormal()) {
+            if (!term.getSet().isNormal()) {
                 term.setSet(normalizeSet(term.getSet()));
             }
         	
-        	data.add(term);
+            data.add(term);
         }
     	
         quantifier = Conjunctions.quantify(conjunctions, data, matcher);
-        degreeOfTruth = Truth.degreeOfTruthRelative(data, matcher);
-        degreeOfTruth = RelativeQ.matchTruth(degreeOfTruth);
+        degree = OptimalSummary.calculateSecondForm(data, matcher, quantifier, qualifierData);
         
         String summary = quantifier.getLabel() + " dni które by³y " + PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().getPluralLabel() + " by³y równie¿ ";
         
@@ -87,7 +85,9 @@ public class SecondForm {
             }
         }
         
-        return summary + "\nPrawdziwoœæ: " + degreeOfTruth;
+        System.out.println(degree);
+        
+        return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
     }
 
     private static List<Weather> getDays(Repository repo, Date dp1, Date dp2) {
