@@ -21,7 +21,7 @@ public class Covering {
         int sumarizerResult = IntStream.range(0, sumarizer.get(0).getSet().getFuzzySet().size())
             .reduce(0, (acc, value) -> acc + isOneOrZero(sets, sumarizerMatcher, value));
         
-        return sumarizerResult / qualifierValue(qualifier, qualifierMatcher);
+        return (double) sumarizerResult / (double) qualifierValue(qualifier, qualifierMatcher);
     }
     
     public static double calculate(List<TermData> sets, Matcher sumarizerMatcher) {
@@ -30,7 +30,7 @@ public class Covering {
         int sumarizerResult = IntStream.range(0, set.getFuzzySet().size())
             .reduce(0, (acc, value) -> acc + isOneOrZero(sets, sumarizerMatcher, value));
         
-        return sumarizerResult / set.getFuzzySet().size();
+        return (double) sumarizerResult / (double) set.getFuzzySet().size();
     }
     
     private static int isOneOrZero(List<TermData> sets, Matcher matcher, int i) {

@@ -2,15 +2,14 @@ package degrees;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import terms.TermData;
 
 // T4
 public class Appropriateness {
     public static double calculate(List<TermData> sets, double t3) {
-        List<Integer> supports = new ArrayList<>();
+        List<Double> supports = new ArrayList<>();
+        double count = sets.get(0).getSet().getFuzzySet().size();
 
         // TODO
         
@@ -20,10 +19,10 @@ public class Appropriateness {
         //    .collect(Collectors.toList());
         
         for (TermData set : sets) {
-        	supports.add((int) set.getSet().getSupport().count());
+        	supports.add((double) set.getSet().getSupport().count());
         }
         
-        double product = supports.stream().reduce(1, (acc, value) -> acc * value);
+        double product = supports.stream().reduce(1.0, (acc, value) -> acc * (value / count));
         return Math.abs(product - t3);
     }
 }

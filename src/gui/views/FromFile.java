@@ -168,7 +168,8 @@ public class FromFile {
 
         private void writeSummary(String summary) {
             try {
-                FileWriter myWriter = new FileWriter(pathInput.getText(), true);//
+                //FileWriter myWriter = new FileWriter(pathInput.getText(), true);
+            	FileWriter myWriter = new FileWriter("C:/Users/Kaniak/Documents/test.txt", true);
                 myWriter.write(summary);
                 myWriter.close();
             } catch (IOException e) {
