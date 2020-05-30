@@ -62,8 +62,8 @@ public class RelativeQ {
     
     private static Entry<Double, Term> low(double average) {
         ArrayList<Double> scope = new ArrayList<>();
-        scope.add(0.0);
-        scope.add(0.0);
+        scope.add(-1.0);
+        scope.add(-1.0);
         scope.add(0.1);
         scope.add(0.2);
     	
@@ -129,7 +129,7 @@ public class RelativeQ {
         scope.add(1.0);
     	
         Term term = new Term("Zdecydowana wiêkszoœæ", scope, "", average);
-        Triangle membership = new Triangle(term);
+        Trapezoid membership = new Trapezoid(term);
         
         return new AbstractMap.SimpleEntry<Double, Term>(membership.get_membership(average), term);
     }

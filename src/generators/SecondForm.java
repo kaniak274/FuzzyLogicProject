@@ -85,8 +85,6 @@ public class SecondForm {
             }
         }
         
-        System.out.println(degree);
-        
         return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
     }
 
