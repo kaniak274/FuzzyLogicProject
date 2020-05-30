@@ -3,15 +3,15 @@ package degrees;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import memberships.Trapezoid;
-import terms.TermData;
+import terms.Term;
 
+// T6
 public class QuantifierImprecision {
-    public static double calculate(TermData quantifier, boolean isAbsolute) {
-    	ArrayList<Double> scope = quantifier.getTerm().getScope();
+    public static double calculate(Term matchingTerm) {
+    	ArrayList<Double> scope = matchingTerm.getScope();
         double result = 0;
 
-        if (quantifier.getMembership() instanceof Trapezoid) {
+        if (scope.size() == 4) {
             int minIndex = scope.indexOf(Collections.min(scope));
             int maxIndex = scope.indexOf(Collections.max(scope));
 
@@ -20,15 +20,13 @@ public class QuantifierImprecision {
             
             result = Math.abs(max - min);
         } else {
-            result = quantifier.getTerm().getScope().get(1) - quantifier.getTerm().getScope().get(0);
-        }
-        
-        double universe = 1;
-        
-        if (isAbsolute) {
-            universe = quantifier.getSet().getFuzzySet().size();
+            result = scope.get(1) - scope.get(0);
         }
 
-        return 1.00 - (result / universe);
+        return 1.00 - result;
+    }
+    
+    public static double calculate(double matchingElements, double records) {
+        return 1 - (matchingElements / records);
     }
 }

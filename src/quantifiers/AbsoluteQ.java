@@ -1,15 +1,21 @@
 package quantifiers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 import fuzzy_set.FuzzySet;
+import terms.Term;
 import terms.TermData;
 
 public class AbsoluteQ {
-    public static String exactMatching(List<TermData> sets, Matcher matcher) {
-        return getString(countMatchingElements(sets, matcher));
+    public static Term exactMatching(List<TermData> sets, Matcher matcher) {
+        long count = countMatchingElements(sets, matcher);
+        ArrayList<Double> scope = new ArrayList<>();
+        scope.add((double) count);
+
+        return new Term(getString(count), scope, "");
     }
 	
     private static long countMatchingElements(List<TermData> sets, Matcher matcher) {

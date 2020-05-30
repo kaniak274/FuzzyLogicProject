@@ -18,6 +18,7 @@ import quantifiers.Matcher;
 import quantifiers.QualifierMatcher;
 import quantifiers.RelativeQ;
 import quantifiers.Truth;
+import terms.Term;
 import terms.TermData;
 
 public class SecondForm {
@@ -26,7 +27,7 @@ public class SecondForm {
         List<Weather> records = getDays(repo, dp1, dp2);
         List<TermData> data = new ArrayList<>();
         
-        String quantifier = "";
+        Term quantifier = null;
         double degreeOfTruth = 0.0;
 
         TermData qualifierData = getTermForAttribute(records, qualifierAttr, qualifierTerm);
@@ -76,7 +77,7 @@ public class SecondForm {
         degreeOfTruth = Truth.degreeOfTruthRelative(data, matcher);
         degreeOfTruth = RelativeQ.matchTruth(degreeOfTruth);
         
-        String summary = quantifier + " dni które by³y " + PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().getPluralLabel() + " by³y równie¿ ";
+        String summary = quantifier.getLabel() + " dni które by³y " + PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().getPluralLabel() + " by³y równie¿ ";
         
         for (int i = 0; i < terms.size(); i++) {
             if (i == 0) {

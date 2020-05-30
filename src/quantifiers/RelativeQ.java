@@ -13,7 +13,7 @@ import terms.Term;
 import terms.TermData;
 
 public class RelativeQ {
-    public static String quantifyAnd(List<TermData> terms, Matcher matcher) {
+    public static Term quantifyAnd(List<TermData> terms, Matcher matcher) {
         FuzzySet set = terms.get(0).getSet();
     	
         long count = IntStream.range(0, set.getFuzzySet().size())
@@ -25,10 +25,10 @@ public class RelativeQ {
             .count();
         
         double average = (double)count / (double)set.getFuzzySet().size();
-        return getLabel(average);
+        return getTerm(average);
     }
 	
-    public static String quantifyOr(FuzzySet set, FuzzySet set2, Matcher matcher) {
+    public static Term quantifyOr(FuzzySet set, FuzzySet set2, Matcher matcher) {
         long count = IntStream.range(0, set.getFuzzySet().size())
             .filter(i -> matcher.matcher(set
                 .getFuzzySet()
@@ -38,26 +38,26 @@ public class RelativeQ {
             .count();
         
         double average = (double)count / (double)set.getFuzzySet().size();
-        return getLabel(average);
+        return getTerm(average);
     }
     
-    public static String quantifyNot(FuzzySet set, FuzzySet set2, Matcher matcher) {
+    public static Term quantifyNot(FuzzySet set, FuzzySet set2, Matcher matcher) {
         long count = IntStream.range(0, set.getFuzzySet().size())
             .filter(i -> matcher.matcher(set.getFuzzySet().get(i).getMembership(), set2.getFuzzySet().get(i).getMembership()))
             .count();
         
         double average = (double)count / (double)set.getFuzzySet().size();
-        return getLabel(average);
+        return getTerm(average);
     }
     
-    public static String quantifySingle(FuzzySet set, Matcher matcher) {
+    public static Term quantifySingle(FuzzySet set, Matcher matcher) {
         long count = set
             .getStreamOfSet()
             .filter(element -> matcher.matcher(element.getMembership()))
             .count();
         
         double average = (double)count / (double)set.getFuzzySet().size();
-        return getLabel(average);
+        return getTerm(average);
     }
     
     private static Entry<Double, Term> low(double average) {
@@ -146,8 +146,8 @@ public class RelativeQ {
         return memberships.stream().max(Comparator::compare).get();
     }
     
-    private static String getLabel(double average) {
-        return getBestMatch(average).getValue().getLabel();
+    private static Term getTerm(double average) {
+        return getBestMatch(average).getValue();
     }
     
     public static Double matchTruth(double average) {

@@ -7,12 +7,13 @@ import java.util.stream.IntStream;
 import quantifiers.Matcher;
 import quantifiers.RelativeQ;
 import quantifiers.Truth;
+import terms.Term;
 import terms.TermData;
 
 public class OptimalSummary {
     private static int n = 5;
 	
-    public static double calculateFirstFormRelative(List<TermData> summarizer, Matcher matcher) {
+    public static double calculateFirstFormRelative(List<TermData> summarizer, Matcher matcher, Term quantifier) {
         List<Double> weights = Weights.getWeights(n);
         List<Double> degrees = new ArrayList<>();
 
@@ -21,13 +22,14 @@ public class OptimalSummary {
         degrees.add(Covering.calculate(summarizer, matcher)); // T3
         degrees.add(Appropriateness.calculate(summarizer, degrees.get(2))); // T4
         degrees.add(Length.calculate(summarizer)); // T5
+        degrees.add(QuantifierImprecision.calculate(quantifier)); // T6
         
         System.out.println(degrees);
         
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
     
-    public static double calculateFirstFormAbsolute(List<TermData> summarizer, Matcher matcher) {
+    public static double calculateFirstFormAbsolute(List<TermData> summarizer, Matcher matcher, double matchingElements) {
         List<Double> weights = Weights.getWeights(n);
         List<Double> degrees = new ArrayList<>();
 
@@ -36,6 +38,7 @@ public class OptimalSummary {
         degrees.add(Covering.calculate(summarizer, matcher)); // T3
         degrees.add(Appropriateness.calculate(summarizer, degrees.get(2))); // T4
         degrees.add(Length.calculate(summarizer)); // T5
+        degrees.add(QuantifierImprecision.calculate(matchingElements, summarizer.get(0).getSet().getFuzzySet().size())); // T6
         
         System.out.println(degrees);
         

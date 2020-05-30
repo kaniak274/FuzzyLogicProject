@@ -16,6 +16,7 @@ import gui.summary.Utils;
 import hedges.PowerHedge;
 import quantifiers.AbsoluteQ;
 import quantifiers.Matcher;
+import terms.Term;
 import terms.TermData;
 
 public class FirstForm {
@@ -24,7 +25,7 @@ public class FirstForm {
         List<Weather> records = getDays(repo, dp1, dp2);
         List<TermData> data = new ArrayList<>();
         
-        String quantifier = "";
+        Term quantifier = null;
         double degree = 0.0;
 
         Matcher matcher = Conjunctions.getMatcher(conjunctions, terms, attrs);
@@ -38,7 +39,7 @@ public class FirstForm {
             }
 
             quantifier = AbsoluteQ.exactMatching(data, matcher);
-            degree = OptimalSummary.calculateFirstFormAbsolute(data, matcher);
+            degree = OptimalSummary.calculateFirstFormAbsolute(data, matcher, quantifier.getScope().get(0));
         } else {
             for (int i = 0; i < terms.size(); i++) {
                 String attrChoice = attrs.get(i);
@@ -58,10 +59,10 @@ public class FirstForm {
             }
         	
             quantifier = Conjunctions.quantify(conjunctions, data, matcher);
-            degree = OptimalSummary.calculateFirstFormRelative(data, matcher);
+            degree = OptimalSummary.calculateFirstFormRelative(data, matcher, quantifier);
         }
         
-        String summary = quantifier + Utils.getPluralSubject(true) + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
+        String summary = quantifier.getLabel() + Utils.getPluralSubject(true) + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
         
         for (int i = 1; i < terms.size(); i++) {
             summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();
