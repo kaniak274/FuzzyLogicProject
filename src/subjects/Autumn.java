@@ -12,6 +12,6 @@ public class Autumn implements Subject {
     }
     
     public String getLabel() {
-        return " dni jesienne ";
+        return " dni jesiennych ";
     }
 }

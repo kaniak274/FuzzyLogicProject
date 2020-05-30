@@ -12,6 +12,6 @@ public class Summer implements Subject {
     }
     
     public String getLabel() {
-        return " dni letnie ";
+        return " dni letnich ";
     }
 }

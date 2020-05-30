@@ -53,7 +53,8 @@ public class ManyFirst {
         }
 
         Term quantifier = ManyRelativeQ.quantify(results.get(0).getRelativeQ(), results.get(1).getRelativeQ());
-        String summary = quantifier.getLabel() + sub1.getLabel() + "w porównaniu do" + sub2.getLabel() + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
+        String summary = quantifier.getLabel() + sub1.getLabel() + "w porównaniu do" + sub2.getLabel() + "by³a "
+            + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
 
         for (int i = 1; i < terms.size(); i++) {
             summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();

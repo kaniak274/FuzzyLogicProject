@@ -12,6 +12,6 @@ public class Spring implements Subject {
     }
     
     public String getLabel() {
-        return " dni wiosenne ";
+        return " dni wiosennych ";
     }
 }
