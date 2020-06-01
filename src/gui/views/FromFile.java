@@ -21,6 +21,7 @@ import db.Repository;
 import generators.FirstForm;
 import generators.ManyFirst;
 import generators.ManySecond;
+import generators.ManyThird;
 import generators.SecondForm;
 import gui.date_picker.DatePicker;
 import subjects.Autumn;
@@ -42,6 +43,7 @@ public class FromFile {
     final static String SECONDFORM = "S";
     final static String MANYFIRST = "MF";
     final static String MANYSECOND = "MS";
+    final static String MANYTHIRD = "MT";
 
     final static String WINTER = "W";
     final static String SUMMER = "SU";
@@ -100,6 +102,8 @@ public class FromFile {
                     summary = generateManyFirst(params);
                 } else if (type.equals(MANYSECOND)) {
                     summary = generateManySecond(params);
+                } else if (type.equals(MANYTHIRD)) {
+                    summary = generateManyThird(params);
                 }
 
                 writeSummary(summary + "\n\n");
@@ -240,6 +244,44 @@ public class FromFile {
             }
             
             return ManySecond.generate(
+                repo,
+                getSeason(season),
+                getSeason(season2),
+                qualifierAttr,
+                qualifierTerm,
+                qualifierHedge,
+                attrs,
+                terms,
+                hedges,
+                conjunctions
+            );
+        }
+        
+        public String generateManyThird(List<String> params) {
+            String season = params.get(1);
+            String season2 = params.get(2);
+            
+            String qualifierAttr = params.get(3);
+            String qualifierTerm = params.get(4);
+            String qualifierHedge = params.get(5);
+            
+            List<String> terms = new ArrayList<>();
+            List<String> attrs = new ArrayList<>();
+            List<String> conjunctions = new ArrayList<>();
+            List<String> hedges = new ArrayList<>();
+            
+            attrs.add(params.get(6));
+            terms.add(params.get(7));
+            hedges.add(params.get(8));
+            
+            for (int i = 9; i < params.size(); i += 4) {
+                attrs.add(params.get(i));
+                terms.add(params.get(i + 1));
+                hedges.add(params.get(i + 2));
+                conjunctions.add(params.get(i + 3));
+            }
+            
+            return ManyThird.generate(
                 repo,
                 getSeason(season),
                 getSeason(season2),
