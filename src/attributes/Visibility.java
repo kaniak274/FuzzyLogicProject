@@ -29,7 +29,7 @@ public class Visibility extends Attribute {
         scope.add(5000.00);
         scope.add(5000.00);
 
-        Term term = new Term("z wysok¹ widocznoœci¹", scope, "z wysok¹ widocznoœci¹");
+        Term term = new Term("z wysok¹ widocznoœci¹", scope, "z wysok¹ widocznoœci¹", "z wysok¹ widocznoœci¹");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class Visibility extends Attribute {
         scope.add(2500.00);
         scope.add(3500.00);
 
-        Term term = new Term("z œredni¹ widocznoœci¹", scope, "z œredni¹ widocznoœci¹");
+        Term term = new Term("z œredni¹ widocznoœci¹", scope, "z œredni¹ widocznoœci¹", "z œredni¹ widocznoœci¹");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -52,7 +52,7 @@ public class Visibility extends Attribute {
         scope.add(700.00);
         scope.add(1500.00);
         
-        Term term = new Term("z nisk¹ widocznoœci¹", scope, "z nisk¹ widocznoœci¹");
+        Term term = new Term("z nisk¹ widocznoœci¹", scope, "z nisk¹ widocznoœci¹", "z nisk¹ widocznoœci¹");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     

@@ -75,7 +75,7 @@ public class SecondForm {
         quantifier = Conjunctions.quantify(conjunctions, data, matcher);
         degree = OptimalSummary.calculateSecondForm(data, matcher, quantifier, qualifierData);
 
-        String summary = quantifier.getLabel() + " dni które by³y " + PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().getPluralLabel() + " by³y równie¿ ";
+        String summary = quantifier.getLabel() + " dni które by³y " + PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().DoubleFormLabel() + " by³y równie¿ ";
 
         for (int i = 0; i < terms.size(); i++) {
             if (i == 0) {

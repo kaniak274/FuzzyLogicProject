@@ -29,7 +29,7 @@ public class PM10 extends Attribute {
         scope.add(70.00);
         scope.add(70.00);
 
-        Term term = new Term("z wysokim stê¿eniem PM10", scope, "z wysokim stê¿eniem PM10");
+        Term term = new Term("z wysokim stê¿eniem PM10", scope, "z wysokim stê¿eniem PM10", "z wysokim stê¿eniem PM10");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class PM10 extends Attribute {
         scope.add(20.00);
         scope.add(30.00);
 
-        Term term = new Term("z œrednim stê¿eniem PM10", scope, "z œrednim stê¿eniem PM10");
+        Term term = new Term("z œrednim stê¿eniem PM10", scope, "z œrednim stê¿eniem PM10", "z œrednim stê¿eniem PM10");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Gauss(term));
     }
     
@@ -52,7 +52,7 @@ public class PM10 extends Attribute {
         scope.add(0.00);
         scope.add(10.00);
         
-        Term term = new Term("z ma³ym stê¿eniem PM10", scope, "z ma³ym stê¿eniem PM10");
+        Term term = new Term("z ma³ym stê¿eniem PM10", scope, "z ma³ym stê¿eniem PM10", "z ma³ym stê¿eniem PM10");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     

@@ -29,7 +29,7 @@ public class WindPower extends Attribute {
         scope.add(40.00);
         scope.add(40.00);
 
-        Term term = new Term("porywisty", scope, "porywisty");
+        Term term = new Term("porywisty", scope, "porywisty", "z porywistym wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class WindPower extends Attribute {
         scope.add(15.00);
         scope.add(20.00);
 
-        Term term = new Term("umiarkowany", scope, "umiarkowanych");
+        Term term = new Term("umiarkowany", scope, "umiarkowanych", "z umiarkowanym wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -52,7 +52,7 @@ public class WindPower extends Attribute {
         scope.add(5.00);
         scope.add(15.00);
         
-        Term term = new Term("lekki", scope, "lekki");
+        Term term = new Term("lekki", scope, "lekki", "z lekkim wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     

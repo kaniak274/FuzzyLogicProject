@@ -7,6 +7,7 @@ public class Term {
     private ArrayList<Double> scope;
     private String pluralLabel;
     private Double relativeQ;
+    private String doubleFormLabel;
     
     public Term(String label, ArrayList<Double> scope, String pluralLabel) {
         this.label = label;
@@ -19,6 +20,14 @@ public class Term {
         this.scope = scope;
         this.pluralLabel = pluralLabel;
         this.relativeQ = relativeQ;
+    }
+    
+    public Term(String label, ArrayList<Double> scope, String pluralLabel, String doubleFormLabel) {
+        this.label = label;
+        this.scope = scope;
+        this.pluralLabel = pluralLabel;
+        this.relativeQ = relativeQ;
+        this.doubleFormLabel = doubleFormLabel;
     }
 
     public void setLabel(String label) {
@@ -39,5 +48,9 @@ public class Term {
     
     public double getRelativeQ() {
         return relativeQ;
+    }
+    
+    public String DoubleFormLabel() {
+    	return doubleFormLabel;
     }
 }

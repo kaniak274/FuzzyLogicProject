@@ -29,7 +29,7 @@ public class Insolation extends Attribute {
         scope.add(4.00);
         scope.add(4.00);
 
-        Term term = new Term("s這neczny", scope, "s這neczne");
+        Term term = new Term("s這neczny", scope, "s這neczne", "s這neczne");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class Insolation extends Attribute {
         scope.add(2.00);
         scope.add(3.00);
 
-        Term term = new Term("pochmurny", scope, "pochmurne");
+        Term term = new Term("pochmurny", scope, "pochmurne", "pochmurne");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -52,7 +52,7 @@ public class Insolation extends Attribute {
         scope.add(1.00);
         scope.add(2.00);
         
-        Term term = new Term("deszczowy", scope, "deszczowe");
+        Term term = new Term("deszczowy", scope, "deszczowe", "deszczowe");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     

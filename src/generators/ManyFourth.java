@@ -54,9 +54,9 @@ public class ManyFourth {
         String quantifier = "";
 
         if (results.get(0).getRelativeQ() >= results.get(1).getRelativeQ()) {
-            quantifier = "Wiêcej ";
+            quantifier = "Wiêcej";
         } else {
-            quantifier = "Mniej ";
+            quantifier = "Mniej";
         }
         
         String summary = quantifier + sub1.getLabel() + "ni¿" + sub2.getLabel() + "by³o "

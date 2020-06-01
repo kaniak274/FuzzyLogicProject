@@ -90,8 +90,8 @@ public class ManyThird {
 
         Term quantifier = ManyRelativeQ.quantify(results.get(0).getRelativeQ(), results.get(1).getRelativeQ());
         String summary = quantifier.getLabel() + sub1.getLabel() + "które by³y "
-        	+ PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().getPluralLabel()
-        	+ ", w porównaniu do" + sub2.getLabel() + ", by³o "
+        	+ PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().DoubleFormLabel()
+        	+ ", w porównaniu do" + sub2.getLabel().substring(0, sub2.getLabel().length() - 1) + ", by³o "
             + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
 
         for (int i = 1; i < terms.size(); i++) {

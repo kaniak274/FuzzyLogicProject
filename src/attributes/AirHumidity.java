@@ -29,7 +29,7 @@ public class AirHumidity extends Attribute {
         scope.add(100.00);
         scope.add(100.00);
 
-        Term term = new Term("z wysok¹ wilgotnoœci¹", scope, "z wysok¹ wilgotnoœci¹");
+        Term term = new Term("z wysok¹ wilgotnoœci¹", scope, "z wysok¹ wilgotnoœci¹", "wilgotne");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class AirHumidity extends Attribute {
         scope.add(30.00);
         scope.add(60.00);
 
-        Term term = new Term("z œredni¹ wilgotnoœci¹", scope, "z œredni¹ wilgotnoœci¹");
+        Term term = new Term("z œredni¹ wilgotnoœci¹", scope, "z œredni¹ wilgotnoœci¹", "z œredni¹ wilgotnoœci¹");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -52,7 +52,7 @@ public class AirHumidity extends Attribute {
         scope.add(10.00);
         scope.add(30.00);
         
-        Term term = new Term("z nisk¹ wilgotnoœci¹", scope, "z nisk¹ wilgotnoœci¹");
+        Term term = new Term("z nisk¹ wilgotnoœci¹", scope, "z nisk¹ wilgotnoœci¹", "nie wilgotne");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     

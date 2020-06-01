@@ -30,7 +30,7 @@ public class Temperature extends Attribute {
         scope.add(50.00);
         scope.add(50.00);
 
-        Term term = new Term("ciep造", scope, "ciep造ch");
+        Term term = new Term("ciep造", scope, "ciep造ch", "ciep貫");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -41,7 +41,7 @@ public class Temperature extends Attribute {
         scope.add(15.00);
         scope.add(25.00);
 
-        Term term = new Term("umiarkowany", scope, "umiarkowanych");
+        Term term = new Term("umiarkowany", scope, "umiarkowanych", "umiarkowane");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -53,7 +53,7 @@ public class Temperature extends Attribute {
         scope.add(0.00);
         scope.add(10.00);
         
-        Term term = new Term("zimny", scope, "zimnych");
+        Term term = new Term("zimny", scope, "zimnych", "zimne");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     

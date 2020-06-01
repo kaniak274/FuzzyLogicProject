@@ -90,7 +90,7 @@ public class ManySecond {
 
         Term quantifier = ManyRelativeQ.quantify(results.get(0).getRelativeQ(), results.get(1).getRelativeQ());
         String summary = quantifier.getLabel() + sub1.getLabel() + "w porównaniu do tych" + sub2.getLabel() + "które by³y "
-        	+ PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().getPluralLabel() + ", by³y "
+        	+ PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().DoubleFormLabel() + ", by³o "
             + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
 
         for (int i = 1; i < terms.size(); i++) {

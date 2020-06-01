@@ -29,7 +29,7 @@ public class Precipitation extends Attribute {
         scope.add(100.00);
         scope.add(100.00);
 
-        Term term = new Term("z du퓓mi opadami", scope, "z du퓓mi opadami");
+        Term term = new Term("z du퓓mi opadami", scope, "z du퓓mi opadami", "z du퓓mi opadami");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class Precipitation extends Attribute {
         scope.add(20.00);
         scope.add(40.00);
 
-        Term term = new Term("z 쐒ednimi opadami", scope, "z 쐒ednimi opadami");
+        Term term = new Term("z 쐒ednimi opadami", scope, "z 쐒ednimi opadami", "z 쐒ednimi opadami");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -52,7 +52,7 @@ public class Precipitation extends Attribute {
         scope.add(10.00);
         scope.add(20.00);
         
-        Term term = new Term("z niskimi opadami", scope, "z niskimi opadami");
+        Term term = new Term("z niskimi opadami", scope, "z niskimi opadami", "z niskimi opadami");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     

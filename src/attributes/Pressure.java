@@ -29,7 +29,7 @@ public class Pressure extends Attribute {
         scope.add(1086.00);
         scope.add(1086.00);
 
-        Term term = new Term("z wysokim ciœnieniem", scope, "z wysokim ciœnieniem");
+        Term term = new Term("z wysokim ciœnieniem", scope, "z wysokim ciœnieniem", "z wysokim ciœnieniem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class Pressure extends Attribute {
         scope.add(1013.00);
         scope.add(1020.00);
 
-        Term term = new Term("z œrednim ciœnieniem", scope, "z œrednim ciœnieniem");
+        Term term = new Term("z œrednim ciœnieniem", scope, "z œrednim ciœnieniem", "z œrednim ciœnieniem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -52,7 +52,7 @@ public class Pressure extends Attribute {
         scope.add(1000.00);
         scope.add(1013.00);
         
-        Term term = new Term("z niskim ciœnieniem", scope, "z niskim ciœnieniem");
+        Term term = new Term("z niskim ciœnieniem", scope, "z niskim ciœnieniem", "z niskim ciœnieniem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
