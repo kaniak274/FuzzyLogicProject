@@ -1,12 +1,31 @@
 package gui.summary;
 
+import java.util.List;
+
 import quantifiers.Matcher;
 import quantifiers.RelativeQ;
+import terms.Term;
 import terms.TermData;
 
-public class Conjuctions {
-    public static Matcher getMatcher(String conjuction, String key, String term, String key2, String term2) {
-        if (conjuction.equals("I")) {
+public class Conjunctions {
+    public static Matcher getMatcher(List<String> conjunctions, List<String> terms, List<String> attrs) {
+        return new Matcher() {
+            @Override
+            public boolean matcher(double membership) {
+                boolean result = Belongs.belongsToTerm(attrs.get(0), terms.get(0), membership);
+
+                if (terms.size() < 1) {
+                    for (int i = 1; i < terms.size(); i++) {
+                        result = result && Belongs.belongsToTerm(attrs.get(i), terms.get(i), membership); // TODO other conjunctions
+                    }
+                }
+                
+                return result;
+            }
+            
+            public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
+        };
+        /*if (conjuction.equals("I")) {
             return new Matcher() {
                 @Override
                 public boolean matcher(double membership) {
@@ -50,19 +69,11 @@ public class Conjuctions {
                 return Belongs.belongsToTerm(key, term, membership)
                     || !Belongs.belongsToTerm(key2, term2, membership2);
             }
-        };
+        };*/
     }
     
-    public static String quantify(String conjuction, TermData attr1, TermData attr2, Matcher matcher) {
-        if (conjuction.equals("I")) {
-            return RelativeQ.quantifyAnd(attr1.getSet(), attr2.getSet(), matcher);
-        }
-
-        if (conjuction.equals("Lub")) {
-            return RelativeQ.quantifyOr(attr1.getSet(), attr2.getSet(), matcher);
-        }
-
-        return RelativeQ.quantifyNot(attr1.getSet(), attr2.getSet(), matcher);
+    public static Term quantify(List<String> conjunctions, List<TermData> attrs, Matcher matcher) {
+        return RelativeQ.quantifyAnd(attrs, matcher);
     }
     
     public static String getConjuctionLabel(String conjuction) {

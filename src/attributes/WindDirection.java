@@ -27,7 +27,7 @@ public class WindDirection extends Attribute {
         scope.add(0.00);
         scope.add(90.00);
 
-        Term term = new Term("pó³nocny", scope, "pó³nocny");
+        Term term = new Term("pó³nocny", scope, "pó³nocny", "z pó³nocnym wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
    
@@ -38,7 +38,7 @@ public class WindDirection extends Attribute {
         scope.add(360.00);
         scope.add(360.00);
 
-        Term term = new Term("pó³nocny", scope, "pó³nocny");
+        Term term = new Term("pó³nocny", scope, "pó³nocny", "z pó³nocnym wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -49,7 +49,7 @@ public class WindDirection extends Attribute {
         scope.add(90.00);
         scope.add(180.00);
 
-        Term term = new Term("wschodni", scope, "wschodni");
+        Term term = new Term("wschodni", scope, "wschodni", "z wschodnim wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     public Entry<Term, Membership> South() {
@@ -59,7 +59,7 @@ public class WindDirection extends Attribute {
         scope.add(180.00);
         scope.add(270.00);
 
-        Term term = new Term("po³udniowy", scope, "po³udniowy");
+        Term term = new Term("po³udniowy", scope, "po³udniowy", "z po³udniowym wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     public Entry<Term, Membership> West() {
@@ -69,7 +69,7 @@ public class WindDirection extends Attribute {
         scope.add(270.00);
         scope.add(359.00);
 
-        Term term = new Term("zachodni", scope, "zachodni");
+        Term term = new Term("zachodni", scope, "zachodni", "z zachodnim wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -112,6 +112,15 @@ public class WindDirection extends Attribute {
         return new LinguisticVariable("kierunek wiatru", new ArrayList<>(listTermsFull()), universe);
     }
     
+    public ArrayList<Double> getUniverse() {
+        ArrayList<Double> universe = new ArrayList<>();
+    	
+        universe.add(0.00);
+        universe.add(360.00);
+        
+        return universe;
+    }
+    
     public FuzzySet NorthSet() {
         return createVariable().getSetForTerm(data, North().getValue());
     }
@@ -131,23 +140,23 @@ public class WindDirection extends Attribute {
     }
     
     public TermData NorthSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North().getKey(), NorthSet()), this.North().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North().getKey(), NorthSet()), this.North().getValue(), getUniverse());
     }
     
     public TermData North2SetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North2().getKey(), North2Set()), this.North2().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(North2().getKey(), North2Set()), this.North2().getValue(), getUniverse());
     }
     
     public TermData EastSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(East().getKey(), EastSet()), this.East().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(East().getKey(), EastSet()), this.East().getValue(), getUniverse());
     }
     
     public TermData SouthSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(South().getKey(), SouthSet()), this.South().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(South().getKey(), SouthSet()), this.South().getValue(), getUniverse());
     }
     
     public TermData WestSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(West().getKey(), WestSet()), this.West().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(West().getKey(), WestSet()), this.West().getValue(), getUniverse());
     }
  
     public boolean wasNorth(double membership) {

@@ -10,7 +10,6 @@ import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import db.Repository;
 
@@ -18,9 +17,6 @@ public class MainWindow implements ItemListener {
     private JPanel cards;
     private Repository repo;
     
-    final static String ONESUBJECTSUMMARY = "Podsumowanie lingwistyczne jednopodmiotowe w pierwszej formie";
-    final static String ONESUBJECTMANYSUMMARY = "Podsumowanie lingwistyczne jednopodmiotowe w drugiej formie";
-    final static String MANYSUBJECTSSUMMARY = "Podsumowanie wielopodmiotowe";
     final static String FROMFILE = "Wczytaj z pliku dane do podsumowania";
     
     public MainWindow(Repository repo) {
@@ -41,21 +37,15 @@ public class MainWindow implements ItemListener {
     
     public void addComponentToPane(Container pane) {
         JPanel comboBoxPane = new JPanel();
-        String comboBoxItems[] = { ONESUBJECTSUMMARY, ONESUBJECTMANYSUMMARY, MANYSUBJECTSSUMMARY, FROMFILE };
+        String comboBoxItems[] = { FROMFILE };
 
 	    JComboBox<String> cb = new JComboBox<>(comboBoxItems);
         cb.setEditable(false);
         cb.addItemListener(this);
 
         comboBoxPane.add(cb);
-        
-        JPanel card3 = new JPanel();
-        card3.add(new JTextField("TextField", 20));
          
         cards = new JPanel(new CardLayout());
-        cards.add(new OneSubjectFirstForm(repo).getPanel(), ONESUBJECTSUMMARY);
-        cards.add(new OneSubjectSecondForm(repo).getPanel(), ONESUBJECTMANYSUMMARY);
-        cards.add(card3, MANYSUBJECTSSUMMARY);
         cards.add(new FromFile(repo).getPanel(), FROMFILE);
          
         pane.add(comboBoxPane, BorderLayout.PAGE_START);

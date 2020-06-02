@@ -2,9 +2,11 @@ package fuzzy_set;
 
 import java.util.AbstractMap;
 import java.util.Date;
+import java.util.List;
 import java.util.Map.Entry;
 
 import memberships.Membership;
+import terms.TermData;
 
 public class FuzzyElement {
     private Entry<Double, Double> value;
@@ -61,6 +63,27 @@ public class FuzzyElement {
         }
     }
     
+    public FuzzyElement intersect(FuzzyElement el, FuzzyElement el2) {
+        double val = el.getMembership();
+        double val2 = el2.getMembership();
+
+        if (val >= val2) {
+            return el;
+        } else {
+            return el2;
+        }
+    }
+    
+    public FuzzyElement intersect(List<TermData> sets, int i) {
+        FuzzyElement result = this;
+        
+        for (TermData set : sets) {
+            result = this.intersect(result, set.getSet().getFuzzySet().get(i));
+        }
+        
+        return result;
+    }
+    
     public FuzzyElement union(FuzzyElement other) {
         double val = this.getMembership();
         double val2 = other.getMembership();
@@ -70,6 +93,27 @@ public class FuzzyElement {
         } else {
             return other;
         }
+    }
+    
+    public FuzzyElement union(FuzzyElement el, FuzzyElement el2) {
+        double val = el.getMembership();
+        double val2 = el2.getMembership();
+
+        if (val <= val2) {
+            return el;
+        } else {
+            return el2;
+        }
+    }
+    
+    public FuzzyElement union(List<TermData> sets, int i) {
+        FuzzyElement result = this;
+        
+        for (TermData set : sets) {
+            result = this.union(result, set.getSet().getFuzzySet().get(i));
+        }
+        
+        return result;
     }
     
     public String toString() {

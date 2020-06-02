@@ -29,7 +29,7 @@ public class Pressure extends Attribute {
         scope.add(1086.00);
         scope.add(1086.00);
 
-        Term term = new Term("z wysokim ciœnieniem", scope, "z wysokim ciœnieniem");
+        Term term = new Term("z wysokim ciœnieniem", scope, "z wysokim ciœnieniem", "z wysokim ciœnieniem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class Pressure extends Attribute {
         scope.add(1013.00);
         scope.add(1020.00);
 
-        Term term = new Term("z œrednim ciœnieniem", scope, "z œrednim ciœnieniem");
+        Term term = new Term("z œrednim ciœnieniem", scope, "z œrednim ciœnieniem", "z œrednim ciœnieniem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -52,7 +52,7 @@ public class Pressure extends Attribute {
         scope.add(1000.00);
         scope.add(1013.00);
         
-        Term term = new Term("z niskim ciœnieniem", scope, "z niskim ciœnieniem");
+        Term term = new Term("z niskim ciœnieniem", scope, "z niskim ciœnieniem", "z niskim ciœnieniem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -89,6 +89,15 @@ public class Pressure extends Attribute {
         return new LinguisticVariable("ciœnienie", new ArrayList<>(listTermsFull()), universe);
     }
     
+    public ArrayList<Double> getUniverse() {
+        ArrayList<Double> universe = new ArrayList<>();
+    	
+        universe.add(870.00);
+        universe.add(1086.00);
+        
+        return universe;
+    }
+    
     public FuzzySet lowSet() {
         return createVariable().getSetForTerm(data, low().getValue());
     }
@@ -102,15 +111,15 @@ public class Pressure extends Attribute {
     }
     
     public TermData lowSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(low().getKey(), lowSet()), this.low().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(low().getKey(), lowSet()), this.low().getValue(), getUniverse());
     }
     
     public TermData highSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(high().getKey(), highSet()), this.high().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(high().getKey(), highSet()), this.high().getValue(), getUniverse());
     }
     
     public TermData mediumSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(medium().getKey(), mediumSet()), this.medium().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(medium().getKey(), mediumSet()), this.medium().getValue(), getUniverse());
     }
     
     public boolean wasHigh(double membership) {

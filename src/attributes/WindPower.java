@@ -29,7 +29,7 @@ public class WindPower extends Attribute {
         scope.add(40.00);
         scope.add(40.00);
 
-        Term term = new Term("porywisty", scope, "porywisty");
+        Term term = new Term("porywisty", scope, "porywisty", "z porywistym wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -40,7 +40,7 @@ public class WindPower extends Attribute {
         scope.add(15.00);
         scope.add(20.00);
 
-        Term term = new Term("umiarkowany", scope, "umiarkowanych");
+        Term term = new Term("umiarkowany", scope, "umiarkowanych", "z umiarkowanym wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
     }
     
@@ -52,7 +52,7 @@ public class WindPower extends Attribute {
         scope.add(5.00);
         scope.add(15.00);
         
-        Term term = new Term("lekki", scope, "lekki");
+        Term term = new Term("lekki", scope, "lekki", "z lekkim wiatrem");
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
     }
     
@@ -89,6 +89,15 @@ public class WindPower extends Attribute {
         return new LinguisticVariable("si³a wiatru", new ArrayList<>(listTermsFull()), universe);
     }
     
+    public ArrayList<Double> getUniverse() {
+        ArrayList<Double> universe = new ArrayList<>();
+    	
+        universe.add(0.00);
+        universe.add(150.00);
+        
+        return universe;
+    }
+    
     public FuzzySet slowSet() {
         return createVariable().getSetForTerm(data, slow().getValue());
     }
@@ -102,15 +111,15 @@ public class WindPower extends Attribute {
     }
     
     public TermData slowSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(slow().getKey(), slowSet()), this.slow().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(slow().getKey(), slowSet()), this.slow().getValue(), getUniverse());
     }
     
     public TermData fastSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(fast().getKey(), fastSet()), this.fast().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(fast().getKey(), fastSet()), this.fast().getValue(), getUniverse());
     }
     
     public TermData moderateSetWithTerm() {
-        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet()), this.moderate().getValue());
+        return new TermData(new AbstractMap.SimpleEntry<Term, FuzzySet>(moderate().getKey(), moderateSet()), this.moderate().getValue(), getUniverse());
     }
     
     public boolean wasFast(double membership) {
