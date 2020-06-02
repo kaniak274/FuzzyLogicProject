@@ -33,6 +33,20 @@ public class Truth {
         
         return product / productsSum;
     }
+    
+    public static double degreeOfTruthManyFourth(List<TermData> sets, List<TermData> sets2, Matcher matcher) {
+        FuzzySet set = sets.get(0).getSet();
+        double sum1 = getMatchingUnits(set, sets, matcher).count();
+
+        FuzzySet set2 = sets2.get(0).getSet();
+        double sum2 = getMatchingUnits(set2, sets2, matcher).count();
+
+        if (sum1 >= sum2) {
+            return 1 - (sum2 / sum1);
+        } else {
+            return 1 - (sum1 / sum2);
+        }
+    }
 
     private static DoubleStream getMatchingUnits(FuzzySet set, List<TermData> sets, Matcher matcher) {
         return IntStream.range(0, set.getFuzzySet().size())

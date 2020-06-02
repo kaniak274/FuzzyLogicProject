@@ -82,7 +82,7 @@ public class OptimalSummary {
         List<List<TermData>> sets = Lists.partition(summarizer, summarizer.size() / 2);
 
         degrees.add(ManyRelativeQ.matchTruth(Truth.degreeOfTruthManyFirst(sets.get(0), sets.get(1), sub1Records, sub2Records, matcher))); // T1
-        degrees.add(Imprecision.calculate(summarizer)); // T2
+        degrees.add(Imprecision.calculate(sets.get(0))); // T2
         degrees.add(Covering.calculate(sets.get(0), matcher)); // T3
         degrees.add(Appropriateness.calculate(sets.get(0), degrees.get(2))); // T4
         degrees.add(Length.calculate(sets.get(0))); // T5
@@ -92,8 +92,28 @@ public class OptimalSummary {
         degrees.add(1.00); // T9
         degrees.add(1.00); // T10
         degrees.add(1.00); // T11
-        
-        System.out.println(degrees);
+
+        return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
+    }
+    
+    public static double calculateManyFourthForm(List<TermData> data, Matcher matcher) {
+    	List<Double> weights = Weights.getWeights(n);
+        List<Double> degrees = new ArrayList<>();
+        List<List<TermData>> sets = Lists.partition(data, data.size() / 2);
+        List<TermData> summarizer = sets.get(0);
+
+        degrees.add(Truth.degreeOfTruthManyFourth(sets.get(0), sets.get(1), matcher)); // T1
+        degrees.add(Imprecision.calculate(summarizer)); // T2
+        degrees.add(Covering.calculate(summarizer, matcher)); // T3
+        degrees.add(Appropriateness.calculate(summarizer, degrees.get(2))); // T4
+        degrees.add(Length.calculate(summarizer)); // T5
+        degrees.add(1.00); // T6
+        degrees.add(1.00); // T7
+        degrees.add(SummarizerCardinality.calculate(summarizer)); // T8
+        degrees.add(1.00); // T9
+        degrees.add(1.00); // T10
+        degrees.add(1.00); // T11
+
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
 }

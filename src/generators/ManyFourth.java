@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import db.Repository;
 import db.Weather;
+import degrees.OptimalSummary;
 import fuzzy_set.FuzzySet;
 import gui.exceptions.NotConvexException;
 import gui.summary.AttributeToClass;
@@ -25,6 +26,7 @@ public class ManyFourth {
 
         List<Term> results = new ArrayList<>();
         List<TermData> data = new ArrayList<>();
+        List<TermData> summarizer = new ArrayList<>();
         Matcher matcher = Conjunctions.getMatcher(conjunctions, terms, attrs);
 
         for (int j = 0; j < 2; j++) {
@@ -46,12 +48,15 @@ public class ManyFourth {
                 }
 
                 data.add(term);
+                summarizer.add(term);
             }
 
             results.add(Conjunctions.quantify(conjunctions, data, matcher));
         }
 
         String quantifier = "";
+        
+        System.out.println(results);
 
         if (results.get(0).getRelativeQ() >= results.get(1).getRelativeQ()) {
             quantifier = "Wiêcej";
@@ -66,8 +71,9 @@ public class ManyFourth {
             summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();
         }
 
-        // TODO DEGREES
-        return summary;
+        double degree = OptimalSummary.calculateManyFourthForm(summarizer, matcher);
+
+        return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
     }
 
     private static TermData getTermForAttribute(List<Weather> records, String attribute, String term) {
