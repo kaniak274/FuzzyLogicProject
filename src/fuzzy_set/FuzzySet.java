@@ -57,6 +57,10 @@ public class FuzzySet {
         return stream.sum();
     }
     
+    public double getSigmaCountCompliment(DoubleStream stream) {
+        return stream.reduce(0.0, (acc, val) -> acc + (1 - val));
+    }
+    
     public double getDeegreOfFuzziness() {
         // TODO
         return 1.00;

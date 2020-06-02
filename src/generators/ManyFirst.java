@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import db.Repository;
 import db.Weather;
+import degrees.OptimalSummary;
 import fuzzy_set.FuzzySet;
 import gui.exceptions.NotConvexException;
 import gui.summary.AttributeToClass;
@@ -26,6 +27,7 @@ public class ManyFirst {
 
         List<Term> results = new ArrayList<>();
         List<TermData> data = new ArrayList<>();
+        List<TermData> summarizer = new ArrayList<>();
         Matcher matcher = Conjunctions.getMatcher(conjunctions, terms, attrs);
 
         for (int j = 0; j < 2; j++) {
@@ -47,12 +49,14 @@ public class ManyFirst {
                 }
 
                 data.add(term);
+                summarizer.add(term);
             }
 
             results.add(Conjunctions.quantify(conjunctions, data, matcher));
         }
 
-        Term quantifier = ManyRelativeQ.quantify(results.get(0).getRelativeQ(), results.get(1).getRelativeQ());
+        Term quantifier = ManyRelativeQ.quantify(results.get(0).getRelativeQ(), results.get(1).getRelativeQ());        
+
         String summary = quantifier.getLabel() + sub1.getLabel() + "w porównaniu do" + sub2.getLabel() + "by³a "
             + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
 
@@ -60,8 +64,9 @@ public class ManyFirst {
             summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();
         }
 
-        // TODO DEGREES
-        return summary;
+        double degree = OptimalSummary.calculateManyFirstForm(summarizer, matcher, quantifier, subs.get(0).getAllRecords(repo), subs.get(1).getAllRecords(repo));
+
+        return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
     }
 
     private static TermData getTermForAttribute(List<Weather> records, String attribute, String term) {

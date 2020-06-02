@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import com.google.common.collect.Lists;
+
+import db.Weather;
+import quantifiers.ManyRelativeQ;
 import quantifiers.Matcher;
 import quantifiers.RelativeQ;
 import quantifiers.Truth;
@@ -28,6 +32,8 @@ public class OptimalSummary {
         degrees.add(1.00); // T9
         degrees.add(1.00); // T10
         degrees.add(1.00); // T11
+        
+        System.out.println(degrees.get(7));
         
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
@@ -67,6 +73,27 @@ public class OptimalSummary {
         degrees.add(QualifierCardinality.calculate(qualifier)); // T10
         degrees.add(QualifierLength.calculate()); // T11
         
+        return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
+    }
+    
+    public static double calculateManyFirstForm(List<TermData> summarizer, Matcher matcher, Term quantifier, List<Weather> sub1Records, List<Weather> sub2Records) {
+    	List<Double> weights = Weights.getWeights(n);
+        List<Double> degrees = new ArrayList<>();
+        List<List<TermData>> sets = Lists.partition(summarizer, summarizer.size() / 2);
+
+        degrees.add(ManyRelativeQ.matchTruth(Truth.degreeOfTruthManyFirst(sets.get(0), sets.get(1), sub1Records, sub2Records, matcher))); // T1
+        degrees.add(Imprecision.calculate(summarizer)); // T2
+        degrees.add(Covering.calculate(sets.get(0), matcher)); // T3
+        degrees.add(Appropriateness.calculate(sets.get(0), degrees.get(2))); // T4
+        degrees.add(Length.calculate(sets.get(0))); // T5
+        degrees.add(QuantifierImprecision.calculate(quantifier)); // T6
+        degrees.add(QuantifierCardinality.calculate(quantifier.getRelativeQ())); // T7
+        degrees.add(SummarizerCardinality.calculate(sets.get(0))); // T8
+        degrees.add(1.00); // T9
+        degrees.add(1.00); // T10
+        degrees.add(1.00); // T11
+        
+        System.out.println(degrees);
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
 }
