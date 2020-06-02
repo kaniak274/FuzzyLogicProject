@@ -25,51 +25,6 @@ public class Conjunctions {
             
             public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
         };
-        /*if (conjuction.equals("I")) {
-            return new Matcher() {
-                @Override
-                public boolean matcher(double membership) {
-                    return Belongs.belongsToTerm(key, term, membership)
-                        && Belongs.belongsToTerm(key2, term2, membership);
-                }
-                
-                public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
-            };
-        }
-
-        if (conjuction.equals("Lub")) {
-            return new Matcher() {
-                @Override
-                public boolean matcher(double membership) {
-                    return Belongs.belongsToTerm(key, term, membership)
-                        || Belongs.belongsToTerm(key2, term2, membership);
-                }
-                
-                public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
-            };
-        }
-
-        if (conjuction.equals("I nie")) {
-            return new Matcher() {
-                @Override
-                public boolean matcher(double membership) { throw new RuntimeException(); }
-                
-                public boolean matcher(double membership, double membership2) {
-                    return Belongs.belongsToTerm(key, term, membership)
-                        && !Belongs.belongsToTerm(key2, term2, membership2);
-                }
-            };
-        }
-
-        return new Matcher() {
-            @Override
-            public boolean matcher(double membership) { throw new RuntimeException(); }
-            
-            public boolean matcher(double membership, double membership2) {
-                return Belongs.belongsToTerm(key, term, membership)
-                    || !Belongs.belongsToTerm(key2, term2, membership2);
-            }
-        };*/
     }
     
     public static Term quantify(List<String> conjunctions, List<TermData> attrs, Matcher matcher) {
