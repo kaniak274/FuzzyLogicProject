@@ -51,6 +51,23 @@ public class Truth {
         return product / productsSum;
     }
     
+    public static double degreeOfTruthManyThird(List<TermData> sets, List<TermData> sets2,
+        List<Weather> sub1Records, List<Weather> sub2Records, Matcher matcher, TermData qualifier) {
+        FuzzySet qSet = qualifier.getSet();
+    	
+        FuzzySet set = sets.get(0).getSet();
+        double sigmaCount1 = getSigmaCount(getMatchingUnitsWithQualifier(set, sets, matcher, qSet));
+        double product = sigmaCount1 / sub1Records.size();
+
+        FuzzySet set2 = sets2.get(0).getSet();
+        double sigmaCount2 = getSigmaCount(getMatchingUnits(set2, sets2, matcher));
+        double product2 = sigmaCount2 / sub2Records.size();
+        
+        double productsSum = product + product2;
+        
+        return product / productsSum;
+    }
+    
     public static double degreeOfTruthManyFourth(List<TermData> sets, List<TermData> sets2, Matcher matcher) {
         FuzzySet set = sets.get(0).getSet();
         double sum1 = getMatchingUnits(set, sets, matcher).count();

@@ -55,8 +55,6 @@ public class ManyFourth {
         }
 
         String quantifier = "";
-        
-        System.out.println(results);
 
         if (results.get(0).getRelativeQ() >= results.get(1).getRelativeQ()) {
             quantifier = "Wiêcej";

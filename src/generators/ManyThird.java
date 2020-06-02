@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import db.Repository;
 import db.Weather;
+import degrees.OptimalSummary;
 import fuzzy_set.FuzzySet;
 import gui.exceptions.NotConvexException;
 import gui.summary.AttributeToClass;
@@ -55,6 +56,7 @@ public class ManyThird {
 
         List<Term> results = new ArrayList<>();
         List<TermData> data = new ArrayList<>();
+        List<TermData> summarizer = new ArrayList<>();
         Matcher matcher = Conjunctions.getMatcher(conjunctions, terms, attrs);
 
         for (int j = 0; j < 2; j++) {
@@ -83,6 +85,7 @@ public class ManyThird {
                 }
 
                 data.add(term);
+                summarizer.add(term);
             }
 
             results.add(Conjunctions.quantify(conjunctions, data, matcher));
@@ -98,8 +101,9 @@ public class ManyThird {
             summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();
         }
 
-        // TODO DEGREES
-        return summary;
+        double degree = OptimalSummary.calculateManyThirdForm(summarizer, matcher, quantifier, subs.get(0).getAllRecords(repo), subs.get(1).getAllRecords(repo), qualifierData);
+
+        return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
     }
     
     private static TermData getTermForAttribute(List<Weather> records, String attribute, String term) {
