@@ -63,6 +63,14 @@ public class UserWindow {
         public void actionPerformed(ActionEvent e) {
             frame.setVisible(false);
             frame.dispose();
+            
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    UIManager.put("swing.boldMetal", Boolean.FALSE);
+                    AddNewTermWindow window = new AddNewTermWindow();
+                    window.createWindow();
+                }
+            });
         }
     }
 }
