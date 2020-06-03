@@ -9,8 +9,19 @@ import fuzzy_set.FuzzySet;
 import terms.TermData;
 
 public class Truth {
+    public static double degreeOfTruthRelativeFirstForm(List<TermData> sets, Matcher matcher) {
+        FuzzySet set = sets.get(0).getSet();
+
+        DoubleStream stream = getMatchingUnits(set, sets, matcher);
+        DoubleStream stream2 = getMatchingUnits(set, sets, matcher);
+        double sigmaCount = set.getSigmaCount(stream);
+    	double sigmaCountCompliment = set.getSigmaCountCompliment(stream2);
+
+        return sigmaCount / (sigmaCount + sigmaCountCompliment);
+    }
+	
     public static double degreeOfTruthRelative(List<TermData> sets, Matcher matcher) {
-    	FuzzySet set = sets.get(0).getSet();
+        FuzzySet set = sets.get(0).getSet();
 
         DoubleStream stream = getMatchingUnits(set, sets, matcher);
         return getSigmaCount(stream) / getSigmaCount(set.getStreamOfSet().mapToDouble(el -> el.getMembership()));

@@ -21,7 +21,7 @@ public class OptimalSummary {
         List<Double> weights = Weights.getWeights(n);
         List<Double> degrees = new ArrayList<>();
 
-        degrees.add(RelativeQ.matchTruth(Truth.degreeOfTruthRelative(summarizer, matcher))); // T1
+        degrees.add(RelativeQ.matchTruth(Truth.degreeOfTruthRelativeFirstForm(summarizer, matcher))); // T1
         degrees.add(Imprecision.calculate(summarizer)); // T2
         degrees.add(Covering.calculate(summarizer, matcher)); // T3
         degrees.add(Appropriateness.calculate(summarizer, degrees.get(2))); // T4
