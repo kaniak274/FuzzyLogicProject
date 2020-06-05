@@ -2,6 +2,7 @@ package generators;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,7 @@ import terms.TermData;
 
 public class FirstForm {
     public static String generate(Repository repo, Date dp1, Date dp2,
-        List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions, String quantifierChoice) {
+        List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions, String quantifierChoice, HashMap<String, List<String>> termsFromFile) {
         List<Weather> records = getDays(repo, dp1, dp2);
         List<TermData> data = new ArrayList<>();
         
@@ -33,7 +34,7 @@ public class FirstForm {
         if (quantifierChoice.equals("Absolutne")) {
             for (int i = 0; i < terms.size(); i++) {
                 String attrChoice = attrs.get(i);
-                TermData term = getTermForAttribute(records, attrChoice, terms.get(i));
+                TermData term = CreateTerm.create(termsFromFile, attrChoice, terms.get(i), records);
             	
                 data.add(term);
             }
@@ -43,7 +44,7 @@ public class FirstForm {
         } else {
             for (int i = 0; i < terms.size(); i++) {
                 String attrChoice = attrs.get(i);
-                TermData term = getTermForAttribute(records, attrChoice, terms.get(i));
+                TermData term = CreateTerm.create(termsFromFile, attrChoice, terms.get(i), records);
             	
                 try {
                     isConvex(term, attrChoice);
@@ -73,11 +74,6 @@ public class FirstForm {
 
     private static List<Weather> getDays(Repository repo, Date dp1, Date dp2) {
         return repo.getDaysBetweenDates(dp1, dp2);
-    }
-
-    private static TermData getTermForAttribute(List<Weather> records, String attribute, String term) {
-        AttributeToClass attr = new AttributeToClass();
-        return attr.getTerm(records, attribute, term); 
     }
 
     private static void isConvex(TermData attr, String key) throws NotConvexException {

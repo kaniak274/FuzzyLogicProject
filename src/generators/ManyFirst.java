@@ -1,6 +1,7 @@
 package generators;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ import terms.TermData;
 
 public class ManyFirst {
     public static String generate(Repository repo, Subject sub1, Subject sub2,
-        List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions) {
+        List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions, HashMap<String, List<String>> termsFromFile) {
         List<Subject> subs = new ArrayList<>();
         subs.add(sub1);
         subs.add(sub2);
@@ -36,7 +37,7 @@ public class ManyFirst {
 
             for (int i = 0; i < terms.size(); i++) {
                 String attrChoice = attrs.get(i);
-                TermData term = getTermForAttribute(records, attrChoice, terms.get(i));
+                TermData term = CreateTerm.create(termsFromFile, attrChoice, terms.get(i), records);
 
                 try {
                     isConvex(term, attrChoice);
@@ -67,11 +68,6 @@ public class ManyFirst {
         double degree = OptimalSummary.calculateManyFirstForm(summarizer, matcher, quantifier, subs.get(0).getAllRecords(repo), subs.get(1).getAllRecords(repo));
 
         return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
-    }
-
-    private static TermData getTermForAttribute(List<Weather> records, String attribute, String term) {
-        AttributeToClass attr = new AttributeToClass();
-        return attr.getTerm(records, attribute, term); 
     }
 
     private static void isConvex(TermData attr, String key) throws NotConvexException {

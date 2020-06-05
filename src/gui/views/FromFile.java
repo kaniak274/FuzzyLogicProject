@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -90,6 +91,8 @@ public class FromFile {
         @Override
         public void actionPerformed(ActionEvent e) {
             Scanner scanner = getScanner();
+            HashMap<String, List<String>> terms = getTerms();
+            System.out.println(terms);
 
             while (scanner.hasNextLine()) {
                 List<String> params = Arrays.asList(scanner.nextLine().split(","));
@@ -97,17 +100,17 @@ public class FromFile {
                 String summary = "";
 
                 if (type.equals(FIRSTFORM)) {
-                    summary = generateFirstForm(params);
+                    summary = generateFirstForm(params, terms);
                 } else if (type.equals(SECONDFORM)) {
-                    summary = generateSecondForm(params);
+                    summary = generateSecondForm(params, terms);
                 } else if (type.equals(MANYFIRST)) {
-                    summary = generateManyFirst(params);
+                    summary = generateManyFirst(params, terms);
                 } else if (type.equals(MANYSECOND)) {
-                    summary = generateManySecond(params);
+                    summary = generateManySecond(params, terms);
                 } else if (type.equals(MANYTHIRD)) {
-                    summary = generateManyThird(params);
+                    summary = generateManyThird(params, terms);
                 } else if (type.equals(MANYFOURTH)) {
-                    summary = generateManyFourth(params);
+                    summary = generateManyFourth(params, terms);
                 }
 
                 writeSummary(summary + "\n\n");
@@ -121,8 +124,35 @@ public class FromFile {
 		        throw new RuntimeException(e);
             }
         }
+        
+        private HashMap<String, List<String>> getTerms() {
+            HashMap<String, List<String>> terms = new HashMap<>();
+            
+            try {
+                File termsFile = new File("C:/Users/Kaniak/Documents/newTerms.txt");
+                Scanner scanner = new Scanner(termsFile);
+                
+                while (scanner.hasNextLine()) {
+                    String data = scanner.nextLine();
+                    
+                    List<String> term = Arrays.asList(data.split(","));
+                    
+                    if (term.get(1).equals("Trapezoid")) {
+                        terms.put(term.get(6), term);
+                    } else {
+                        terms.put(term.get(5), term);
+                    }
+                }
+                
+                scanner.close();
+            } catch(FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            
+            return terms;
+        }
 
-        private String generateFirstForm(List<String> params) {
+        private String generateFirstForm(List<String> params, HashMap<String, List<String>> termsFromFile) {
             Date dp1 = DatePicker.getDate(params.get(1));
             Date dp2 = DatePicker.getDate(params.get(2));
             List<String> terms = new ArrayList<>();
@@ -150,11 +180,12 @@ public class FromFile {
                 terms,
                 hedges,
                 conjunctions,
-                quantifierChoice
+                quantifierChoice,
+                termsFromFile
             );
         }
         
-        public String generateSecondForm(List<String> params) {
+        public String generateSecondForm(List<String> params, HashMap<String, List<String>> termsFromFile) {
             Date dp1 = DatePicker.getDate(params.get(1));
             Date dp2 = DatePicker.getDate(params.get(2));
             
@@ -188,11 +219,12 @@ public class FromFile {
                 attrs,
                 terms,
                 hedges,
-                conjunctions
+                conjunctions,
+                termsFromFile
             );
         }
         
-        public String generateManyFirst(List<String> params) {
+        public String generateManyFirst(List<String> params, HashMap<String, List<String>> termsFromFile) {
             String season = params.get(1);
             String season2 = params.get(2);
             
@@ -219,11 +251,12 @@ public class FromFile {
                 attrs,
                 terms,
                 hedges,
-                conjunctions
+                conjunctions,
+                termsFromFile
             );
         }
         
-        public String generateManySecond(List<String> params) {
+        public String generateManySecond(List<String> params, HashMap<String, List<String>> termsFromFile) {
             String season = params.get(1);
             String season2 = params.get(2);
             
@@ -257,11 +290,12 @@ public class FromFile {
                 attrs,
                 terms,
                 hedges,
-                conjunctions
+                conjunctions,
+                termsFromFile
             );
         }
         
-        public String generateManyThird(List<String> params) {
+        public String generateManyThird(List<String> params, HashMap<String, List<String>> termsFromFile) {
             String season = params.get(1);
             String season2 = params.get(2);
             
@@ -295,11 +329,12 @@ public class FromFile {
                 attrs,
                 terms,
                 hedges,
-                conjunctions
+                conjunctions,
+                termsFromFile
             );
         }
         
-        public String generateManyFourth(List<String> params) {
+        public String generateManyFourth(List<String> params, HashMap<String, List<String>> termsFromFile) {
             String season = params.get(1);
             String season2 = params.get(2);
             
@@ -326,7 +361,8 @@ public class FromFile {
                 attrs,
                 terms,
                 hedges,
-                conjunctions
+                conjunctions,
+                termsFromFile
             );
         }
 

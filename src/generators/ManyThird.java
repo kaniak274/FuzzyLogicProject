@@ -1,6 +1,7 @@
 package generators;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -23,10 +24,10 @@ import terms.TermData;
 
 public class ManyThird {
     public static String generate(Repository repo, Subject sub1, Subject sub2, String qualifierAttr, String qualifierTerm, String qualifierHedge,
-        List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions) {
+        List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions, HashMap<String, List<String>> termsFromFile) {
         List<Weather> sub1Records = sub1.getAllRecords(repo);
         
-        TermData qualifierData = getTermForAttribute(sub1Records, qualifierAttr, qualifierTerm);
+        TermData qualifierData = CreateTerm.create(termsFromFile, qualifierAttr, qualifierTerm, sub1Records);
         QualifierMatcher qualifierMatcher = new QualifierMatcher() {
             @Override
             public boolean matcher(double membership) {
@@ -72,7 +73,7 @@ public class ManyThird {
 
             for (int i = 0; i < terms.size(); i++) {
                 String attrChoice = attrs.get(i);
-                TermData term = getTermForAttribute(records, attrChoice, terms.get(i));
+                TermData term = CreateTerm.create(termsFromFile, attrChoice, terms.get(i), records);
 
                 try {
                     isConvex(term, attrChoice);
@@ -104,11 +105,6 @@ public class ManyThird {
         double degree = OptimalSummary.calculateManyThirdForm(summarizer, matcher, quantifier, subs.get(0).getAllRecords(repo), subs.get(1).getAllRecords(repo), qualifierData);
 
         return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
-    }
-    
-    private static TermData getTermForAttribute(List<Weather> records, String attribute, String term) {
-        AttributeToClass attr = new AttributeToClass();
-        return attr.getTerm(records, attribute, term); 
     }
     
     private static void isConvex(TermData attr, String key) throws NotConvexException {

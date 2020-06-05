@@ -33,6 +33,8 @@ public class OptimalSummary {
         degrees.add(1.00); // T10
         degrees.add(1.00); // T11
         
+        System.out.println(degrees);
+        
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
     
@@ -51,6 +53,8 @@ public class OptimalSummary {
         degrees.add(1.00); // T9
         degrees.add(1.00); // T10
         degrees.add(1.00); // T11
+        
+        System.out.println(degrees);
         
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
@@ -71,6 +75,8 @@ public class OptimalSummary {
         degrees.add(QualifierCardinality.calculate(qualifier)); // T10
         degrees.add(QualifierLength.calculate()); // T11
         
+        System.out.println(degrees);
+        
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
     
@@ -90,6 +96,8 @@ public class OptimalSummary {
         degrees.add(1.00); // T9
         degrees.add(1.00); // T10
         degrees.add(1.00); // T11
+        
+        System.out.println(degrees);
 
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
@@ -112,6 +120,8 @@ public class OptimalSummary {
         degrees.add(QualifierImprecision.calculate(qualifier)); // T9
         degrees.add(QualifierCardinality.calculate(qualifier)); // T10
         degrees.add(QualifierLength.calculate()); // T11
+        
+        System.out.println(degrees);
 
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
@@ -134,6 +144,8 @@ public class OptimalSummary {
         degrees.add(QualifierImprecision.calculate(qualifier)); // T9
         degrees.add(QualifierCardinality.calculate(qualifier)); // T10
         degrees.add(QualifierLength.calculate()); // T11
+        
+        System.out.println(degrees);
 
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
@@ -155,6 +167,8 @@ public class OptimalSummary {
         degrees.add(1.00); // T9
         degrees.add(1.00); // T10
         degrees.add(1.00); // T11
+        
+        System.out.println(degrees);
 
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
