@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import db.Weather;
 import quantifiers.ManyRelativeQ;
 import quantifiers.Matcher;
+import quantifiers.QualifierMatcher;
 import quantifiers.RelativeQ;
 import quantifiers.Truth;
 import terms.Term;
@@ -59,13 +60,13 @@ public class OptimalSummary {
         return IntStream.range(0, n).mapToDouble(el -> el).reduce(0.0, (acc, value) -> acc + (weights.get((int)value) * degrees.get((int)value)));
     }
     
-    public static double calculateSecondForm(List<TermData> summarizer, Matcher matcher, Term quantifier, TermData qualifier) {
+    public static double calculateSecondForm(List<TermData> summarizer, Matcher matcher, Term quantifier, List<TermData> qualifier, QualifierMatcher qualifierMatcher) {
         List<Double> weights = Weights.getWeights(n);
         List<Double> degrees = new ArrayList<>();
 
         degrees.add(RelativeQ.matchTruth(Truth.degreeOfTruthRelative(summarizer, matcher))); // T1
         degrees.add(Imprecision.calculate(summarizer)); // T2
-        degrees.add(Covering.calculate(summarizer, matcher)); // T3
+        degrees.add(Covering.calculate(summarizer, qualifier, qualifierMatcher, matcher)); // T3
         degrees.add(Appropriateness.calculate(summarizer, degrees.get(2))); // T4
         degrees.add(Length.calculate(summarizer)); // T5
         degrees.add(QuantifierImprecision.calculate(quantifier)); // T6
@@ -73,7 +74,7 @@ public class OptimalSummary {
         degrees.add(SummarizerCardinality.calculate(summarizer)); // T8
         degrees.add(QualifierImprecision.calculate(qualifier)); // T9
         degrees.add(QualifierCardinality.calculate(qualifier)); // T10
-        degrees.add(QualifierLength.calculate()); // T11
+        degrees.add(QualifierLength.calculate(qualifier)); // T11
         
         System.out.println(degrees);
         
@@ -103,7 +104,7 @@ public class OptimalSummary {
     }
     
     public static double calculateManySecondForm(List<TermData> data, Matcher matcher,
-        Term quantifier, List<Weather> sub1Records, List<Weather> sub2Records, TermData qualifier) {
+        Term quantifier, List<Weather> sub1Records, List<Weather> sub2Records, List<TermData> qualifier, QualifierMatcher qualifierMatcher) {
         List<Double> weights = Weights.getWeights(n);
         List<Double> degrees = new ArrayList<>();
         List<List<TermData>> sets = Lists.partition(data, data.size() / 2);
@@ -111,7 +112,7 @@ public class OptimalSummary {
 
         degrees.add(ManyRelativeQ.matchTruth(Truth.degreeOfTruthManySecond(sets.get(0), sets.get(1), sub1Records, sub2Records, matcher, qualifier))); // T1
         degrees.add(Imprecision.calculate(summarizer)); // T2
-        degrees.add(Covering.calculate(summarizer, matcher)); // T3
+        degrees.add(Covering.calculate(summarizer, qualifier, qualifierMatcher, matcher)); // T3
         degrees.add(Appropriateness.calculate(summarizer, degrees.get(2))); // T4
         degrees.add(Length.calculate(summarizer)); // T5
         degrees.add(QuantifierImprecision.calculate(quantifier)); // T6
@@ -119,7 +120,7 @@ public class OptimalSummary {
         degrees.add(SummarizerCardinality.calculate(summarizer)); // T8
         degrees.add(QualifierImprecision.calculate(qualifier)); // T9
         degrees.add(QualifierCardinality.calculate(qualifier)); // T10
-        degrees.add(QualifierLength.calculate()); // T11
+        degrees.add(QualifierLength.calculate(qualifier)); // T11
         
         System.out.println(degrees);
 
@@ -127,7 +128,7 @@ public class OptimalSummary {
     }
     
     public static double calculateManyThirdForm(List<TermData> data, Matcher matcher,
-        Term quantifier, List<Weather> sub1Records, List<Weather> sub2Records, TermData qualifier) {
+        Term quantifier, List<Weather> sub1Records, List<Weather> sub2Records, List<TermData> qualifier, QualifierMatcher qualifierMatcher) {
         List<Double> weights = Weights.getWeights(n);
         List<Double> degrees = new ArrayList<>();
         List<List<TermData>> sets = Lists.partition(data, data.size() / 2);
@@ -135,7 +136,7 @@ public class OptimalSummary {
 
         degrees.add(ManyRelativeQ.matchTruth(Truth.degreeOfTruthManyThird(sets.get(0), sets.get(1), sub1Records, sub2Records, matcher, qualifier))); // T1
         degrees.add(Imprecision.calculate(summarizer)); // T2
-        degrees.add(Covering.calculate(summarizer, matcher)); // T3
+        degrees.add(Covering.calculate(summarizer, qualifier, qualifierMatcher, matcher)); // T3
         degrees.add(Appropriateness.calculate(summarizer, degrees.get(2))); // T4
         degrees.add(Length.calculate(summarizer)); // T5
         degrees.add(QuantifierImprecision.calculate(quantifier)); // T6
@@ -143,7 +144,7 @@ public class OptimalSummary {
         degrees.add(SummarizerCardinality.calculate(summarizer)); // T8
         degrees.add(QualifierImprecision.calculate(qualifier)); // T9
         degrees.add(QualifierCardinality.calculate(qualifier)); // T10
-        degrees.add(QualifierLength.calculate()); // T11
+        degrees.add(QualifierLength.calculate(qualifier)); // T11
         
         System.out.println(degrees);
 

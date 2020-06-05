@@ -22,7 +22,6 @@ import db.Weather;
 import fuzzy_set.FuzzySet;
 import gui.summary.AttributeToClass;
 import gui.summary.Utils;
-import hedges.PowerHedge;
 import memberships.Gauss;
 import memberships.Membership;
 import memberships.Trapezoid;

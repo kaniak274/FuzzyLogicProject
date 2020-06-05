@@ -39,7 +39,7 @@ public class Term {
     }
     
     public String getPluralLabel() {
-    	return pluralLabel;
+        return pluralLabel;
     }
     
     public ArrayList<Double> getScope() {
@@ -51,6 +51,6 @@ public class Term {
     }
     
     public String DoubleFormLabel() {
-    	return doubleFormLabel;
+        return doubleFormLabel;
     }
 }
