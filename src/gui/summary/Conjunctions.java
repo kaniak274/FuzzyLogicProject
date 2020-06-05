@@ -3,6 +3,7 @@ package gui.summary;
 import java.util.List;
 
 import quantifiers.Matcher;
+import quantifiers.QualifierMatcher;
 import quantifiers.RelativeQ;
 import terms.Term;
 import terms.TermData;
@@ -24,6 +25,23 @@ public class Conjunctions {
             }
             
             public boolean matcher(double membership, double membership2) { throw new RuntimeException(); }
+        };
+    }
+    
+    public static QualifierMatcher getQualifierMatcher(List<String> terms, List<String> attrs) {
+    	return new QualifierMatcher() {
+            @Override
+            public boolean matcher(double membership) {
+                boolean result = Belongs.belongsToTerm(attrs.get(0), terms.get(0), membership);
+
+                if (terms.size() < 1) {
+                    for (int i = 1; i < terms.size(); i++) {
+                        result = result && Belongs.belongsToTerm(attrs.get(i), terms.get(i), membership); // TODO other conjunctions
+                    }
+                }
+                
+                return result;
+            }
         };
     }
     

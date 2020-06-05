@@ -22,26 +22,39 @@ import terms.Term;
 import terms.TermData;
 
 public class SecondForm {
-    public static String generate(Repository repo, Date dp1, Date dp2, String qualifierAttr, String qualifierTerm, String qualifierHedge,
+    public static String generate(Repository repo, Date dp1, Date dp2, List<String> qualifierAttrs, List<String> qualifierTerms, List<String> qualifierHedges,
         List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions, HashMap<String, List<String>> termsFromFile) {
         List<Weather> records = getDays(repo, dp1, dp2);
         List<TermData> data = new ArrayList<>();
+        List<TermData> qualifier = new ArrayList<>();
 
         Term quantifier = null;
         double degree = 0.0;
 
-        TermData qualifierData = CreateTerm.create(termsFromFile, qualifierAttr, qualifierTerm, records);
-        QualifierMatcher qualifierMatcher = new QualifierMatcher() {
-            @Override
-            public boolean matcher(double membership) {
-                return Belongs.belongsToTerm(qualifierAttr, qualifierTerm, membership);
-            }
-        };
+        QualifierMatcher qualifierMatcher = Conjunctions.getQualifierMatcher(qualifierTerms, qualifierAttrs);
 
-        List<Integer> recordsToFilter = IntStream.range(0, qualifierData.getSet().getFuzzySet().size())
-            .filter(i -> qualifierMatcher.matcher(qualifierData.getSet()
+        for (int i = 0; i < qualifierTerms.size(); i++) {
+            String attrChoice = qualifierAttrs.get(i);
+            TermData term = CreateTerm.create(termsFromFile, attrChoice, qualifierTerms.get(i), records);
+
+            try {
+                isConvex(term, attrChoice);
+            } catch (NotConvexException e) {
+                return "Jeden z zbiorów rozmytych nie jest wypuk³y";
+            }
+
+            if (!term.getSet().isNormal()) {
+            	term.setSet(normalizeSet(term.getSet()));
+            }
+
+            qualifier.add(term);
+        }
+
+        List<Integer> recordsToFilter = IntStream.range(0, qualifier.get(0).getSet().getFuzzySet().size())
+            .filter(i -> qualifierMatcher.matcher(qualifier.get(0).getSet()
                 .getFuzzySet()
                 .get(i)
+                .union(qualifier, i)
                 .getMembership()))
             .boxed()
             .collect(Collectors.toList());
@@ -74,10 +87,20 @@ public class SecondForm {
         }
 
         quantifier = Conjunctions.quantify(conjunctions, data, matcher);
-        degree = OptimalSummary.calculateSecondForm(data, matcher, quantifier, qualifierData);
+        degree = OptimalSummary.calculateSecondForm(data, matcher, quantifier, qualifier, qualifierMatcher);
 
-        String summary = quantifier.getLabel() + " dni które by³y " + PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().DoubleFormLabel() + " by³y równie¿ ";
+        String summary = quantifier.getLabel() + " dni które by³y ";
 
+        for (int i = 0; i < qualifier.size(); i++) {
+            if (i == 0) {
+                summary += PowerHedge.toString(Double.parseDouble(qualifierHedges.get(0))) + qualifier.get(0).getTerm().DoubleFormLabel();
+            } else {
+                summary += " i " + PowerHedge.toString(Double.parseDouble(qualifierHedges.get(i))) + qualifier.get(i).getTerm().DoubleFormLabel();
+            }
+        }
+        
+        summary += " by³y równie¿ ";
+        
         for (int i = 0; i < terms.size(); i++) {
             if (i == 0) {
                 summary += PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();

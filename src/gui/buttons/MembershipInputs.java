@@ -1,7 +1,6 @@
 package gui.buttons;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
