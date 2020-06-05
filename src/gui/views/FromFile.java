@@ -275,20 +275,36 @@ public class FromFile {
             String season = params.get(1);
             String season2 = params.get(2);
             
-            String qualifierAttr = params.get(3);
-            String qualifierTerm = params.get(4);
-            String qualifierHedge = params.get(5);
+            List<String> qualifierAttrs = new ArrayList<>();
+            List<String> qualifierTerms = new ArrayList<>();
+            List<String> qualifierHedges = new ArrayList<>();
+            
+            qualifierAttrs.add(params.get(3));
+            qualifierTerms.add(params.get(4));
+            qualifierHedges.add(params.get(5));
+
+            for (int i = 6;; i++) {
+                if (params.get(i).equals("S")) {
+                    break;
+                }
+                
+                qualifierAttrs.add(params.get(i));
+                qualifierTerms.add(params.get(i + 1));
+                qualifierHedges.add(params.get(i + 2));
+            }
+            
+            int summarizerStartPoint = qualifierAttrs.size() * 3 + 4;
             
             List<String> terms = new ArrayList<>();
             List<String> attrs = new ArrayList<>();
             List<String> conjunctions = new ArrayList<>();
             List<String> hedges = new ArrayList<>();
             
-            attrs.add(params.get(6));
-            terms.add(params.get(7));
-            hedges.add(params.get(8));
+            attrs.add(params.get(summarizerStartPoint));
+            terms.add(params.get(summarizerStartPoint + 1));
+            hedges.add(params.get(summarizerStartPoint + 2));
             
-            for (int i = 9; i < params.size(); i += 4) {
+            for (int i = summarizerStartPoint + 3; i < params.size(); i += 4) {
                 attrs.add(params.get(i));
                 terms.add(params.get(i + 1));
                 hedges.add(params.get(i + 2));
@@ -299,9 +315,9 @@ public class FromFile {
                 repo,
                 getSeason(season),
                 getSeason(season2),
-                qualifierAttr,
-                qualifierTerm,
-                qualifierHedge,
+                qualifierAttrs,
+                qualifierTerms,
+                qualifierHedges,
                 attrs,
                 terms,
                 hedges,
@@ -314,20 +330,36 @@ public class FromFile {
             String season = params.get(1);
             String season2 = params.get(2);
             
-            String qualifierAttr = params.get(3);
-            String qualifierTerm = params.get(4);
-            String qualifierHedge = params.get(5);
+            List<String> qualifierAttrs = new ArrayList<>();
+            List<String> qualifierTerms = new ArrayList<>();
+            List<String> qualifierHedges = new ArrayList<>();
+            
+            qualifierAttrs.add(params.get(3));
+            qualifierTerms.add(params.get(4));
+            qualifierHedges.add(params.get(5));
+
+            for (int i = 6;; i++) {
+                if (params.get(i).equals("S")) {
+                    break;
+                }
+                
+                qualifierAttrs.add(params.get(i));
+                qualifierTerms.add(params.get(i + 1));
+                qualifierHedges.add(params.get(i + 2));
+            }
+            
+            int summarizerStartPoint = qualifierAttrs.size() * 3 + 4;;
             
             List<String> terms = new ArrayList<>();
             List<String> attrs = new ArrayList<>();
             List<String> conjunctions = new ArrayList<>();
             List<String> hedges = new ArrayList<>();
             
-            attrs.add(params.get(6));
-            terms.add(params.get(7));
-            hedges.add(params.get(8));
+            attrs.add(params.get(summarizerStartPoint));
+            terms.add(params.get(summarizerStartPoint + 1));
+            hedges.add(params.get(summarizerStartPoint + 2));
             
-            for (int i = 9; i < params.size(); i += 4) {
+            for (int i = summarizerStartPoint + 3; i < params.size(); i += 4) {
                 attrs.add(params.get(i));
                 terms.add(params.get(i + 1));
                 hedges.add(params.get(i + 2));
@@ -338,9 +370,9 @@ public class FromFile {
                 repo,
                 getSeason(season),
                 getSeason(season2),
-                qualifierAttr,
-                qualifierTerm,
-                qualifierHedge,
+                qualifierAttrs,
+                qualifierTerms,
+                qualifierHedges,
                 attrs,
                 terms,
                 hedges,

@@ -12,7 +12,6 @@ import degrees.OptimalSummary;
 import fuzzy_set.FuzzySet;
 import gui.exceptions.NotConvexException;
 import gui.summary.AttributeToClass;
-import gui.summary.Belongs;
 import gui.summary.Conjunctions;
 import hedges.PowerHedge;
 import quantifiers.ManyRelativeQ;
@@ -23,22 +22,35 @@ import terms.Term;
 import terms.TermData;
 
 public class ManySecond {
-    public static String generate(Repository repo, Subject sub1, Subject sub2, String qualifierAttr, String qualifierTerm, String qualifierHedge,
+    public static String generate(Repository repo, Subject sub1, Subject sub2, List<String> qualifierAttrs, List<String> qualifierTerms, List<String> qualifierHedges,
         List<String> attrs, List<String> terms, List<String> hedge, List<String> conjunctions, HashMap<String, List<String>> termsFromFile) {
-        List<Weather> sub2Records = sub2.getAllRecords(repo);
-        
-        TermData qualifierData = CreateTerm.create(termsFromFile, qualifierAttr, qualifierTerm, sub2Records);
-        QualifierMatcher qualifierMatcher = new QualifierMatcher() {
-            @Override
-            public boolean matcher(double membership) {
-                return Belongs.belongsToTerm(qualifierAttr, qualifierTerm, membership);
-            }
-        };
+        List<Weather> sub2Records = sub2.getAllRecords(repo);        
+        List<TermData> qualifier = new ArrayList<>();
 
-        List<Integer> recordsToFilter = IntStream.range(0, qualifierData.getSet().getFuzzySet().size())
-            .filter(i -> qualifierMatcher.matcher(qualifierData.getSet()
+        QualifierMatcher qualifierMatcher = Conjunctions.getQualifierMatcher(qualifierTerms, qualifierAttrs);
+
+        for (int i = 0; i < qualifierTerms.size(); i++) {
+            String attrChoice = qualifierAttrs.get(i);
+            TermData term = CreateTerm.create(termsFromFile, attrChoice, qualifierTerms.get(i), sub2Records);
+
+            try {
+                isConvex(term, attrChoice);
+            } catch (NotConvexException e) {
+                return "Jeden z zbiorów rozmytych nie jest wypuk³y";
+            }
+
+            if (!term.getSet().isNormal()) {
+            	term.setSet(normalizeSet(term.getSet()));
+            }
+
+            qualifier.add(term);
+        }
+
+        List<Integer> recordsToFilter = IntStream.range(0, qualifier.get(0).getSet().getFuzzySet().size())
+            .filter(i -> qualifierMatcher.matcher(qualifier.get(0).getSet()
                 .getFuzzySet()
                 .get(i)
+                .union(qualifier, i)
                 .getMembership()))
             .boxed()
             .collect(Collectors.toList());
@@ -94,14 +106,20 @@ public class ManySecond {
 
         Term quantifier = ManyRelativeQ.quantify(results.get(0).getRelativeQ(), results.get(1).getRelativeQ());
         String summary = quantifier.getLabel() + sub1.getLabel() + "w porównaniu do tych" + sub2.getLabel() + "które by³y "
-        	+ PowerHedge.toString(Double.parseDouble(qualifierHedge)) + qualifierData.getTerm().DoubleFormLabel() + ", by³o "
-            + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
+        	+ PowerHedge.toString(Double.parseDouble(qualifierHedges.get(0))) + qualifier.get(0).getTerm().DoubleFormLabel();
+        
+        for (int i = 1; i < qualifier.size(); i++) {
+        	summary += " i " + PowerHedge.toString(Double.parseDouble(qualifierHedges.get(i))) + qualifier.get(i).getTerm().DoubleFormLabel();
+        }
+
+        summary += ", by³o " + PowerHedge.toString(Double.parseDouble(hedge.get(0))) + data.get(0).getTerm().getPluralLabel();
 
         for (int i = 1; i < terms.size(); i++) {
             summary += Conjunctions.getConjuctionLabel(conjunctions.get(i - 1)) + PowerHedge.toString(Double.parseDouble(hedge.get(i))) + data.get(i).getTerm().getPluralLabel();
         }
 
-        double degree = OptimalSummary.calculateManySecondForm(summarizer, matcher, quantifier, subs.get(0).getAllRecords(repo), subs.get(1).getAllRecords(repo), qualifierData);
+        double degree = OptimalSummary.calculateManySecondForm(summarizer, matcher, quantifier, subs.get(0).getAllRecords(repo),
+            subs.get(1).getAllRecords(repo), qualifier, qualifierMatcher);
 
         return summary + "\nWartoœæ podsumowania optymalnego: " + degree;
     }

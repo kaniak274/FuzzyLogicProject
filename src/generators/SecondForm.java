@@ -13,7 +13,6 @@ import degrees.OptimalSummary;
 import fuzzy_set.FuzzySet;
 import gui.exceptions.NotConvexException;
 import gui.summary.AttributeToClass;
-import gui.summary.Belongs;
 import gui.summary.Conjunctions;
 import hedges.PowerHedge;
 import quantifiers.Matcher;

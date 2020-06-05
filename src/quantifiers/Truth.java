@@ -46,15 +46,14 @@ public class Truth {
     }
     
     public static double degreeOfTruthManySecond(List<TermData> sets, List<TermData> sets2,
-        List<Weather> sub1Records, List<Weather> sub2Records, Matcher matcher, TermData qualifier) {
-        FuzzySet qSet = qualifier.getSet();
+        List<Weather> sub1Records, List<Weather> sub2Records, Matcher matcher, List<TermData> qualifier) {
     	
         FuzzySet set = sets.get(0).getSet();
         double sigmaCount1 = getSigmaCount(getMatchingUnits(set, sets, matcher));
         double product = sigmaCount1 / sub1Records.size();
 
         FuzzySet set2 = sets2.get(0).getSet();
-        double sigmaCount2 = getSigmaCount(getMatchingUnitsWithQualifier(set2, sets2, matcher, qSet));
+        double sigmaCount2 = getSigmaCount(getMatchingUnitsWithQualifier(set2, sets2, matcher, qualifier));
         double product2 = sigmaCount2 / sub2Records.size();
         
         double productsSum = product + product2;
@@ -63,11 +62,10 @@ public class Truth {
     }
     
     public static double degreeOfTruthManyThird(List<TermData> sets, List<TermData> sets2,
-        List<Weather> sub1Records, List<Weather> sub2Records, Matcher matcher, TermData qualifier) {
-        FuzzySet qSet = qualifier.getSet();
+        List<Weather> sub1Records, List<Weather> sub2Records, Matcher matcher, List<TermData> qualifier) {
     	
         FuzzySet set = sets.get(0).getSet();
-        double sigmaCount1 = getSigmaCount(getMatchingUnitsWithQualifier(set, sets, matcher, qSet));
+        double sigmaCount1 = getSigmaCount(getMatchingUnitsWithQualifier(set, sets, matcher, qualifier));
         double product = sigmaCount1 / sub1Records.size();
 
         FuzzySet set2 = sets2.get(0).getSet();
@@ -99,9 +97,9 @@ public class Truth {
             .filter(membership -> matcher.matcher(membership));
     }
     
-    private static DoubleStream getMatchingUnitsWithQualifier(FuzzySet set, List<TermData> sets, Matcher matcher, FuzzySet qualifierSet) {
+    private static DoubleStream getMatchingUnitsWithQualifier(FuzzySet set, List<TermData> sets, Matcher matcher, List<TermData> qualifier) {
         return IntStream.range(0, set.getFuzzySet().size())
-            .mapToDouble(i -> decideWhich(set.getFuzzySet().get(i).intersect(sets, i).getMembership(), qualifierSet.getFuzzySet().get(i).getMembership()))
+            .mapToDouble(i -> decideWhich(set.getFuzzySet().get(i).intersect(sets, i).getMembership(), qualifier.get(0).getSet().getFuzzySet().get(i).intersect(qualifier, i).getMembership()))
             .filter(membership -> matcher.matcher(membership));
     }
     
