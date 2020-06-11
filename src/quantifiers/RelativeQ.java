@@ -143,6 +143,12 @@ public class RelativeQ {
         memberships.add(high(average));
         memberships.add(veryHigh(average));
         
+        List<Entry<Double, Term>> newQuantifiers = GenerateQuantifier.generate(average, "Q");
+        
+        for (Entry<Double, Term> quantifier : newQuantifiers) {
+            memberships.add(quantifier);
+        }
+        
         return memberships.stream().max(Comparator::compare).get();
     }
     

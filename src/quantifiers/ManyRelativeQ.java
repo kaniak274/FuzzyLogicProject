@@ -2,6 +2,7 @@ package quantifiers;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 
 import memberships.Trapezoid;
@@ -82,6 +83,12 @@ public class ManyRelativeQ {
         memberships.add(muchMore(average));
         memberships.add(little(average));
         memberships.add(veryLittle(average));
+        
+        List<Entry<Double, Term>> newQuantifiers = GenerateQuantifier.generate(average, "MQ");
+        
+        for (Entry<Double, Term> quantifier : newQuantifiers) {
+            memberships.add(quantifier);
+        }
         
         return memberships.stream().max(Comparator::compare).get();
     }

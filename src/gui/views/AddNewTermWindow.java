@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,6 +36,8 @@ public class AddNewTermWindow {
     private JTextField label1;
     private JTextField label2;
     private JTextField label3;
+    
+    private JCheckBox isQuantifier;
     
     public JPanel getPanel() {
         return panel;
@@ -65,6 +68,9 @@ public class AddNewTermWindow {
 
         JPanel buttons = AttributeButtons.generateButtons(bg, new ButtonGroupListener());
         JPanel membershipButtons = MembershipButtons.generateButtons(mg, new MembershipGroupListener());
+        
+        isQuantifier = new JCheckBox("Kwantyfikator");
+        panel.add(isQuantifier);
         
         panel.add(new JLabel("Wybierz atrybut"));
         panel.add(buttons);
@@ -106,14 +112,14 @@ public class AddNewTermWindow {
                 JTextField mt3 = (JTextField)membershipInputs.getComponent(2);
                 JTextField mt4 = (JTextField)membershipInputs.getComponent(3);
                 
-                terms = new String[] {attrChoice, membershipChoice, mt1.getText(), mt2.getText(),
+                terms = new String[] {isQuantifier.isSelected() ? "T": "F", attrChoice, membershipChoice, mt1.getText(), mt2.getText(),
                     mt3.getText(), mt4.getText(), label1.getText(), label2.getText(), label3.getText()};
             } else {
                 JTextField mt1 = (JTextField)membershipInputs.getComponent(0);
                 JTextField mt2 = (JTextField)membershipInputs.getComponent(1);
                 JTextField mt3 = (JTextField)membershipInputs.getComponent(2);
                 
-                terms = new String[] {attrChoice, membershipChoice, mt1.getText(), mt2.getText(),
+                terms = new String[] {isQuantifier.isSelected() ? "T": "F", attrChoice, membershipChoice, mt1.getText(), mt2.getText(),
                     mt3.getText(), label1.getText(), label2.getText(), label3.getText()};
             }
             

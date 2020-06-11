@@ -34,7 +34,7 @@ public class CreateTerm {
     public static TermData create(HashMap<String, List<String>> data, String attr, String term, List<Weather> records) {
         if (data.containsKey(term)) {
             List<String> values = data.get(term);
-            Attribute field = getAttribute(values.get(0), records);
+            Attribute field = getAttribute(values.get(1), records);
             Entry<Term, Membership> fieldMembership = generateMembership(values);
             FuzzySet set = new LinguisticVariable("temperatura", null, field.getUniverse()).getSetForTerm(field.data, fieldMembership.getValue());
 
@@ -53,33 +53,33 @@ public class CreateTerm {
         if (values.get(1).equals("Trapezoid")) {
             ArrayList<Double> scope = new ArrayList<>();
 
-            scope.add(Double.parseDouble(values.get(2)));
             scope.add(Double.parseDouble(values.get(3)));
             scope.add(Double.parseDouble(values.get(4)));
             scope.add(Double.parseDouble(values.get(5)));
+            scope.add(Double.parseDouble(values.get(6)));
             
-            Term term = new Term(values.get(6), scope, values.get(7), values.get(8));
+            Term term = new Term(values.get(7), scope, values.get(8), values.get(9));
             return new AbstractMap.SimpleEntry<Term, Membership>(term, new Trapezoid(term));
         }
         
         if (values.get(1).equals("Trójk¹tna")) {
             ArrayList<Double> scope = new ArrayList<>();
 
-            scope.add(Double.parseDouble(values.get(2)));
             scope.add(Double.parseDouble(values.get(3)));
             scope.add(Double.parseDouble(values.get(4)));
+            scope.add(Double.parseDouble(values.get(5)));
             
-            Term term = new Term(values.get(5), scope, values.get(6), values.get(7));
+            Term term = new Term(values.get(6), scope, values.get(7), values.get(8));
             return new AbstractMap.SimpleEntry<Term, Membership>(term, new Triangle(term));
         }
         
         ArrayList<Double> scope = new ArrayList<>();
 
-        scope.add(Double.parseDouble(values.get(2)));
         scope.add(Double.parseDouble(values.get(3)));
         scope.add(Double.parseDouble(values.get(4)));
+        scope.add(Double.parseDouble(values.get(5)));
         
-        Term term = new Term(values.get(5), scope, values.get(6), values.get(7));
+        Term term = new Term(values.get(6), scope, values.get(7), values.get(8));
         return new AbstractMap.SimpleEntry<Term, Membership>(term, new Gauss(term));
     }
     

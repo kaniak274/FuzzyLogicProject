@@ -136,10 +136,14 @@ public class FromFile {
                     
                     List<String> term = Arrays.asList(data.split(","));
                     
-                    if (term.get(1).equals("Trapezoid")) {
-                        terms.put(term.get(6), term);
+                    if (term.get(0).equals("T")) {
+                        continue;
+                    }
+                    
+                    if (term.get(2).equals("Trapezoid")) {
+                        terms.put(term.get(7), term);
                     } else {
-                        terms.put(term.get(5), term);
+                        terms.put(term.get(6), term);
                     }
                 }
                 
